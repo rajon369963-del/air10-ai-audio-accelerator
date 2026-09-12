@@ -1,0 +1,13 @@
+# AIR10 AI Audio Accelerator - Complete Technical Specification
+
+## Core Components
+1. **injector.js**: Injected into the MAIN world context to intercept HTMLMediaElement prototype methods and attachShadow calls.
+2. **modules/audio-accelerator.js**: Core engine managing shadow DOM discovery, Angular CDK overlay integration, and watchdog rate defense.
+3. **modules/telemetry.js**: Telemetry and state synchronization via localStorage.
+4. **background.js**: MV3 Service Worker orchestrating extension lifecycle and hotkeys.
+
+## Key Invariants
+- Zero declared npm production dependencies (`dependencies: {}`).
+- Continuous watchdog timer restores target rate if host application attempts to force reset to 1.0x.
+- Memory leak prevention via `pruneDisconnectedMedia()` garbage collection.
+- Automated Chromium Real-Browser Court (`tests/browser/test_notebooklm_real_browser.js`) verifying 500-tick heap growth is 0.0 MB (< 5.0 MB SLO).

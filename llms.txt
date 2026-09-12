@@ -1,0 +1,17 @@
+# AIR10 AI Audio Accelerator
+> Universal AI Audio Accelerator for NotebookLM podcasts & audio overviews, Gemini & ChatGPT Read Aloud up to 3.0x speed with pitch preservation.
+
+## Overview
+- Project: air10-ai-audio-accelerator
+- Target Platforms: Google NotebookLM, Google Gemini, OpenAI ChatGPT
+- Speed Range: 0.5x, 1.0x, 1.25x, 1.5x, 1.75x, 2.0x, 2.5x, 3.0x
+- Architecture: Chrome MV3 Extension, Vanilla JS MAIN world execution
+- Dependencies: Zero declared npm production dependencies (dependencies: {})
+- Deep Shadow DOM Piercing: Pierces open and nested shadow roots to locate audio/video elements
+- Pitch Preservation: Enforces HTMLMediaElement.preservesPitch = true across all playback rates
+
+## Quick Links
+- GitHub: https://github.com/rajon369963-del/air10-ai-audio-accelerator
+- Live Showcase: https://rajon369963-del.github.io/air10-ai-audio-accelerator/
+- Verification Receipt: db/STRESS_BENCHMARK_REAL_WHEELS.json
+- Scorecard: assets/scorecard.svg

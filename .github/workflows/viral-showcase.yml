@@ -1,0 +1,32 @@
+name: AIR10 Audio Accelerator Viral Showcase & Test Circuit
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate Showcase Assets
+        run: |
+          test -f index.html || exit 1
+          test -f showcase.html || exit 1
+          test -f assets/scorecard.svg || exit 1
+          test -f llms.txt || exit 1
+          test -f db/STRESS_BENCHMARK_REAL_WHEELS.json || exit 1
+          echo "All showcase primitives verified."
+      - name: Install dependencies & run unit tests
+        run: |
+          npm ci
+          npm test
