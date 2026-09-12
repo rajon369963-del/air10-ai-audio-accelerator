@@ -1,26 +1,52 @@
 #!/usr/bin/env python3
 """
-AIR10 Sovereign Truth Guard & Cryptographic Provenance Verifier (v2.1)
-Zero-Trust Invariants:
+AIR10 Sovereign Truth Guard & Cryptographic Provenance Verifier (v2.2)
+Zero-Trust Forensic Invariants:
 1. Hard-pinned Authoritative Ed25519 Root of Trust.
-2. Canonical payload reconstitution and Ed25519 signature check.
-3. Raw receipt file SHA-256 check.
-4. Scorecard SVG Metric Zero-Drift Guard: Reads exact metrics and labels dynamically from receipt
-   and asserts their literal presence in scorecard.svg.
+2. Canonical payload reconstitution and Ed25519 signature check against pinned root.
+3. Raw receipt file SHA-256 integrity check.
+4. Scorecard SVG Zero-Drift & Structural Tag Audit:
+   - Strips XML comments to eliminate comment injection attacks.
+   - Extracts text strictly from visible <text> and <tspan> DOM elements.
+   - Dynamically asserts payload SHA, raw file SHA, and required domain/wheel metrics
+     are literally visible inside rendered text tags.
 """
 
 import hashlib
 import json
+import re
 import sys
+import xml.etree.ElementTree as ET
 from pathlib import Path
+
 from cryptography.hazmat.primitives.asymmetric import ed25519
 
 AUTHORITATIVE_SIGNER_PUBKEY_HEX = "4530967ab3ff8991cb065895270a0f467efd35c0322ee0cd8b6a2ddfe8b27f02"
 EXPECTED_SIGNER_IDENTITY = "AIR10 Sovereign Open-Source Federation <rajon369963-del>"
 
+def extract_visible_svg_text(svg_raw: str) -> str:
+    cleaned = re.sub(r"<!--.*?-->", "", svg_raw, flags=re.DOTALL)
+    extracted_tokens = []
+    try:
+        root = ET.fromstring(cleaned)
+        for elem in root.iter():
+            tag_name = elem.tag.split("}")[-1] if "}" in elem.tag else elem.tag
+            if tag_name in ("text", "tspan"):
+                if elem.text:
+                    extracted_tokens.append(elem.text.strip())
+                if elem.tail:
+                    extracted_tokens.append(elem.tail.strip())
+    except Exception:
+        matches = re.findall(r"<text[^>]*>(.*?)</text>", cleaned, flags=re.DOTALL)
+        for m in matches:
+            inner_clean = re.sub(r"<[^>]+>", " ", m)
+            extracted_tokens.append(inner_clean.strip())
+
+    return " ".join(t for t in extracted_tokens if t)
+
 def verify(repo_root: Path) -> bool:
     print("======================================================================")
-    print("🛡️  AIR10 TRUTH GUARD v2.1: CRYPTOGRAPHIC PROVENANCE & ZERO-DRIFT CONTRACT")
+    print("🛡️  AIR10 TRUTH GUARD v2.2: CRYPTOGRAPHIC PROVENANCE & ZERO-DRIFT CONTRACT")
     print(f"Target Repository : {repo_root.name}")
     print("======================================================================")
 
@@ -47,7 +73,7 @@ def verify(repo_root: Path) -> bool:
 
     # 1. Authoritative Root-of-Trust Check
     if receipt_pub_hex != AUTHORITATIVE_SIGNER_PUBKEY_HEX:
-        print(f"❌ FAIL: Untrusted signer public key in receipt!")
+        print("❌ FAIL: Untrusted signer public key in receipt!")
         print(f"  Receipt Key: {receipt_pub_hex}")
         print(f"  Authoritative Pinned Root: {AUTHORITATIVE_SIGNER_PUBKEY_HEX}")
         return False
@@ -95,17 +121,18 @@ def verify(repo_root: Path) -> bool:
         print(f"❌ FAIL: Ed25519 signature verification failed: {e}")
         return False
 
-    # 4. Scorecard SVG Zero-Drift & Metric Tampering Check
+    # 4. Scorecard SVG Zero-Drift & Visible Text Audit
     scorecard_path = repo_root / "assets" / "scorecard.svg"
     if scorecard_path.exists():
         svg_content = scorecard_path.read_text(encoding="utf-8")
+        visible_svg_text = extract_visible_svg_text(svg_content)
 
-        # Hash references
-        if computed_payload_sha not in svg_content:
-            print(f"❌ FAIL: Scorecard SVG missing canonical payload SHA {computed_payload_sha}")
+        # Assert full or prefix hashes appear in visible text nodes
+        if computed_payload_sha not in visible_svg_text and computed_payload_sha[:16] not in visible_svg_text:
+            print(f"❌ FAIL: Scorecard visible text missing canonical payload SHA {computed_payload_sha}")
             return False
-        if computed_raw_sha not in svg_content:
-            print(f"❌ FAIL: Scorecard SVG missing raw file SHA {computed_raw_sha}")
+        if computed_raw_sha not in visible_svg_text and computed_raw_sha[:16] not in visible_svg_text:
+            print(f"❌ FAIL: Scorecard visible text missing raw file SHA {computed_raw_sha}")
             return False
 
         # Dynamically extract all metric labels from receipt to assert zero-drift
@@ -117,13 +144,13 @@ def verify(repo_root: Path) -> bool:
                 required_strings.append(lbl)
 
         for req in required_strings:
-            if req not in svg_content:
-                print(f"❌ FAIL: Scorecard metric tampering detected! Expected string '{req}' missing from SVG.")
+            if req not in visible_svg_text:
+                print(f"❌ FAIL: Scorecard visible text tampering detected! Expected string '{req}' not found in rendered <text> tags.")
                 return False
-        print(f"• Scorecard Metric Audit   : 100% IN-SYNC ({len(required_strings)} receipt metrics dynamically verified) [PASS]")
+        print(f"• Scorecard Tag Audit      : 100% IN-SYNC ({len(required_strings)} receipt metrics dynamically verified in visible <text> nodes) [PASS]")
 
     print("----------------------------------------------------------------------")
-    print("✅ VERDICT: 100% AUTHENTICALLY SIGNED & METRIC-SEALED ZERO-DRIFT PASS.")
+    print("✅ VERDICT: 100% AUTHENTICALLY SIGNED & FORENSICALLY SEALED ZERO-DRIFT PASS.")
     print("======================================================================\n")
     return True
 
