@@ -190,7 +190,12 @@ const watchdogAvgUs = ((elapsedWatchdog / roundsWatchdog) * 1000).toFixed(2);
 console.log(`Watchdog Rate Enforcement: ${watchdogOpsPerSec} enforcements/sec (${watchdogAvgUs} µs avg)`);
 
 // Output benchmark result object
+const crypto = require('node:crypto');
+const currentScriptBytes = fs.readFileSync(__filename);
+const currentScriptSha256 = crypto.createHash('sha256').update(currentScriptBytes).digest('hex');
+
 const results = {
+  benchmark_script_sha256: currentScriptSha256,
   timestamp_utc: new Date().toISOString(),
   platform: `${os.type()}-${os.release()}-${os.arch()}`,
   machine: os.arch(),
