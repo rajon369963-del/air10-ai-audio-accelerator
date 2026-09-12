@@ -1,12 +1,16 @@
 {
   "name": "air10-ai-audio-accelerator",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "description": "AIR10 AI Audio Accelerator & Gemini Study Bridge with 100 Battle-Tested Wheels",
   "main": "injector.js",
   "scripts": {
     "test": "node --test tests/unit/*.test.js tests/live-canary/*.test.js"
   },
-  "dependencies": {
+  "dependencies": {},
+  "engines": {
+    "node": ">=22.22.2"
+  },
+  "devDependencies": {
     "soundtouchjs": "^0.3.0",
     "tone": "^15.1.22",
     "howler": "^2.2.4",
@@ -107,8 +111,5 @@
     "mkdirp": "^3.0.1",
     "chokidar": "^5.0.0",
     "pitchfinder": "^2.3.4"
-  },
-  "engines": {
-    "node": ">=22.22.2"
   }
 }

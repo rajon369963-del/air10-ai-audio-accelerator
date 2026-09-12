@@ -16,7 +16,7 @@
   if (window.__AIR10_ORCHESTRATOR__) return;
   window.__AIR10_ORCHESTRATOR__ = true;
 
-  console.log('%c[AIR10 Native Browser Nervous System Active]%c v2.5.1', 'color:#6366f1;font-weight:bold;font-size:13px;', 'color:#10b981;font-weight:bold;');
+  console.log('%c[AIR10 Native Browser Nervous System Active]%c v2.5.2', 'color:#6366f1;font-weight:bold;font-size:13px;', 'color:#10b981;font-weight:bold;');
 
   const isNotebookLM = typeof location !== 'undefined' && (location.hostname.includes('notebooklm.google.com') || location.hostname.includes('notebook.google.com'));
   const isGemini = typeof location !== 'undefined' && location.hostname.includes('gemini.google.com');

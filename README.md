@@ -5,7 +5,7 @@
 [![Tests](https://img.shields.io/badge/tests-38%20passed-brightgreen.svg)]()
 [![Manifest](https://img.shields.io/badge/manifest-v3-blue.svg)]()
 [![Platform](https://img.shields.io/badge/platform-NotebookLM%20%7C%20Gemini%20%7C%20ChatGPT-indigo.svg)]()
-[![Version](https://img.shields.io/badge/version-2.5.1-brightgreen.svg)]()
+[![Version](https://img.shields.io/badge/version-2.5.2-brightgreen.svg)]()
 [![CI](https://github.com/rajon369963-del/air10-ai-audio-accelerator/actions/workflows/ci.yml/badge.svg)](https://github.com/rajon369963-del/air10-ai-audio-accelerator/actions/workflows/ci.yml)
 
 ---
@@ -50,13 +50,14 @@ $$\text{AIR10 Moat} = \text{VSC Reliability Discipline} + \text{Global Speed DSP
 ## ⚡ Key Highlights & Capabilities
 
 - **🎙️ Google NotebookLM Deep Dive Podcast 3x Acceleration**: Pierces Angular Material and Google Web Components to accelerate generated podcasts, Audio Overviews, and audiobooks smoothly up to 3.0x.
-- **💎 Seamless Native CDK Menu Integration**: Cleanly injects `2.5x` and `3.0x` options directly into NotebookLM's native popup playback speed menu alongside `0.5x, 0.8x, 1.0x, 1.2x, 1.5x, 1.8x, 2.0x`.
-- **🔄 Free Bidirectional Speed Control**: Instant global capture-phase event synchronization guarantees that clicking any speed option (`1.0x`, `1.5x`, `2.5x`, `3.0x`) in either the native menu or floating HUD updates speed immediately without fighting watchdog locks.
-- **🛡️ 100% W3C DOM & TrustedHTML CSP Compliant**: Pure standard DOM element instantiation (`createElement`, `appendChild`, `textContent`), strictly eliminating `This document requires 'TrustedHTML' assignment` violations.
-- **🔒 Singleton Listener & Observer Guard**: Prevents memory leaks in 8+ hour continuous study sessions (verified across 1,000 simulated ticks).
-- **🎚️ Isolated Web Audio API Param Override**: Monkey-patch on `AudioParam.prototype.setValueAtTime` is gated strictly to `this.__isPlaybackRateParam === true`. Unrelated GainNode and Filter params remain 100% untouched.
-- **🧹 Disconnected Media Garbage Collection**: `pruneDisconnectedMedia()` automatically purges detached audio elements and orphaned shadow roots from internal tracking sets.
-- **🎶 Natural Vocal Timbre & Pitch Preservation**: Automatically enforces `preservesPitch`, `mozPreservesPitch`, and `webkitPreservesPitch` across all HTMLMediaElements and Web Audio API nodes.
+- **💎 Seamless Native CDK Menu Integration**: Injects `2.5x` and `3.0x` options cleanly into NotebookLM's native popup playback speed menu alongside `0.5x, 0.8x, 1.0x, 1.2x, 1.5x, 1.8x, 2.0x`.
+- **🔄 Free Bidirectional Speed Control**: Instant global capture-phase event synchronization is architected to reliably intercept speed options (`1.0x`, `1.5x`, `2.5x`, `3.0x`) in either the native menu or floating HUD without fighting watchdog locks.
+- **🛡️ W3C DOM & TrustedHTML CSP Compliant**: Pure standard DOM element instantiation (`createElement`, `appendChild`, `textContent`), eliminating `This document requires 'TrustedHTML' assignment` violations (validated in automated tests).
+- **🔒 Singleton Listener & Observer Guard**: Prevents memory leaks and listener accumulation (verified across 1,000 simulated ticks in automated tests).
+- **🎚️ Scoped Web Audio API Param Override**: Monkey-patch on `AudioParam.prototype.setValueAtTime` is gated strictly to `this.__isPlaybackRateParam === true`. Unrelated GainNode and Filter params remain untouched.
+- **🧹 Disconnected Media Garbage Collection**: `pruneDisconnectedMedia()` purges detached audio elements and orphaned shadow roots from internal tracking sets upon speed application.
+- **🎶 Pitch Preservation & Speed Control**: Enforces native `preservesPitch` on HTMLMediaElements (`<audio>` / `<video>`), and manages playback rates on Web Audio API nodes with research DSP test suites exploring phase vocoder time-stretching.
+- **📦 Zero Client-Side Runtime Dependencies**: 100% vanilla JavaScript running directly in Chrome MV3. All 100 ecosystem wheels reside strictly in `devDependencies` for local simulation, DSP benchmarking, and CI verification.
 - **⌨️ Global Ergonomic Hotkeys**:
   - `Option+S` (or `Alt+S`): Cycle speed ladder `[1.5x → 1.75x → 2.0x → 2.5x → 3.0x]`.
   - `[` and `]`: Fine-tune speed down or up by `0.25x` increments with automatic active typing input protection.
@@ -114,7 +115,7 @@ graph TD
 
 ## 🧪 Automated Test Suite
 
-The project includes an end-to-end unit, canary, and hostile stress test suite running across Node.js 18.x, 20.x, and 22.x:
+The project includes an end-to-end unit, canary, and hostile stress test suite running on Node.js 22.x & 24.x (Active LTS) with strict `npm ci`:
 
 ```bash
 # Run all unit, canary, and stress tests
@@ -135,6 +136,11 @@ npm test
 
 ## 📜 Version History
 
+- **v2.5.2** (Sep 12, 2026):
+  - **DevDependencies Separation**: Clarified dependency graph by moving all 100 testing, simulation, and DSP benchmark packages into `devDependencies` (`dependencies: {}`), certifying zero client-side runtime overhead in MV3.
+  - **Node 22/24 CI Matrix & Strict Lockfile**: Modernized CI test matrix to Node.js `22.x` and `24.x`, strictly enforced `npm ci` (removed permissive fallbacks), and achieved 100% green verification on GitHub Actions.
+  - **Engineering-Grade Calibration**: Calibrated marketing-grade claims to defensible, test-backed engineering specifications and clearly documented the boundary between native browser `HTMLMediaElement` pitch preservation and research-grade Web Audio API DSP exploration.
+  - **Release Satellite Orbit Alignment**: Unified version `2.5.2` across `manifest.json`, `package.json`, `package-lock.json`, `injector.js`, `background.js`, git tag, and GitHub release assets.
 - **v2.5.1** (Sep 12, 2026):
   - **Singleton Observer & Listener Guard**: Fixed listener accumulation leak in `hookNotebookLMSpeedMenu()`. Initialized exactly once.
   - **Web Audio API Isolation**: Gated `AudioParam.prototype.setValueAtTime` monkey-patch strictly to `__isPlaybackRateParam === true`.

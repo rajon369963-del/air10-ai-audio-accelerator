@@ -10,7 +10,7 @@ test('Version Consistency Across All 5 Production Surfaces', async () => {
   const manifestPath = path.join(rootDir, 'manifest.json');
   const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
   const targetVersion = manifest.version;
-  assert.strictEqual(targetVersion, '2.5.1', 'manifest.json must be version 2.5.1');
+  assert.strictEqual(targetVersion, '2.5.2', 'manifest.json must be version 2.5.2');
 
   // 2. package.json
   const pkgPath = path.join(rootDir, 'package.json');

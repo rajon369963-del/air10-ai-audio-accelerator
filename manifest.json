@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "AIR10 AI Audio Accelerator & Gemini Study Bridge (NotebookLM 3x)",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "description": "Universal AI Audio Accelerator for NotebookLM podcasts & audio overviews, Gemini & ChatGPT Read Aloud up to 3x speed, with native study bridge.",
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoNUKIkDHdDrXENxGRgNO/VS9vmDy13uGl+Mlel21fWShnaMUOYoS9DrWvVHudiyPw0DUFDAkEaoXS2HOj9wy/l+tIhAVAykdrwvUQF2lIEQLRXGVn+nXjP6zoH8rFDPPyuFSdkzBVQP8RLSDD+IZ4JEhSVHTU6vZ/TVAHWk4c+owQpB6tcYYLbaNuGOizo2WLtdMrL8Mok8X7uhAQeoeeZI0I2psPsRs4NTcMkUoEndQHktDAYTtJI6n9wY7AsEqJikF/py4wBP94x9hhydI6lmVGkAScQmYJEaEb1ELZgiZJxgbV90TRI2R7pU2vcfFyv3iJjXVmQSLTPtWerfrRQIDAQAB",
   "icons": {
