@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "repository": "air10-ai-audio-accelerator",
+  "generated_at": "2026-09-12T17:43:49Z",
+  "total_files": 4,
+  "total_bytes": 2867,
+  "composite_fingerprint": "73f6c1adbe02cfbe4fd6cb93b3fed5d10ab9964ca5ac386b4ae762eae04a6286",
+  "files": [
+    {
+      "path": "modules/__init__.py",
+      "size_bytes": 30,
+      "sha256": "e2f89e2416ad0e8d0f500bf6c179ef67beae463d137f5f83c8c73ba175cafb79",
+      "blake3": "7c4d15124923906c4ec6e9fffeb26ed348d38324d846075d01c999e365deb9d0"
+    },
+    {
+      "path": "modules/audio/__init__.py",
+      "size_bytes": 30,
+      "sha256": "e2f89e2416ad0e8d0f500bf6c179ef67beae463d137f5f83c8c73ba175cafb79",
+      "blake3": "7c4d15124923906c4ec6e9fffeb26ed348d38324d846075d01c999e365deb9d0"
+    },
+    {
+      "path": "modules/audio/audio_player_widget_generator.py",
+      "size_bytes": 2116,
+      "sha256": "bb38029e07ab139704969a617052d155d4b6ddb62f9610f5fe5217eb9214d693",
+      "blake3": "104ee6dfdc6705e2f4553f623a13f1f174be185480ec0a89678a8fb6ad43a66c"
+    },
+    {
+      "path": "modules/audio/edge_tts_driver.py",
+      "size_bytes": 691,
+      "sha256": "1d0ea6046139bc135a7036e1324a118ba4d5e0074b894dbb28bb781d1527f141",
+      "blake3": "d79cedc52e8eb0133716681c0abeac34b96c2c60a3636c4e68cf956a31c2dce4"
+    }
+  ]
+}
