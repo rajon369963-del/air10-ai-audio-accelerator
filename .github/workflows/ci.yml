@@ -31,9 +31,11 @@ jobs:
       - name: Run Test Suite (Unit, Canaries, 10x Hostile Stress)
         run: npm test
 
+      - name: Run Real-Browser Court (Headless Chromium)
+        run: npm run test:browser
+
       - name: Validate Version Consistency
         run: node --test tests/unit/test_version_consistency.test.js
 
       - name: Strict Dependency Audit (0 Vulnerabilities)
         run: npm audit
-
