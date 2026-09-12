@@ -9,14 +9,6 @@
       <stop offset="0%" stop-color="#f59e0b"/>
       <stop offset="100%" stop-color="#fbbf24"/>
     </linearGradient>
-    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#d97706"/>
-      <stop offset="100%" stop-color="#f59e0b"/>
-    </linearGradient>
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="6" result="blur"/>
-      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-    </filter>
   </defs>
 
   <!-- Background -->
@@ -38,8 +30,8 @@
   <g transform="translate(40, 105)">
     <rect width="770" height="110" rx="10" fill="#0f172a" fill-opacity="0.8" stroke="#f59e0b" stroke-width="1.2" stroke-opacity="0.5"/>
     <text x="25" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700" fill="#fbbf24" letter-spacing="1">PRIMARY DOMAIN WORKLOAD</text>
-    <text x="25" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="34" font-weight="900" fill="#ffffff">4.98M Buffer Transforms/s</text>
-    <text x="25" y="94" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="500" fill="#94a3b8">Pitch-Preserved WebAudio Speed Engine • 0.201 µs Avg Latency (Apple Silicon M1)</text>
+    <text x="25" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="34" font-weight="900" fill="#ffffff">5.99M Transforms/s</text>
+    <text x="25" y="94" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="500" fill="#94a3b8">Pitch-Preserved WebAudio Speed Engine • 0.167 µs Avg Latency (Apple Silicon M1)</text>
 
     <circle cx="715" cy="55" r="32" fill="#f59e0b" fill-opacity="0.1" stroke="#f59e0b" stroke-width="1.5"/>
     <text x="715" y="62" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="900" fill="#fbbf24" text-anchor="middle">3.0x</text>
@@ -47,23 +39,23 @@
 
   <!-- Secondary Audio Wheel Benchmarks Grid -->
   <g transform="translate(40, 230)">
-    <!-- Box 1: SoundTouch DSP -->
+    <!-- Box 1: Real SoundTouch DSP -->
     <rect x="0" y="0" width="245" height="95" rx="8" fill="#0f172a" fill-opacity="0.7" stroke="#ffffff" stroke-opacity="0.1"/>
-    <text x="18" y="26" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" fill="#38bdf8">SOUNDTOUCH DSP TIME-STRETCH</text>
-    <text x="18" y="56" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="800" fill="#ffffff">7,015,698 ops/s</text>
-    <text x="18" y="78" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500" fill="#64748b">0.14 µs rate-scaling latency</text>
+    <text x="18" y="26" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" fill="#38bdf8">REAL SOUNDTOUCH DSP STRETCH</text>
+    <text x="18" y="56" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="800" fill="#ffffff">1.82M DSP Samples/s</text>
+    <text x="18" y="78" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500" fill="#64748b">YIN Pitch: 440.2 Hz (Target 440Hz)</text>
 
     <!-- Box 2: Watchdog Defense -->
     <rect x="262" y="0" width="245" height="95" rx="8" fill="#0f172a" fill-opacity="0.7" stroke="#ffffff" stroke-opacity="0.1"/>
     <text x="280" y="26" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" fill="#34d399">WATCHDOG RATE ENFORCEMENT</text>
-    <text x="280" y="56" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="800" fill="#ffffff">18,564,345 checks/s</text>
-    <text x="280" y="78" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500" fill="#64748b">0.05 µs rate-lock re-assertion</text>
+    <text x="280" y="56" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="800" fill="#ffffff">24.03M Checks/s</text>
+    <text x="280" y="78" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500" fill="#64748b">0.04 µs rate-lock check</text>
 
     <!-- Box 3: Deep Shadow DOM -->
     <rect x="525" y="0" width="245" height="95" rx="8" fill="#0f172a" fill-opacity="0.7" stroke="#ffffff" stroke-opacity="0.1"/>
     <text x="543" y="26" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" fill="#a855f7">SHADOW DOM PIERCING</text>
-    <text x="543" y="56" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="800" fill="#ffffff">44,860 pierces/s</text>
-    <text x="543" y="78" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500" fill="#64748b">22.29 µs nested traversal</text>
+    <text x="543" y="56" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="800" fill="#ffffff">39,863 Pierces/s</text>
+    <text x="543" y="78" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500" fill="#64748b">25.09 µs nested traversal</text>
   </g>
 
   <!-- Cryptographic Provenance Ledger -->
@@ -71,15 +63,15 @@
     <rect width="770" height="95" rx="8" fill="#050811" stroke="#ffffff" stroke-opacity="0.08"/>
     
     <text x="20" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#64748b" letter-spacing="1">CANONICAL PAYLOAD SHA-256 (DATA INTEGRITY)</text>
-    <text x="20" y="42" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#38bdf8">5be59831c008a69d180a1360bcb8503f5def01829df1881eef9a958f4dff41f7</text>
+    <text x="20" y="42" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#38bdf8">603e1ae113f6ae3d35f4041eff17fdba983732809248bc08adeee2d9e284ad12</text>
 
     <text x="20" y="64" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#64748b" letter-spacing="1">RAW RECEIPT FILE SHA-256 (ON-DISK REPRODUCIBILITY)</text>
-    <text x="20" y="82" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#a855f7">7ef6010587281f0db947b51b93e5aad87fe5005511e03d53405c3947d03edf03</text>
+    <text x="20" y="82" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#a855f7">1e4dfebf7a9a0b3f0d3b34ee28aa70c0be6b54e59898b29ba8b59766b8ba3c56</text>
 
     <!-- Signer -->
     <text x="520" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#64748b" letter-spacing="1">ED25519 DIGITAL SIGNATURE (AUTHENTICITY)</text>
-    <text x="520" y="42" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#34d399">36a62828e8569e426fbca1b034a5460a2fcc...</text>
-    <text x="520" y="64" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#64748b" letter-spacing="1">DEPENDENCY AUDIT: 0 PRODUCTION DEPS</text>
-    <text x="520" y="82" font-family="ui-monospace, monospace" font-size="11" font-weight="700" fill="#fbbf24">100% PURE VANILLA MV3 EXTENSION</text>
+    <text x="520" y="42" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#34d399">f0df02a0aa4792ba92c68554d5bbac15b369...</text>
+    <text x="520" y="64" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#64748b" letter-spacing="1">CONTROL BENCHMARK: 7.70M Property Ops/s</text>
+    <text x="520" y="82" font-family="ui-monospace, monospace" font-size="11" font-weight="700" fill="#fbbf24">100% ZERO-DRIFT DYNAMICALLY SEALED</text>
   </g>
 </svg>
