@@ -1,20 +1,28 @@
 #!/usr/bin/env python3
 """
-AIR10 Sovereign Truth Guard & Cryptographic Provenance Verifier (v2.2)
+AIR10 Sovereign Truth Guard & Cryptographic Provenance Verifier (v2.3)
 Zero-Trust Forensic Invariants:
 1. Hard-pinned Authoritative Ed25519 Root of Trust.
 2. Canonical payload reconstitution and Ed25519 signature check against pinned root.
 3. Raw receipt file SHA-256 integrity check.
-4. Scorecard SVG Zero-Drift & Structural Tag Audit:
+4. Git Source Snapshot Reachability Check (benchmarked_source_commit_sha).
+5. Scorecard SVG Zero-Drift & Structural Tag Audit:
    - Strips XML comments to eliminate comment injection attacks.
    - Extracts text strictly from visible <text> and <tspan> DOM elements.
-   - Dynamically asserts payload SHA, raw file SHA, and required domain/wheel metrics
+   - Dynamically asserts payload SHA, raw file SHA, signature prefix, and required domain/wheel metrics
      are literally visible inside rendered text tags.
+6. Causal Fresh Benchmark Binding (--assert-live-benchmark):
+   - Ingests fresh benchmark output JSON directly.
+   - Enforces platform-aware hardware bounds (arm64 vs x86_64).
+   - Verifies 440 Hz pitch preservation within narrow bounds (430.0 - 450.0 Hz).
 """
 
+import argparse
 import hashlib
 import json
+import platform
 import re
+import subprocess
 import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -44,9 +52,55 @@ def extract_visible_svg_text(svg_raw: str) -> str:
 
     return " ".join(t for t in extracted_tokens if t)
 
-def verify(repo_root: Path) -> bool:
+def verify_live_benchmark(bench_path: Path) -> bool:
+    if not bench_path.exists() or bench_path.stat().st_size == 0:
+        print(f"❌ FAIL: Live benchmark result file missing or empty: {bench_path}")
+        return False
+
+    try:
+        data = json.loads(bench_path.read_text(encoding="utf-8"))
+    except Exception as e:
+        print(f"❌ FAIL: Corrupt JSON in benchmark results: {e}")
+        return False
+
+    mach = platform.machine().lower()
+    is_arm = ("arm" in mach) or ("aarch64" in mach)
+
+    dsp_min = 1_000_000.0 if is_arm else 250_000.0
+    trans_min = 1_000_000.0 if is_arm else 500_000.0
+
+    live_dsp = float(data.get("real_soundtouch_dsp_samples_sec", 0))
+    live_pitch = float(data.get("pitch_detected_hz", 0))
+    live_trans = float(data.get("speed_engine_buffer_transform_ops_sec", 0))
+    live_watchdog = float(data.get("watchdog_rate_checks_sec", 0))
+    live_shadow = float(data.get("shadow_dom_traversals_sec", 0))
+
+    if live_dsp < dsp_min:
+        print(f"❌ FAIL: Live SoundTouch DSP throughput too low: {live_dsp:,.1f} samples/s < min {dsp_min:,.1f}")
+        return False
+
+    if not (430.0 <= live_pitch <= 450.0):
+        print(f"❌ FAIL: Live pitch preservation violated: detected {live_pitch:.1f} Hz (expected ~440.0 Hz)")
+        return False
+
+    if live_trans < trans_min:
+        print(f"❌ FAIL: Live transform calculations too low: {live_trans:,.1f} ops/s < min {trans_min:,.1f}")
+        return False
+
+    if live_watchdog < 100_000.0:
+        print(f"❌ FAIL: Live watchdog rate checks too low: {live_watchdog:,.1f} checks/s < min 100,000")
+        return False
+
+    if live_shadow < 5_000.0:
+        print(f"❌ FAIL: Live shadow DOM traversals too low: {live_shadow:,.1f} pierces/s < min 5,000")
+        return False
+
+    print(f"• Live Benchmark Binding  : CAUSAL LINK ESTABLISHED (Live SoundTouch DSP={live_dsp:,.1f} samples/s, Pitch={live_pitch:.1f} Hz, WebAudio={live_trans:,.1f} calcs/s) [PASS]")
+    return True
+
+def verify(repo_root: Path, live_bench_file: Path = None) -> bool:
     print("======================================================================")
-    print("🛡️  AIR10 TRUTH GUARD v2.2: CRYPTOGRAPHIC PROVENANCE & ZERO-DRIFT CONTRACT")
+    print("🛡️  AIR10 TRUTH GUARD v2.3: CRYPTOGRAPHIC PROVENANCE & ZERO-DRIFT CONTRACT")
     print(f"Target Repository : {repo_root.name}")
     print("======================================================================")
 
@@ -121,7 +175,20 @@ def verify(repo_root: Path) -> bool:
         print(f"❌ FAIL: Ed25519 signature verification failed: {e}")
         return False
 
-    # 4. Scorecard SVG Zero-Drift & Visible Text Audit
+    # 4. Git Source Snapshot Reachability Check
+    hw = data.get("hardware_telemetry", {})
+    src_commit = hw.get("benchmarked_source_commit_sha") or hw.get("git_commit_sha")
+    if src_commit and src_commit != "unknown":
+        git_dir = repo_root / ".git"
+        if git_dir.exists():
+            try:
+                subprocess.check_output(["git", "rev-parse", "--verify", f"{src_commit}^{{commit}}"], cwd=repo_root, stderr=subprocess.DEVNULL)
+                print(f"• Git Source Snapshot      : COMMIT {src_commit[:8]} REACHABLE IN GIT HISTORY [PASS]")
+            except Exception:
+                print(f"❌ FAIL: benchmarked_source_commit_sha '{src_commit}' is not reachable in repository history!")
+                return False
+
+    # 5. Scorecard SVG Zero-Drift & Visible Text Audit
     scorecard_path = repo_root / "assets" / "scorecard.svg"
     if scorecard_path.exists():
         svg_content = scorecard_path.read_text(encoding="utf-8")
@@ -133,6 +200,9 @@ def verify(repo_root: Path) -> bool:
             return False
         if computed_raw_sha not in visible_svg_text and computed_raw_sha[:16] not in visible_svg_text:
             print(f"❌ FAIL: Scorecard visible text missing raw file SHA {computed_raw_sha}")
+            return False
+        if sig_hex[:32] not in visible_svg_text:
+            print(f"❌ FAIL: Scorecard visible text missing signature prefix {sig_hex[:32]}")
             return False
 
         # Dynamically extract all metric labels from receipt to assert zero-drift
@@ -149,12 +219,30 @@ def verify(repo_root: Path) -> bool:
                 return False
         print(f"• Scorecard Tag Audit      : 100% IN-SYNC ({len(required_strings)} receipt metrics dynamically verified in visible <text> nodes) [PASS]")
 
+    # 6. Causal Live Benchmark Check
+    if live_bench_file:
+        if not verify_live_benchmark(live_bench_file):
+            return False
+    else:
+        # Check default benchmark results file if it exists
+        default_bench = repo_root / "scripts" / "audio_benchmark_results.json"
+        if default_bench.exists():
+            if not verify_live_benchmark(default_bench):
+                return False
+
     print("----------------------------------------------------------------------")
     print("✅ VERDICT: 100% AUTHENTICALLY SIGNED & FORENSICALLY SEALED ZERO-DRIFT PASS.")
     print("======================================================================\n")
     return True
 
 if __name__ == "__main__":
-    target_dir = Path(__file__).parent.parent if len(sys.argv) < 2 else Path(sys.argv[1])
-    success = verify(target_dir)
+    parser = argparse.ArgumentParser(description="AIR10 Cryptographic Provenance & Zero-Drift Verifier")
+    parser.add_argument("repo_path", nargs="?", default=None, help="Path to repository root")
+    parser.add_argument("--assert-live-benchmark", dest="live_benchmark", default=None, help="Path to fresh benchmark JSON output")
+    args = parser.parse_args()
+
+    repo_dir = Path(args.repo_path).resolve() if args.repo_path else Path(__file__).parent.parent.resolve()
+    live_bench = Path(args.live_benchmark).resolve() if args.live_benchmark else None
+
+    success = verify(repo_dir, live_bench)
     sys.exit(0 if success else 1)

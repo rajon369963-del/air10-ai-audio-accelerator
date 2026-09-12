@@ -43,4 +43,4 @@ jobs:
       - name: Verify Cryptographic Receipt & Scorecard Zero-Drift
         run: |
           pip install cryptography
-          python3 scripts/verify_receipt.py
+          python3 scripts/verify_receipt.py --assert-live-benchmark scripts/audio_benchmark_results.json
