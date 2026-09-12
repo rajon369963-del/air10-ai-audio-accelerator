@@ -95,5 +95,19 @@
       "run_at": "document_start",
       "world": "ISOLATED"
     }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "modules/air10-catchup-processor.js",
+        "icons/*.png"
+      ],
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://gemini.google.com/*",
+        "https://notebooklm.google.com/*",
+        "https://notebook.google.com/*"
+      ]
+    }
   ]
 }

@@ -80,6 +80,15 @@ class MockElement {
     return child;
   }
 
+  removeChild(child) {
+    const idx = this.children.indexOf(child);
+    if (idx !== -1) {
+      this.children.splice(idx, 1);
+      child.parentElement = null;
+    }
+    return child;
+  }
+
   addEventListener(type, cb) {
     this.listeners[type] = this.listeners[type] || [];
     this.listeners[type].push(cb);

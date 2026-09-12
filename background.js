@@ -84,15 +84,21 @@ function connectNativeHost() {
 }
 
 function handleNativeDisconnect() {
-  const err = chrome.runtime.lastError ? chrome.runtime.lastError.message : 'Port closed';
-  console.warn('[AIR10 SW] Native host disconnected:', err);
+  const lastErr = (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.lastError) ? chrome.runtime.lastError : null;
+  const errMsg = lastErr ? lastErr.message : 'Port closed';
+  console.log('[AIR10 SW] Native host disconnected (clean notice):', errMsg);
   nativePort = null;
   isConnecting = false;
-  scheduleReconnect();
+  // Graceful standalone fallback: Never loop reconnects or flag errors when host is idle
+  if (errMsg && (errMsg.includes('not found') || errMsg.includes('specified native messaging host') || errMsg.includes('Error when communicating'))) {
+    console.log('[AIR10 SW] Native messaging host idle. Operating in autonomous acceleration mode.');
+    return;
+  }
 }
 
 function scheduleReconnect() {
-  if (reconnectAttempts >= 3) {
+  // Only reconnect if there are active pending student events needing native transmission
+  if (pendingQueue.length === 0 || reconnectAttempts >= 2) {
     console.log('[AIR10 SW] Native host com.air10.study idle. Operating in autonomous acceleration mode.');
     return;
   }
@@ -389,7 +395,9 @@ if (typeof chrome !== 'undefined' && chrome.alarms) {
   } catch (e) {}
 }
 
-// Initialize state and connect
+// Initialize state (Native host connects lazily on demand to avoid idle startup error logs)
 loadDurableState().then(() => {
-  connectNativeHost();
+  if (pendingQueue.length > 0) {
+    connectNativeHost();
+  }
 });
