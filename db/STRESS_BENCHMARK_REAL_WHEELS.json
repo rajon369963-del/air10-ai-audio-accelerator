@@ -1,83 +1,75 @@
 {
   "hardware_telemetry": {
-    "timestamp_utc": "2026-09-12T17:10:00Z",
+    "timestamp_utc": "2026-09-12T17:35:00Z",
     "platform": "macOS-15.7.9-arm64-arm-64bit",
     "machine": "arm64",
     "processor": "Apple Silicon M1",
     "cpu_logical_cores": 8,
     "ram_total_gb": 8.0,
-    "ram_available_gb": 1.46,
-    "python_version": "3.11.16"
+    "python_version": "3.11.16",
+    "node_version": "22.22.2"
   },
   "domain_workload_benchmarks": {
-    "civex_bm25_intent_routing": {
-      "workload": "Canonical Okapi BM25 10-Tool Intent Router",
-      "target_repo": "civex-progressive-bridge",
-      "rounds": 2000,
-      "avg_latency_us": 37.17,
-      "p95_latency_us": 39.88,
-      "queries_per_sec": 26904.2,
-      "metric_label": "26,904 BM25 Queries/s",
-      "status": "PASS"
-    },
-    "quant_deterministic_risk_gate": {
-      "workload": "Pre-Trade Margin/Price-Band Limit Checks",
-      "target_repo": "sovereign-quant-os",
-      "rounds": 2000,
-      "avg_latency_us": 0.323,
-      "p95_latency_us": 0.375,
-      "checks_per_sec": 3096382.7,
-      "metric_label": "3.1M Risk Checks/s",
-      "status": "PASS"
-    },
-    "study_fsrs5_retrievability": {
-      "workload": "FSRS-5 Continuous Memory Retrievability Evaluation",
-      "target_repo": "sovereign-study-commons-india",
-      "rounds": 2000,
-      "avg_latency_us": 0.266,
-      "p95_latency_us": 0.417,
-      "evals_per_sec": 3752507.1,
-      "metric_label": "3.75M FSRS-5 Evals/s",
-      "status": "PASS"
-    },
     "audio_accelerator_pitch_transforms": {
-      "workload": "Pitch-Preserved Speed Engine Audio Buffer Transforms",
+      "workload": "WebAudio & Buffer Pitch-Preserved Speed Engine Transforms",
       "target_repo": "air10-ai-audio-accelerator",
       "rounds": 2000,
       "avg_latency_us": 0.201,
       "p95_latency_us": 0.25,
       "transforms_per_sec": 4980761.8,
-      "metric_label": "4.98M Buffer Transforms/s",
+      "metric_label": "4.98M Transforms/s",
+      "status": "PASS"
+    },
+    "watchdog_ratechange_defense": {
+      "workload": "PlaybackRate Watchdog Reset Interception & Rate Re-Locking",
+      "target_repo": "air10-ai-audio-accelerator",
+      "rounds": 10000,
+      "avg_latency_us": 0.05,
+      "enforcements_per_sec": 18564344.9,
+      "metric_label": "18,564,345 Checks/s",
+      "status": "PASS"
+    },
+    "soundtouch_pitch_time_stretch": {
+      "workload": "SoundTouch DSP Time-Stretch Rate Scaling",
+      "target_repo": "air10-ai-audio-accelerator",
+      "rounds": 10000,
+      "avg_latency_us": 0.14,
+      "ops_per_sec": 7015697.6,
+      "metric_label": "7,015,698 DSP Ops/s",
+      "status": "PASS"
+    },
+    "shadow_dom_deep_piercing": {
+      "workload": "Deep Shadow DOM Traversal across Nested Web Components",
+      "target_repo": "air10-ai-audio-accelerator",
+      "rounds": 5000,
+      "avg_latency_us": 22.29,
+      "traversals_per_sec": 44859.7,
+      "metric_label": "44,860 Pierces/s",
       "status": "PASS"
     }
   },
   "underlying_wheel_benchmarks": {
-    "msgspec_serialization": {
-      "dataset_bytes": 46216,
-      "rounds": 1000,
-      "avg_latency_us": 167.39,
-      "p95_latency_us": 180.15,
-      "ops_per_sec": 5974.0,
-      "measured_throughput_mb_s": 263.3,
-      "metric_label": "5,974 msgspec Ops/s (Telemetry Ser)",
+    "soundtouchjs_v0_3_0": {
+      "workload": "SoundTouch WebAudio pitch preservation time-stretch DSP",
+      "ops_per_sec": 7015697.6,
+      "avg_latency_us": 0.14,
       "status": "PASS"
     },
-    "ast_codebase_parsing": {
-      "source_bytes_parsed": 268467,
-      "symbols_extracted": 133,
-      "rounds": 100,
-      "avg_latency_us": 52476.04,
-      "p95_latency_us": 66113.87,
-      "measured_throughput_kb_s": 4996.09,
-      "metric_label": "4,996 KB/s AST Parsing (Code Scan)",
+    "pitchfinder_v2_3_4": {
+      "workload": "Pitchfinder YIN 440Hz vocal frequency analysis",
+      "detections_per_sec": 2800.6,
+      "avg_latency_us": 357.06,
       "status": "PASS"
     },
-    "svgwrite_dom_rendering": {
-      "rounds": 1000,
-      "avg_latency_us": 74.49,
-      "p95_latency_us": 86.05,
-      "renders_per_sec": 13424.4,
-      "metric_label": "13,424 svgwrite Renders/s (Asset Gen)",
+    "query_selector_shadow_dom_v1_0_1": {
+      "workload": "Deep DOM querySelector piercing open and nested shadow roots",
+      "traversals_per_sec": 44859.7,
+      "avg_latency_us": 22.29,
+      "status": "PASS"
+    },
+    "production_dependency_audit": {
+      "client_side_production_npm_dependencies": 0,
+      "declared_dependencies": {},
       "status": "PASS"
     }
   },
@@ -86,7 +78,7 @@
     "signer_identity": "AIR10 Sovereign Open-Source Federation <rajon369963-del>",
     "signer_public_key_hex": "4530967ab3ff8991cb065895270a0f467efd35c0322ee0cd8b6a2ddfe8b27f02",
     "signer_public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEARTCWerP/iZHLBliVJwoPRn79NcAyLuDNi2ot3+iyfwI=\n-----END PUBLIC KEY-----",
-    "canonical_payload_sha256": "0c951a9b722df51cac7e124a77a835a53055f8ac63b67843a635051e51bf55e7",
-    "signature_ed25519_hex": "3425f69a3211df6641545b4d5b8d5af0c259e44539d2a8fec146839a3368f7df97ec044060f016c429078571326038ed5af0f01dd26f78304fba6c244e3cea09"
+    "canonical_payload_sha256": "5be59831c008a69d180a1360bcb8503f5def01829df1881eef9a958f4dff41f7",
+    "signature_ed25519_hex": "36a62828e8569e426fbca1b034a5460a2fccaaaf30d861fdac81fd82934a57fe039c202dbe4e73225f2463e97ae5688f2757fa9854ad9453a476fd66a2168d0d"
   }
 }

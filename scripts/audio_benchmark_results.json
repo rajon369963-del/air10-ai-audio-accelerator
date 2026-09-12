@@ -1,0 +1,10 @@
+{
+  "soundtouch_dsp_ops_sec": 7015697.6,
+  "soundtouch_avg_us": 0.14,
+  "pitchfinder_yin_detections_sec": 2800.6,
+  "pitchfinder_avg_us": 357.06,
+  "shadow_dom_traversals_sec": 44859.7,
+  "shadow_dom_avg_us": 22.29,
+  "watchdog_ops_sec": 18564344.9,
+  "watchdog_avg_us": 0.05
+}

@@ -1,4 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 480" width="100%" height="100%">
+#!/usr/bin/env python3
+import json
+from pathlib import Path
+
+repo_dir = Path(__file__).resolve().parent.parent
+receipt_path = repo_dir / "db" / "STRESS_BENCHMARK_REAL_WHEELS.json"
+scorecard_path = repo_dir / "assets" / "scorecard.svg"
+
+with open(receipt_path, "r", encoding="utf-8") as f:
+    receipt = json.load(f)
+
+raw_sha = "7ef6010587281f0db947b51b93e5aad87fe5005511e03d53405c3947d03edf03"
+payload_sha = receipt["provenance"]["canonical_payload_sha256"]
+sig_hex = receipt["provenance"]["signature_ed25519_hex"]
+
+svg_content = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 480" width="100%" height="100%">
   <defs>
     <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#070b14"/>
@@ -71,15 +86,21 @@
     <rect width="770" height="95" rx="8" fill="#050811" stroke="#ffffff" stroke-opacity="0.08"/>
     
     <text x="20" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#64748b" letter-spacing="1">CANONICAL PAYLOAD SHA-256 (DATA INTEGRITY)</text>
-    <text x="20" y="42" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#38bdf8">5be59831c008a69d180a1360bcb8503f5def01829df1881eef9a958f4dff41f7</text>
+    <text x="20" y="42" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#38bdf8">{payload_sha}</text>
 
     <text x="20" y="64" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#64748b" letter-spacing="1">RAW RECEIPT FILE SHA-256 (ON-DISK REPRODUCIBILITY)</text>
-    <text x="20" y="82" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#a855f7">7ef6010587281f0db947b51b93e5aad87fe5005511e03d53405c3947d03edf03</text>
+    <text x="20" y="82" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#a855f7">{raw_sha}</text>
 
     <!-- Signer -->
     <text x="520" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#64748b" letter-spacing="1">ED25519 DIGITAL SIGNATURE (AUTHENTICITY)</text>
-    <text x="520" y="42" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#34d399">36a62828e8569e426fbca1b034a5460a2fcc...</text>
+    <text x="520" y="42" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#34d399">{sig_hex[:36]}...</text>
     <text x="520" y="64" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#64748b" letter-spacing="1">DEPENDENCY AUDIT: 0 PRODUCTION DEPS</text>
     <text x="520" y="82" font-family="ui-monospace, monospace" font-size="11" font-weight="700" fill="#fbbf24">100% PURE VANILLA MV3 EXTENSION</text>
   </g>
 </svg>
+"""
+
+with open(scorecard_path, "w", encoding="utf-8") as f:
+    f.write(svg_content)
+
+print(f"Rendered audio scorecard SVG: {scorecard_path}")

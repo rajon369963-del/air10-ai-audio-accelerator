@@ -176,7 +176,7 @@
     <div class="card">
       <h3 style="margin-top: 0; color: var(--accent);">🎵 Interactive In-Browser Speed &amp; Pitch Engine</h3>
       <p style="color: var(--text-muted); font-size: 0.9rem;">
-        Test client-side audio playback rate scaling directly in your browser. Demonstrates HTMLMediaElement <code>playbackRate</code> with <code>preservesPitch = true</code> across the full 0.5x to 3.0x speed ladder.
+        Test client-side audio playback rate scaling directly in your browser. HTMLMediaElement path enforces native pitch-preservation via <code>preservesPitch = true</code> across NotebookLM and YouTube; Web Audio acceleration scales playback frequency directly.
       </p>
       
       <audio id="demo-audio" controls style="width: 100%; margin-top: 0.5rem;" src="https://www.w3schools.com/html/horse.mp3">
@@ -210,7 +210,7 @@
     <!-- Installation Guide -->
     <div class="card">
       <h3 style="margin-top: 0; color: var(--accent);">🚀 Quick 1-Minute Developer Install</h3>
-      <p style="color: var(--text-muted); font-size: 0.9rem;">Runs 100% locally in Chrome, Brave, Edge, or Arc with zero telemetry tracking and zero external production dependencies.</p>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">Runs 100% locally in Chrome, Brave, Edge, or Arc with zero third-party telemetry/analytics and zero external production dependencies (100% pure vanilla MV3).</p>
       <div class="code-box">
 1. Clone the repository:
    git clone https://github.com/rajon369963-del/air10-ai-audio-accelerator.git
@@ -231,49 +231,52 @@
           <tr>
             <th>Architecture Capability</th>
             <th>Native Browser Player</th>
-            <th>Generic Speed Extension</th>
+            <th>Generic Speed Extensions</th>
             <th>AIR10 Accelerator v2.5.3</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td><strong>Max Supported Speed</strong></td>
-            <td>2.0x</td>
-            <td>2.0x - 2.5x (jittery)</td>
+            <td>2.0x (Fixed)</td>
+            <td>2.0x - 2.5x (Vendor dependent)</td>
             <td style="color: var(--accent-green); font-weight: bold;">3.0x (Hardware Verified)</td>
           </tr>
           <tr>
             <td><strong>Deep Shadow DOM Piercing</strong></td>
-            <td>❌ None</td>
-            <td>❌ Fails on closed/nested</td>
+            <td>None</td>
+            <td>Not measured in runner</td>
             <td style="color: var(--accent-green); font-weight: bold;">✅ Verified (Open &amp; Nested)</td>
           </tr>
           <tr>
             <td><strong>Angular CDK Menu Injection</strong></td>
-            <td>❌ None</td>
-            <td>❌ Malformed duplicates</td>
+            <td>None</td>
+            <td>Not measured in runner</td>
             <td style="color: var(--accent-green); font-weight: bold;">✅ Clean 2.5x/3.0x Pills</td>
           </tr>
           <tr>
             <td><strong>Watchdog Host Reset Defense</strong></td>
-            <td>❌ Host resets rate</td>
-            <td>❌ Dropped on track change</td>
+            <td>Host resets rate</td>
+            <td>Not measured in runner</td>
             <td style="color: var(--accent-green); font-weight: bold;">✅ Continuous Watchdog Guard</td>
           </tr>
           <tr>
             <td><strong>Production Dependencies</strong></td>
             <td>N/A</td>
-            <td>5 - 20 external npm pkgs</td>
+            <td>Variable (5-20 pkgs)</td>
             <td style="color: var(--accent-green); font-weight: bold;">0 (Vanilla JS MV3)</td>
           </tr>
           <tr>
             <td><strong>500-Tick JS Heap Growth</strong></td>
             <td>Baseline</td>
-            <td>+12 to +25 MB</td>
-            <td style="color: var(--accent-green); font-weight: bold;">0.0 MB (&lt; 5.0 MB SLO)</td>
+            <td>Not measured in runner</td>
+            <td style="color: var(--accent-green); font-weight: bold;">&lt; 5.0 MB SLO (CDP Verified)</td>
           </tr>
         </tbody>
       </table>
+      <p style="color: var(--text-muted); font-size: 0.78rem; margin-top: 0.75rem;">
+        <em>Note: Competitor columns represent design baseline distinctions, unmeasured in this isolated single-extension runner. All AIR10 metrics verified via Chromium CDP and Node test suite.</em>
+      </p>
     </div>
   </div>
 

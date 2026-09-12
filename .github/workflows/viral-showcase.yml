@@ -30,6 +30,9 @@ jobs:
         run: |
           npm ci
           npm test
+      - name: Run Real-Browser Court (Headless Chromium)
+        run: |
+          npm run test:browser
       - name: Set up Python for Cryptographic Attestation
         uses: actions/setup-python@v5
         with:
