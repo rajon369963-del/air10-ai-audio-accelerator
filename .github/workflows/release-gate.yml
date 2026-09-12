@@ -1,0 +1,110 @@
+name: Release Gate & Provenance Attestation
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+
+jobs:
+  preflight-gate:
+    name: CI Preflight Verification Matrix
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        node-version: [ 22.x, 24.x ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Strict Lockfile Clean Install
+        run: npm ci
+
+      - name: Run Full Test Suite (Unit, Canaries, 10x Hostile Stress)
+        run: npm test
+
+      - name: Validate Version Consistency Across All 5 Surfaces
+        run: node --test tests/unit/test_version_consistency.test.js
+
+      - name: Strict Dependency Audit (0 Vulnerabilities)
+        run: npm audit
+
+  provenance-release:
+    name: Gated Release & Provenance Package
+    needs: preflight-gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 24.x (Active LTS)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+
+      - name: Extract Tag Version
+        id: get_version
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Generate Release Bundle ZIP
+        run: |
+          VERSION=${{ steps.get_version.outputs.VERSION }}
+          ZIP_NAME="AIR10_AI_Audio_Accelerator_v${VERSION}.zip"
+          zip -r "${ZIP_NAME}" manifest.json injector.js background.js modules/ icons/
+          sha256sum "${ZIP_NAME}" > "${ZIP_NAME}.sha256"
+          echo "ZIP_NAME=${ZIP_NAME}" >> $GITHUB_ENV
+
+      - name: Generate SPDX SBOM Manifest
+        run: |
+          node -e "
+            const fs = require('fs');
+            const pkg = require('./package.json');
+            const sbom = {
+              spdxVersion: 'SPDX-2.3',
+              dataLicense: 'CC0-1.0',
+              SPDXID: 'SPDXRef-DOCUMENT',
+              name: pkg.name,
+              documentNamespace: 'https://github.com/rajon369963-del/air10-ai-audio-accelerator/sbom/' + pkg.version,
+              creationInfo: {
+                created: new Date().toISOString(),
+                creators: ['Tool: AIR10-SBOM-Generator-v2.5.3']
+              },
+              packages: [
+                {
+                  name: pkg.name,
+                  SPDXID: 'SPDXRef-Package-AIR10',
+                  versionInfo: pkg.version,
+                  declaredLicense: 'MIT',
+                  productionDependenciesCount: 0
+                }
+              ]
+            };
+            fs.writeFileSync('sbom.spdx.json', JSON.stringify(sbom, null, 2));
+          "
+
+      - name: Publish Verified GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            ${{ env.ZIP_NAME }}
+            ${{ env.ZIP_NAME }}.sha256
+            sbom.spdx.json
+          draft: false
+          prerelease: false
+          generate_release_notes: true

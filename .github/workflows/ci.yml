@@ -33,3 +33,7 @@ jobs:
 
       - name: Validate Version Consistency
         run: node --test tests/unit/test_version_consistency.test.js
+
+      - name: Strict Dependency Audit (0 Vulnerabilities)
+        run: npm audit
+
