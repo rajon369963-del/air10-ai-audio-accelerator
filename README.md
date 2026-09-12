@@ -57,7 +57,7 @@ $$\text{AIR10 Moat} = \text{VSC Reliability Discipline} + \text{Global Speed DSP
 - **🎚️ Scoped Web Audio API Param Override**: Monkey-patch on `AudioParam.prototype.setValueAtTime` is gated strictly to `this.__isPlaybackRateParam === true`. Unrelated GainNode and Filter params remain untouched.
 - **🧹 Disconnected Media Garbage Collection**: `pruneDisconnectedMedia()` purges detached audio elements and orphaned shadow roots from internal tracking sets upon speed application.
 - **🎶 Pitch Preservation & Speed Control**: Enforces native `preservesPitch` on HTMLMediaElements (`<audio>` / `<video>`), and manages playback rates on Web Audio API nodes with research DSP test suites exploring phase vocoder time-stretching.
-- **📦 Zero Client-Side Runtime Dependencies**: 100% vanilla JavaScript running directly in Chrome MV3. All 100 ecosystem wheels reside strictly in `devDependencies` for local simulation, DSP benchmarking, and CI verification.
+- **📦 Zero Declared npm Production Dependencies**: 100% vanilla JavaScript running directly in Chrome MV3 (`dependencies: {}`). Wildcard dependencies were replaced with bounded semver ranges in `devDependencies`, while the exact resolved dependency graph is frozen by `package-lock.json` and enforced through `npm ci` (guaranteeing zero client runtime dependency exposure).
 - **⌨️ Global Ergonomic Hotkeys**:
   - `Option+S` (or `Alt+S`): Cycle speed ladder `[1.5x → 1.75x → 2.0x → 2.5x → 3.0x]`.
   - `[` and `]`: Fine-tune speed down or up by `0.25x` increments with automatic active typing input protection.
@@ -115,7 +115,7 @@ graph TD
 
 ## 🧪 Automated Test Suite
 
-The project includes an end-to-end unit, canary, and hostile stress test suite running on Node.js 22.x & 24.x (Active LTS) with strict `npm ci`:
+The project includes an end-to-end unit, canary, and hostile stress test suite running on supported Node.js LTS releases: **Node.js 22.x (Maintenance LTS)** & **Node.js 24.x (Active LTS)** with strict `npm ci`:
 
 ```bash
 # Run all unit, canary, and stress tests
@@ -134,11 +134,19 @@ npm test
 
 ---
 
+## 🛡️ Supply Chain & Dependency Health
+
+- **Client Runtime (`dependencies: {}`)**: Declared production dependencies are strictly `{}`. The shipped extension bundle (`manifest.json`, `injector.js`, `background.js`, `modules/`) runs 100% vanilla JavaScript in Chrome MV3 with zero client-side npm dependencies.
+- **Development & Testing Toolchain (`devDependencies`)**: 100 testing tools and simulation frameworks reside in `devDependencies`. The 13 `npm audit` advisories (in transitive dependencies `request` via `audio-loader`, `speaker` via `av`) belong exclusively to offline mock DSP/DOM fixtures and do not ship to browser clients.
+- **CI-Gated Determinism**: Lockfile synchronization is strictly enforced via `npm ci` across both Node.js 22 (Maintenance LTS) and Node.js 24 (Active LTS).
+
+---
+
 ## 📜 Version History
 
 - **v2.5.2** (Sep 12, 2026):
-  - **DevDependencies Separation**: Clarified dependency graph by moving all 100 testing, simulation, and DSP benchmark packages into `devDependencies` (`dependencies: {}`), certifying zero client-side runtime overhead in MV3.
-  - **Node 22/24 CI Matrix & Strict Lockfile**: Modernized CI test matrix to Node.js `22.x` and `24.x`, strictly enforced `npm ci` (removed permissive fallbacks), and achieved 100% green verification on GitHub Actions.
+  - **DevDependencies Separation**: Clarified dependency graph by moving all 100 testing, simulation, and DSP benchmark packages into `devDependencies` (`dependencies: {}`), certifying zero declared npm runtime dependencies.
+  - **Node 22/24 LTS CI Matrix & Strict Lockfile**: Modernized CI test matrix to supported LTS releases: Node.js `22.x` (Maintenance LTS) and `24.x` (Active LTS). Replaced wildcards with bounded semver ranges in `devDependencies`, strictly enforced `npm ci` with frozen `package-lock.json`, and achieved 100% green verification on GitHub Actions.
   - **Engineering-Grade Calibration**: Calibrated marketing-grade claims to defensible, test-backed engineering specifications and clearly documented the boundary between native browser `HTMLMediaElement` pitch preservation and research-grade Web Audio API DSP exploration.
   - **Release Satellite Orbit Alignment**: Unified version `2.5.2` across `manifest.json`, `package.json`, `package-lock.json`, `injector.js`, `background.js`, git tag, and GitHub release assets.
 - **v2.5.1** (Sep 12, 2026):
