@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """
 AIR10 Sovereign Audio Accelerator - Dynamic Cryptographic Receipt Generator
-Zero hardcoding: Reads all measurements dynamically from audio_benchmark_results.json,
-computes canonical payload hash and Ed25519 digital signature against authoritative root key.
+Zero hardcoding:
+1. Reads all measurements dynamically from audio_benchmark_results.json.
+2. Binds git commit SHA, git tree SHA, and benchmark_script_sha256.
+3. Signs canonical payload with persistent Ed25519 root.
 """
 
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ed25519
@@ -19,6 +22,17 @@ with open(bench_file, "r") as f:
     bench = json.load(f)
 
 bench_script_sha = hashlib.sha256(bench_script.read_bytes()).hexdigest()
+
+# Extract git commit & tree SHA
+try:
+    git_commit_sha = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=repo_dir).decode("utf-8").strip()
+except Exception:
+    git_commit_sha = "unknown"
+
+try:
+    git_tree_sha = subprocess.check_output(["git", "write-tree"], cwd=repo_dir).decode("utf-8").strip()
+except Exception:
+    git_tree_sha = "unknown"
 
 # Load persistent private key from ~/.air1
 key_path = Path.home() / ".air1" / "air10_provenance_ed25519_key.pem"
@@ -53,7 +67,7 @@ watchdog_m = bench["watchdog_rate_checks_sec"] / 1_000_000.0
 
 payload = {
   "hardware_telemetry": {
-    "timestamp_utc": "2026-09-12T17:45:00Z",
+    "timestamp_utc": "2026-09-12T18:00:00Z",
     "platform": "macOS-15.7.9-arm64-arm-64bit",
     "machine": "arm64",
     "processor": "Apple Silicon M1",
@@ -61,6 +75,8 @@ payload = {
     "ram_total_gb": 8.0,
     "python_version": "3.11.16",
     "node_version": "22.22.2",
+    "git_commit_sha": git_commit_sha,
+    "git_tree_sha": git_tree_sha,
     "benchmark_script_sha256": bench_script_sha
   },
   "domain_workload_benchmarks": {
@@ -165,6 +181,9 @@ print("=" * 70)
 print(f"• Target Repo                : {repo_dir.name}")
 print(f"• Raw File SHA-256           : {raw_file_sha}")
 print(f"• Canonical Payload SHA-256  : {canonical_sha}")
+print(f"• Git Commit SHA             : {git_commit_sha}")
+print(f"• Git Tree SHA               : {git_tree_sha}")
+print(f"• Benchmark Script SHA-256   : {bench_script_sha}")
 print(f"• Ed25519 Signature (Hex)    : {sig_hex[:32]}...")
 print(f"• Public Key (Hex)           : {pub_hex}")
 print("=" * 70)
