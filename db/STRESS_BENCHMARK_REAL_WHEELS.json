@@ -10,7 +10,7 @@
     "benchmarked_source_commit_sha": "60396f92e69ec96e4159a32197b8e7e0805f48ac",
     "benchmarked_source_tree_sha": "b901abaa6cf15e1bc10a347b84fb09abf96bab26",
     "provenance_statement": "Receipt cryptographically binds reference benchmarked source commit snapshot 60396f92e69ec96e4159a32197b8e7e0805f48ac; canonical merge commit incorporates this signed attestation.",
-    "benchmark_script_sha256": "bfe2b2a98c068538328f2a9df28eb3cfd5d2cdb4429c334e41cd5c40324cf65f"
+    "benchmark_script_sha256": "e3e1eaaa7623aeb12cbd556a21603d751328e9cfa40ef0a683e0dca10eee1eb5"
   },
   "domain_workload_benchmarks": {
     "real_soundtouch_dsp_time_stretch": {
@@ -86,7 +86,7 @@
     "signer_identity": "AIR10 Sovereign Open-Source Federation <rajon369963-del>",
     "signer_public_key_hex": "4530967ab3ff8991cb065895270a0f467efd35c0322ee0cd8b6a2ddfe8b27f02",
     "signer_public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEARTCWerP/iZHLBliVJwoPRn79NcAyLuDNi2ot3+iyfwI=\n-----END PUBLIC KEY-----",
-    "canonical_payload_sha256": "5949039cccdfd4e7c606a3f0d8a926bf2c4b500b3e1f0e783e70887ef8c1fe9c",
-    "signature_ed25519_hex": "0546e05620be429a9ca2666d602ad10f06e2768378765f1e5a621f41cb3f73dae2eafec464d3620decdf779a9d85ca3be4145c0b3f66e00f1a81bf16bd539103"
+    "canonical_payload_sha256": "8ecd65f3f01528624006b47174e4f1773d585b5d3d92e916140a80328bb75852",
+    "signature_ed25519_hex": "f22f17ccf79f9b4238a0732fd0e1d07a5598fd4c6cc7023858bf7730b1c3db53a1311a402cbbeba6555342bdd0e08d0ecb6d09950b890d5a6d765c7c6d3b1c00"
   }
 }
