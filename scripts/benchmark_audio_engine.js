@@ -17,8 +17,13 @@ const { JSDOM } = require('jsdom');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
+const os = require('node:os');
 
-console.log('⚡ Starting Authentic Audio Accelerator Dedicated Benchmarks...');
+console.log('======================================================================');
+console.log('⚡ AIR10 AUDIO ACCELERATOR BENCHMARK REPRODUCER');
+console.log(`• Runtime Environment   : ${os.type()} ${os.arch()} (${os.cpus()[0]?.model || 'Generic CPU'}) [Node ${process.version}]`);
+console.log('• Workload              : SoundTouch DSP, WebAudio Transforms, YIN Pitch');
+console.log('======================================================================');
 
 // 1. Real SoundTouch DSP Sample Time-Stretching & Pitch Verification
 const sampleRate = 44100;
