@@ -106,7 +106,8 @@ CHECKSUM_FILE="${ZIP_NAME}.sha256"
 SBOM_FILE="sbom.spdx.json"
 
 # Clean stale archives to eliminate contamination
-rm -f "${ZIP_NAME}" "${CHECKSUM_FILE}" "${SBOM_FILE}"
+/bin/rm -f "${ZIP_NAME}" "${CHECKSUM_FILE}" "${SBOM_FILE}"
+
 
 # Package directly from the immutable tested commit tree (git archive)
 git archive --format=zip -o "${ZIP_NAME}" "${LOCAL_SHA}" manifest.json injector.js background.js modules icons
