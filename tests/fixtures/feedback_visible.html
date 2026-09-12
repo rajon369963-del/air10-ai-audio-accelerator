@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gemini Students - Answer Feedback</title>
+</head>
+<body>
+  <div class="students-app-container">
+    <header>
+      <h1 class="notebook-title" role="heading" aria-level="1">AIR10 Electrical Engineering</h1>
+      <div role="progressbar" aria-valuenow="1" aria-valuemax="11">
+        <span>Question 1 of 11</span>
+      </div>
+    </header>
+    <main class="quiz-container" data-activity="quiz">
+      <div role="heading" aria-level="2" class="question-text">
+        What is the primary function of a Buchholz relay in an oil-immersed power transformer?
+      </div>
+      <div role="radiogroup" aria-label="Answer options">
+        <div role="radio" aria-checked="true" class="quiz-option selected correct" data-option-label="A">
+          <span class="option-label">A.</span>
+          <span class="option-text">Detects internal incipient gas accumulation and severe oil surge faults</span>
+        </div>
+        <div role="radio" aria-checked="false" class="quiz-option" data-option-label="B">
+          <span class="option-label">B.</span>
+          <span class="option-text">Provides overvoltage surge diversion during atmospheric lightning strikes</span>
+        </div>
+        <div role="radio" aria-checked="false" class="quiz-option" data-option-label="C">
+          <span class="option-label">C.</span>
+          <span class="option-text">Regulates magnetic core flux density at fifth harmonic frequencies</span>
+        </div>
+        <div role="radio" aria-checked="false" class="quiz-option" data-option-label="D">
+          <span class="option-label">D.</span>
+          <span class="option-text">Monitors dielectric cooling oil recirculation flow velocity</span>
+        </div>
+      </div>
+      <div role="alert" class="quiz-feedback" data-test-id="quiz-feedback">
+        <div class="feedback-heading">Correct!</div>
+        <div class="explanation">The Buchholz relay is a gas-actuated protective device installed in the pipe connecting the main transformer tank and the conservator tank. It detects slow gas buildup from minor insulation breakdown as well as sudden oil surges caused by severe internal short-circuit faults.</div>
+      </div>
+      <div class="quiz-actions">
+        <button type="button" class="next-btn" data-test-id="next-button">Next</button>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

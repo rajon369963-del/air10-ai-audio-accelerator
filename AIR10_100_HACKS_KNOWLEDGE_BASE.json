@@ -1,0 +1,602 @@
+[
+  {
+    "id": 1,
+    "category": "Deep DOM Piercing & Injection",
+    "title": "HARD INVARIANT",
+    "description": "CHAKKA JODO, CHAKKA MAT BANAO"
+  },
+  {
+    "id": 2,
+    "category": "Deep DOM Piercing & Injection",
+    "title": "IMPLEMENTED",
+    "description": "research \u0938\u0947 \u0915\u094c\u0928-\u0938\u0947 unique high-value items \u0935\u093e\u0938\u094d\u0924\u0935 \u092e\u0947\u0902 retained/reused/integrated \u0939\u0941\u090f\u0964"
+  },
+  {
+    "id": 3,
+    "category": "Deep DOM Piercing & Injection",
+    "title": "INTERCONNECTION\u00b2",
+    "description": "\u0935\u0947 existing system \u0915\u0947 \u0915\u093f\u0928 components \u0915\u0947 \u092c\u0940\u091a \u0915\u094d\u092f\u093e \u0928\u092f\u093e working connection \u092c\u0928\u093e\u0924\u0947 \u0939\u0948\u0902\u0964"
+  },
+  {
+    "id": 4,
+    "category": "Deep DOM Piercing & Injection",
+    "title": "ADDITIONAL DISCOVERIES",
+    "description": "supplied research \u0938\u0947 \u092c\u093e\u0939\u0930 \u0915\u094b\u0908 genuinely stronger proven wheel/insight \u092e\u093f\u0932\u093e \u0914\u0930 \u0935\u093e\u0938\u094d\u0924\u0935 \u092e\u0947\u0902 useful \u0925\u093e \u0924\u094b \u0915\u094d\u092f\u093e\u0964"
+  },
+  {
+    "id": 5,
+    "category": "Deep DOM Piercing & Injection",
+    "title": "VERIFIED TESTS",
+    "description": "\u0915\u094c\u0928-\u0938\u0947 meaningful dry/unit/integration/end-to-end/adversarial/stress/restart/recovery tests \u091a\u0932\u0947 \u0914\u0930 physical results \u0915\u094d\u092f\u093e \u0930\u0939\u0947\u0964"
+  },
+  {
+    "id": 6,
+    "category": "Deep DOM Piercing & Injection",
+    "title": "LIVE PHYSICAL PROOF",
+    "description": "\u0915\u094c\u0928-\u0938\u093e actual end-to-end effect independently read back \u0939\u0941\u0906\u0964"
+  },
+  {
+    "id": 7,
+    "category": "Deep DOM Piercing & Injection",
+    "title": "BEFORE \u2192 AFTER",
+    "description": "evidence-backed improvement\u0964"
+  },
+  {
+    "id": 8,
+    "category": "Deep DOM Piercing & Injection",
+    "title": "REMAINING REAL GAP",
+    "description": "\u0915\u0947\u0935\u0932 genuinely unresolved blocker, \u0905\u0917\u0930 \u0915\u094b\u0908 \u0939\u0948\u0964 Fake \u201call complete\u201d \u092e\u0924 \u092c\u094b\u0932\u0928\u093e\u0964"
+  },
+  {
+    "id": 9,
+    "category": "Deep DOM Piercing & Injection",
+    "title": "NEXT CRITICAL ATOM",
+    "description": "\u0905\u0917\u0930 gap \u092c\u091a\u093e \u0939\u0948 \u0924\u094b \u0938\u093f\u0930\u094d\u092b single highest-value next unfinished action\u0964"
+  },
+  {
+    "id": 10,
+    "category": "Deep DOM Piercing & Injection",
+    "title": "Temporal Anchor",
+    "description": "The State of 2026"
+  },
+  {
+    "id": 12,
+    "category": "\ud83d\udee1\ufe0f Top 30 Reliability Hacks & Defenses Against False-Greens## \ud83e\udee5 Deep Shadow DOM & Web Component Evasion",
+    "title": "Dynamic Shadow Boundary Piercing",
+    "description": "Recursive tree walkers must scrape every node, systematically checking el.shadowRoot down to arbitrary depth levels rather than relying on global querySelectorAll."
+  },
+  {
+    "id": 13,
+    "category": "\ud83d\udee1\ufe0f Top 30 Reliability Hacks & Defenses Against False-Greens## \ud83e\udee5 Deep Shadow DOM & Web Component Evasion",
+    "title": "Main World Event Dispatch Mirroring",
+    "description": "Run custom code directly in the target webpage's scope (MAIN_WORLD) to access global media states that isolated extension content scripts cannot touch."
+  },
+  {
+    "id": 14,
+    "category": "\ud83d\udee1\ufe0f Top 30 Reliability Hacks & Defenses Against False-Greens## \ud83e\udee5 Deep Shadow DOM & Web Component Evasion",
+    "title": "Overlay Material Menu Injection",
+    "description": "Use a MutationObserver targeted at body > .cdk-overlay-container to automatically add visual 2.5x and 3.0x speed choices whenever custom Angular/Material drop-downs render."
+  },
+  {
+    "id": 15,
+    "category": "\ud83d\udee1\ufe0f Top 30 Reliability Hacks & Defenses Against False-Greens## \ud83e\udee5 Deep Shadow DOM & Web Component Evasion",
+    "title": "Targeting Closed Shadow Roots via Instantiation Hijack",
+    "description": "Wrap Element.prototype.attachShadow at document_start to intercept and maintain a hidden array reference to all closed shadow roots created by the app."
+  },
+  {
+    "id": 16,
+    "category": "\ud83d\udee1\ufe0f Top 30 Reliability Hacks & Defenses Against False-Greens## \ud83e\udee5 Deep Shadow DOM & Web Component Evasion",
+    "title": "CSS",
+    "description": ":part Styling Exposure: Inject CSS injection maps styling custom speed targets using ::part() selectors to expose hidden presentation buttons without messing with internal markup."
+  },
+  {
+    "id": 17,
+    "category": "\ud83d\udd04 Ratechange Protection & Loop Preventions",
+    "title": "Ratechange Infinite Loop Guard",
+    "description": "Use a strict boolean lock (isMutating) when updating playbackRate. This stops your script from triggering endless update cycles when reacting to the player's native ratechange event handlers."
+  },
+  {
+    "id": 18,
+    "category": "\ud83d\udd04 Ratechange Protection & Loop Preventions",
+    "title": "Re-entrant Mutation Protection",
+    "description": "Save the desired speed state in a variable outside your main control functions. Only issue updates when Math.abs(audio.playbackRate - target) is greater than a micro-threshold of 0.01."
+  },
+  {
+    "id": 19,
+    "category": "\ud83d\udd04 Ratechange Protection & Loop Preventions",
+    "title": "Catching Background Reset Signals",
+    "description": "Intercept calls to HTMLMediaElement.prototype.play to force your desired speed settings immediately upon resume, neutralizing built-in application reset behaviors."
+  },
+  {
+    "id": 20,
+    "category": "\ud83d\udd04 Ratechange Protection & Loop Preventions",
+    "title": "Defeating Forced Variable Assignments",
+    "description": "Use Object.defineProperty on target audio instances to intercept changes to the playbackRate property, discarding anything that doesn't match your user-defined value."
+  },
+  {
+    "id": 21,
+    "category": "\ud83d\udd04 Ratechange Protection & Loop Preventions",
+    "title": "Taming Multi-Media Clones",
+    "description": "Detect cases where the app keeps hidden, duplicated audio nodes in memory to swap out tracks on the fly. Ensure speed modifications are broadcast globally to all nodes."
+  },
+  {
+    "id": 22,
+    "category": "\u26a1 Signal & Node Integrity Preservation",
+    "title": "Web Audio Component Node Hooking",
+    "description": "Intercept AudioContext.prototype.createMediaElementSource to reliably find the source audio elements used in complex processing pipelines."
+  },
+  {
+    "id": 23,
+    "category": "\u26a1 Signal & Node Integrity Preservation",
+    "title": "Defeating Audio Buffer Reset Triggers",
+    "description": "Watch for AudioBufferSourceNode.prototype.start calls and set the node's playbackRate.value parameter explicitly to handle raw array streaming."
+  },
+  {
+    "id": 24,
+    "category": "\u26a1 Signal & Node Integrity Preservation",
+    "title": "Mitigating Buffer Stuttering",
+    "description": "Implement temporary playback pauses (e.g., 15ms) if audio processing queues drop too fast, giving the internal buffer time to fill at higher speeds."
+  },
+  {
+    "id": 25,
+    "category": "\u26a1 Signal & Node Integrity Preservation",
+    "title": "Fixing Audio Dropouts at High Speeds",
+    "description": "Detect sudden stream silences by tracking audio output flags. If encountered, drop back to standard browser element playback rather than processing through custom web audio pipelines."
+  },
+  {
+    "id": 26,
+    "category": "\u26a1 Signal & Node Integrity Preservation",
+    "title": "Preventing Early Source Node Disconnects",
+    "description": "Keep target elements alive by maintaining global references to them, preventing the browser's garbage collector from sweeping away running source instances."
+  },
+  {
+    "id": 27,
+    "category": "\ud83c\udf10 SPA Route Resilience & State Guardians",
+    "title": "Double-Ended PushState Interception",
+    "description": "Wrap both window.history.pushState and window.history.replaceState to detect client-side route changes instantly, bypassing slow extension lifecycle updates."
+  },
+  {
+    "id": 28,
+    "category": "\ud83c\udf10 SPA Route Resilience & State Guardians",
+    "title": "Popstate Resiliency Layout",
+    "description": "Bind your setup routines directly to window.addEventListener('popstate') to handle backwards and forwards browser navigation reliably."
+  },
+  {
+    "id": 29,
+    "category": "\ud83c\udf10 SPA Route Resilience & State Guardians",
+    "title": "Ensuring UI Visibility",
+    "description": "Use a high-frequency polling routine (250ms) to verify your HUD pill exists in the viewport and hasn't been removed by the single-page application's layout engine."
+  },
+  {
+    "id": 30,
+    "category": "\ud83c\udf10 SPA Route Resilience & State Guardians",
+    "title": "Dynamic Z-Index Safety Locks",
+    "description": "Explicitly assign a 2147483647 CSS z-index and apply !important flags to the container style rules to prevent target components from rendering over your HUD panel."
+  },
+  {
+    "id": 31,
+    "category": "\ud83c\udf10 SPA Route Resilience & State Guardians",
+    "title": "Enforcing Layout Safety Margins",
+    "description": "Target explicit layout coordinates (bottom: 85px) to avoid overlap issues with NotebookLM's persistent floating control controls."
+  },
+  {
+    "id": 32,
+    "category": "\ud83c\udf9b\ufe0f Audio Quality & Hardware Acceleration Controls",
+    "title": "Enforcing Pitch Preservation Across Browsers",
+    "description": "Explicitly toggle preservesPitch, mozPreservesPitch, and webkitPreservesPitch properties simultaneously to avoid unexpected high-pitched voice changes."
+  },
+  {
+    "id": 33,
+    "category": "\ud83c\udf9b\ufe0f Audio Quality & Hardware Acceleration Controls",
+    "title": "Ensuring Hardware Acceleration Alignment",
+    "description": "Avoid changing visual CSS rules on active player panels at the same time to prevent video and audio rendering engines from drifting out of sync."
+  },
+  {
+    "id": 34,
+    "category": "\ud83c\udf9b\ufe0f Audio Quality & Hardware Acceleration Controls",
+    "title": "Preventing Document Visibility Resets",
+    "description": "Listen for changes to document.visibilityState to counteract underlying platform features that throttle or reset audio speeds when switching browser tabs."
+  },
+  {
+    "id": 35,
+    "category": "\ud83c\udf9b\ufe0f Audio Quality & Hardware Acceleration Controls",
+    "title": "Bypassing App-Level Mute Triggers",
+    "description": "Cache clean volume states locally to quickly fix issues where application engines automatically mute content when users select fast playback settings."
+  },
+  {
+    "id": 36,
+    "category": "\ud83c\udf9b\ufe0f Audio Quality & Hardware Acceleration Controls",
+    "title": "Mitigating Audio Engine Glitches",
+    "description": "Run an automatic rapid toggle sequence (switching to 1.0x then instantly back to 3.0x) if the playback engine stalls during sudden audio changes."
+  },
+  {
+    "id": 37,
+    "category": "\ud83d\udee1\ufe0f Core Security & CSP Bypass Strategies",
+    "title": "Mitigating Content Security Policy Restrictions",
+    "description": "Register your main world injection assets inside the extension's manifest under web_accessible_resources, making sure they comply with strict platform object guidelines."
+  },
+  {
+    "id": 38,
+    "category": "\ud83d\udee1\ufe0f Core Security & CSP Bypass Strategies",
+    "title": "Enforcing Execution Priorities",
+    "description": "Set content logic to load at document_start to intercept fundamental browser API interfaces before the target platform application initializes its scripts."
+  },
+  {
+    "id": 39,
+    "category": "\ud83d\udee1\ufe0f Core Security & CSP Bypass Strategies",
+    "title": "Preventing Variable Collision Risks",
+    "description": "Wrap all extension functions within self-contained closures (IIFEs) to keep local tracking variables from clashing with the host page's global environment."
+  },
+  {
+    "id": 40,
+    "category": "\ud83d\udee1\ufe0f Core Security & CSP Bypass Strategies",
+    "title": "Resilient Extension Relinking",
+    "description": "Use structured try/catch wrappers around all internal extension message passing routines (chrome.runtime.sendMessage) to prevent application crashes when the extension auto-updates in the background."
+  },
+  {
+    "id": 41,
+    "category": "\ud83d\udee1\ufe0f Core Security & CSP Bypass Strategies",
+    "title": "Dynamic Cleanup Routines",
+    "description": "Add a clean removal system that unbinds active DOM observers and purges injected UI elements when the extension context changes or shuts down."
+  },
+  {
+    "id": 42,
+    "category": "3. Top 30 Bottleneck-Breaking Infrastructure Wheels## Category A: Main-World Proxy Prototypes & Prototypes Overrides",
+    "title": "HTMLMediaElement Speed Proxy",
+    "description": "Overrides the playbackRate property descriptors on HTMLMediaElement.prototype to reject framework resets and enforce a fixed value of 3.0."
+  },
+  {
+    "id": 43,
+    "category": "3. Top 30 Bottleneck-Breaking Infrastructure Wheels## Category A: Main-World Proxy Prototypes & Prototypes Overrides",
+    "title": "AudioContext Constructor Hook",
+    "description": "Monkeypatches the global window.AudioContext and window.webkitAudioContext constructors to capture every instantiated audio graph."
+  },
+  {
+    "id": 44,
+    "category": "3. Top 30 Bottleneck-Breaking Infrastructure Wheels## Category A: Main-World Proxy Prototypes & Prototypes Overrides",
+    "title": "MediaSourceNode Capture Engine",
+    "description": "Overrides AudioContext.prototype.createMediaElementSource to capture references to <audio> elements before they are encapsulated inside closed shadow roots."
+  },
+  {
+    "id": 45,
+    "category": "3. Top 30 Bottleneck-Breaking Infrastructure Wheels## Category A: Main-World Proxy Prototypes & Prototypes Overrides",
+    "title": "Element AttachShadow Trapper",
+    "description": "Replaces Element.prototype.attachShadow with a custom implementation that forces all roots to open mode (mode: 'open'), completely exposing closed components."
+  },
+  {
+    "id": 46,
+    "category": "3. Top 30 Bottleneck-Breaking Infrastructure Wheels## Category A: Main-World Proxy Prototypes & Prototypes Overrides",
+    "title": "AudioBufferSourceNode Speed Scaler",
+    "description": "Intercepts AudioContext.prototype.createBufferSource and alters the playbackRate.value property configuration parameters."
+  },
+  {
+    "id": 47,
+    "category": "3. Top 30 Bottleneck-Breaking Infrastructure Wheels## Category A: Main-World Proxy Prototypes & Prototypes Overrides",
+    "title": "Object.defineProperty Protection Bypass",
+    "description": "Wraps standard configuration mechanisms to intercept and neutralize framework calls designed to lock down playbackRate adjustments."
+  },
+  {
+    "id": 48,
+    "category": "3. Top 30 Bottleneck-Breaking Infrastructure Wheels## Category A: Main-World Proxy Prototypes & Prototypes Overrides",
+    "title": "Document Fragment Interceptor",
+    "description": "Overrides document.createDocumentFragment to inspect and modify UI nodes dynamically rendered by compilation engines like Angular or React."
+  },
+  {
+    "id": 49,
+    "category": "3. Top 30 Bottleneck-Breaking Infrastructure Wheels## Category A: Main-World Proxy Prototypes & Prototypes Overrides",
+    "title": "HTMLAudioElement Constructor Override",
+    "description": "Replaces the global Audio constructor context to register every newly generated audio instance to a central tracking engine."
+  },
+  {
+    "id": 50,
+    "category": "3. Top 30 Bottleneck-Breaking Infrastructure Wheels## Category A: Main-World Proxy Prototypes & Prototypes Overrides",
+    "title": "Window Audio Node Tracker",
+    "description": "Creates a secure, non-enumerable registry on the global window object to track every active source node across all active interface frameworks."
+  },
+  {
+    "id": 51,
+    "category": "3. Top 30 Bottleneck-Breaking Infrastructure Wheels## Category A: Main-World Proxy Prototypes & Prototypes Overrides",
+    "title": "Custom Default Engine Mutation Watcher",
+    "description": "Configures deep overrides on Object.prototype to catch framework setup configurations before internal components finish initializing."
+  },
+  {
+    "id": 52,
+    "category": "Category B: Isolated-to-Main World Event Bridges & Messaging",
+    "title": "CustomEvent High-Speed Tunnel",
+    "description": "Employs non-bubbling CustomEvent dispatches targeting the root window object to pass state changes securely between isolated worlds."
+  },
+  {
+    "id": 53,
+    "category": "Category B: Isolated-to-Main World Event Bridges & Messaging",
+    "title": "MessageChannel Dual-Port Direct Link",
+    "description": "Creates a dedicated MessageChannel instance and sends one port to the MAIN world via window.postMessage for low-latency data passing."
+  },
+  {
+    "id": 54,
+    "category": "Category B: Isolated-to-Main World Event Bridges & Messaging",
+    "title": "DOM Attribute Serialization Signal",
+    "description": "Enforces target speed configurations by writing structural dataset parameters directly onto the <html> root element."
+  },
+  {
+    "id": 55,
+    "category": "Category B: Isolated-to-Main World Event Bridges & Messaging",
+    "title": "Serialized JSON Event Dispatcher",
+    "description": "Enforces command boundaries by passing stringified configuration payloads through custom-built event structures."
+  },
+  {
+    "id": 56,
+    "category": "Category B: Isolated-to-Main World Event Bridges & Messaging",
+    "title": "Shared Property Mutation Watchdog",
+    "description": "Monitors designated tracking properties on shared DOM nodes to pass operational data without triggering security sandboxes."
+  },
+  {
+    "id": 57,
+    "category": "Category B: Isolated-to-Main World Event Bridges & Messaging",
+    "title": "Isolated Interface Mutation Trigger",
+    "description": "Synchronizes UI component status states between distinct extension contexts by intercepting mouse actions."
+  },
+  {
+    "id": 58,
+    "category": "Category B: Isolated-to-Main World Event Bridges & Messaging",
+    "title": "Window Prompt Inter-Process Trick",
+    "description": "Employs synchronized custom object interceptors to achieve zero-latency execution synchronization across sandboxes."
+  },
+  {
+    "id": 59,
+    "category": "Category B: Isolated-to-Main World Event Bridges & Messaging",
+    "title": "Hidden Input Synchronizer",
+    "description": "Binds structural state changes to hidden input elements to safely bypass cross-world scripting restrictions."
+  },
+  {
+    "id": 60,
+    "category": "Category B: Isolated-to-Main World Event Bridges & Messaging",
+    "title": "Event Target Prototype Proxy",
+    "description": "Extends EventTarget.prototype.dispatchEvent to selectively alter configurations on target operational pipelines."
+  },
+  {
+    "id": 61,
+    "category": "Category B: Isolated-to-Main World Event Bridges & Messaging",
+    "title": "Custom Event Interceptor & Frame Dispatcher",
+    "description": "Leverages optimized requestAnimationFrame loops to keep runtime configurations in sync across different worlds."
+  },
+  {
+    "id": 62,
+    "category": "Category C: Shadow DOM & Angular Material CDK Dom Manipulators",
+    "title": "Recursive Closed Shadow Walker",
+    "description": "An structural DOM scanner that leverages overridden attachShadow hooks to traverse deep into shadow DOM components."
+  },
+  {
+    "id": 63,
+    "category": "Category C: Shadow DOM & Angular Material CDK Dom Manipulators",
+    "title": "Angular CDK Overlay Open Monitor",
+    "description": "Tracks the injection of dropdown menus directly inside structural root overlay containers."
+  },
+  {
+    "id": 64,
+    "category": "Category C: Shadow DOM & Angular Material CDK Dom Manipulators",
+    "title": "CDK Menu Item Factory",
+    "description": "Dynamically generates custom speed selections (2.5x, 3.0x) that match NotebookLM's native design system styles."
+  },
+  {
+    "id": 65,
+    "category": "Category C: Shadow DOM & Angular Material CDK Dom Manipulators",
+    "title": "Active Component Viewport Enforcer",
+    "description": "Uses CSS configurations to guarantee the extension control pill remains visible and accessible at the bottom of the viewport (bottom: 85px)."
+  },
+  {
+    "id": 66,
+    "category": "Category C: Shadow DOM & Angular Material CDK Dom Manipulators",
+    "title": "SPA Anchor Remount Guardian",
+    "description": "Employs resilient polling loops to re-inject control elements immediately whenever an SPA route change occurs."
+  },
+  {
+    "id": 67,
+    "category": "Category C: Shadow DOM & Angular Material CDK Dom Manipulators",
+    "title": "Shadow DOM Style Injector",
+    "description": "Injects custom CSS rules into shadow roots to override native style encapulations."
+  },
+  {
+    "id": 68,
+    "category": "Category C: Shadow DOM & Angular Material CDK Dom Manipulators",
+    "title": "Native Event Action Simulator",
+    "description": "Simulates programmatic pointer clicks to trigger state updates within Angular Material menu components."
+  },
+  {
+    "id": 69,
+    "category": "Category C: Shadow DOM & Angular Material CDK Dom Manipulators",
+    "title": "Dynamic Position Guard",
+    "description": "Monitors the layout positioning of player element blocks to prevent them from occluding user interface overlays."
+  },
+  {
+    "id": 70,
+    "category": "Category C: Shadow DOM & Angular Material CDK Dom Manipulators",
+    "title": "Player Control Insertion Bridge",
+    "description": "Detects player control containers and appends custom controls directly into their layout structures."
+  },
+  {
+    "id": 71,
+    "category": "Category C: Shadow DOM & Angular Material CDK Dom Manipulators",
+    "title": "Z-Index Layer Enforcer",
+    "description": "Applies inline style overrides to ensure the speed control pill stays visible above high-priority layout overlays."
+  },
+  {
+    "id": 72,
+    "category": "4. Top 30 Architectural Hacks for Manifest V3 Compliance## Category A: Script Injections & Resource Execution Optimization",
+    "title": "Declarative Main World Execution Configuration",
+    "description": "Configures the extension manifest to load content scripts directly into the MAIN world at document_start."
+  },
+  {
+    "id": 73,
+    "category": "4. Top 30 Architectural Hacks for Manifest V3 Compliance## Category A: Script Injections & Resource Execution Optimization",
+    "title": "Dynamic Script Content Insertion Execution",
+    "description": "Uses chrome.scripting.registerContentScripts from background workers to execute scripts dynamically in the main world context."
+  },
+  {
+    "id": 74,
+    "category": "4. Top 30 Architectural Hacks for Manifest V3 Compliance## Category A: Script Injections & Resource Execution Optimization",
+    "title": "Blob URL Content Generation Evader",
+    "description": "Generates sandbox execution routines by spinning up temporary execution contexts via structural blob components."
+  },
+  {
+    "id": 75,
+    "category": "4. Top 30 Architectural Hacks for Manifest V3 Compliance## Category A: Script Injections & Resource Execution Optimization",
+    "title": "Static Engine Asset Declaration Mapping",
+    "description": "Uses web_accessible_resources configurations to authorize the loading of internal script files directly into target pages."
+  },
+  {
+    "id": 76,
+    "category": "4. Top 30 Architectural Hacks for Manifest V3 Compliance## Category A: Script Injections & Resource Execution Optimization",
+    "title": "Dynamic Inline Code Execution String Injector",
+    "description": "Converts structural operational code strings into inline elements appended to the document root during early page load."
+  },
+  {
+    "id": 77,
+    "category": "4. Top 30 Architectural Hacks for Manifest V3 Compliance## Category A: Script Injections & Resource Execution Optimization",
+    "title": "Base64 Encoded Source Loading Engine",
+    "description": "Loads infrastructure libraries inside the page context using Base64 data string parsing methods."
+  },
+  {
+    "id": 78,
+    "category": "4. Top 30 Architectural Hacks for Manifest V3 Compliance## Category A: Script Injections & Resource Execution Optimization",
+    "title": "Background Worker Task Orchestrator",
+    "description": "Uses the extension service worker to manage and sync configuration profiles across open tabs."
+  },
+  {
+    "id": 79,
+    "category": "4. Top 30 Architectural Hacks for Manifest V3 Compliance## Category A: Script Injections & Resource Execution Optimization",
+    "title": "Document Head Fast Element Injection Strategy",
+    "description": "Appends operational framework configurations to the document element before target page headers finish building."
+  },
+  {
+    "id": 80,
+    "category": "4. Top 30 Architectural Hacks for Manifest V3 Compliance## Category A: Script Injections & Resource Execution Optimization",
+    "title": "Storage Engine Synchronized Parameter Loader",
+    "description": "Connects chrome.storage.local updates directly to in-page scripts using an event-driven sync pipeline."
+  },
+  {
+    "id": 81,
+    "category": "4. Top 30 Architectural Hacks for Manifest V3 Compliance## Category A: Script Injections & Resource Execution Optimization",
+    "title": "Early Prototype Freezing Counter-Strategy",
+    "description": "Executes script injections ahead of target applications to secure control over core object prototypes."
+  },
+  {
+    "id": 82,
+    "category": "Category B: Memory Control, Lifecycle, & Event Routing",
+    "title": "Dynamic Disconnect Structural Mutation Observer",
+    "description": "Automatically unbinds mutation observers during heavy layout updates to prevent performance degradation."
+  },
+  {
+    "id": 83,
+    "category": "Category B: Memory Control, Lifecycle, & Event Routing",
+    "title": "Passive High-Frequency Scroll Listener",
+    "description": "Employs passive event listeners to handle high-frequency layout changes without blocking the browser's UI thread."
+  },
+  {
+    "id": 84,
+    "category": "Category B: Memory Control, Lifecycle, & Event Routing",
+    "title": "WeakRef Audio Element Collector",
+    "description": "Tracks active <audio> elements using WeakRef to let the browser garbage collect old elements and prevent memory leaks."
+  },
+  {
+    "id": 85,
+    "category": "Category B: Memory Control, Lifecycle, & Event Routing",
+    "title": "Service Worker Stay-Alive Engine",
+    "description": "Periodically fires internal extension messages to prevent the MV3 service worker from terminating unexpectedly."
+  },
+  {
+    "id": 86,
+    "category": "Category B: Memory Control, Lifecycle, & Event Routing",
+    "title": "Event Target Clean Unbind Pipeline",
+    "description": "Cleans up event listeners when unloading modules to prevent duplicate event triggers on page transitions."
+  },
+  {
+    "id": 87,
+    "category": "Category B: Memory Control, Lifecycle, & Event Routing",
+    "title": "RequestAnimationFrame Microtask Throttle",
+    "description": "Schedules UI position updates within animation frames to eliminate layout thrashing."
+  },
+  {
+    "id": 88,
+    "category": "Category B: Memory Control, Lifecycle, & Event Routing",
+    "title": "Debounced DOM Mutation Handler",
+    "description": "Pools rapid DOM updates together, executing layout syncs only after rendering activity settles."
+  },
+  {
+    "id": 89,
+    "category": "Category B: Memory Control, Lifecycle, & Event Routing",
+    "title": "Isolated Target Execution Sandbox Memory Guard",
+    "description": "Segregates operational states to prevent large data sets from leaking across execution contexts."
+  },
+  {
+    "id": 90,
+    "category": "Category B: Memory Control, Lifecycle, & Event Routing",
+    "title": "Global Event Delegation Optimization Routine",
+    "description": "Binds event listeners to global window nodes instead of individual list items to reduce overhead."
+  },
+  {
+    "id": 91,
+    "category": "Category B: Memory Control, Lifecycle, & Event Routing",
+    "title": "State Engine Differential Synchronization Check",
+    "description": "Only fires configuration updates across execution barriers when setting parameters actually change."
+  },
+  {
+    "id": 92,
+    "category": "Category C: Sandboxing, CSS Scoping, & Multi-Platform Coexistence",
+    "title": "Shadow DOM Component UI Isolation Style Factory",
+    "description": "Wraps the extension's HUD controls in a private shadow root to prevent page styles from breaking the layout."
+  },
+  {
+    "id": 93,
+    "category": "Category C: Sandboxing, CSS Scoping, & Multi-Platform Coexistence",
+    "title": "CSS Variable Design Token Mapping",
+    "description": "Inherits styling tokens from target platforms (like Gemini/ChatGPT) to keep look-and-feel consistent."
+  },
+  {
+    "id": 94,
+    "category": "Category C: Sandboxing, CSS Scoping, & Multi-Platform Coexistence",
+    "title": "Explicit Element CSS Reset Chain",
+    "description": "Applies strict CSS reset rules (all: initial) to extension components to protect them from global stylesheet interference."
+  },
+  {
+    "id": 95,
+    "category": "Category C: Sandboxing, CSS Scoping, & Multi-Platform Coexistence",
+    "title": "Non-Destructive Target Shadow Root Integration",
+    "description": "Appends control elements cleanly without mutating the structure of existing page nodes."
+  },
+  {
+    "id": 96,
+    "category": "Category C: Sandboxing, CSS Scoping, & Multi-Platform Coexistence",
+    "title": "Dynamic UI Position Matcher",
+    "description": "Reads the position bounding boxes of underlying elements to align the HUD pill precisely above player bars."
+  },
+  {
+    "id": 97,
+    "category": "Category C: Sandboxing, CSS Scoping, & Multi-Platform Coexistence",
+    "title": "Scoped Event Capture Prevention System",
+    "description": "Stops interaction events inside the extension HUD from bubbling up and triggering app framework behaviors."
+  },
+  {
+    "id": 98,
+    "category": "Category C: Sandboxing, CSS Scoping, & Multi-Platform Coexistence",
+    "title": "Conditional Application Execution Gate",
+    "description": "Validates the current domain path before initializing scripts to prevent conflicts across different platforms."
+  },
+  {
+    "id": 99,
+    "category": "Category C: Sandboxing, CSS Scoping, & Multi-Platform Coexistence",
+    "title": "Target Platform Style Matcher Engine",
+    "description": "Programmatically reads page classes to match the extension HUD theme (light/dark mode) with the host application."
+  },
+  {
+    "id": 100,
+    "category": "Category C: Sandboxing, CSS Scoping, & Multi-Platform Coexistence",
+    "title": "Runtime Dynamic Element Id Generator",
+    "description": "Generates randomized structural element IDs for runtime UI nodes to bypass platform extension detectors."
+  },
+  {
+    "id": 101,
+    "category": "Category C: Sandboxing, CSS Scoping, & Multi-Platform Coexistence",
+    "title": "Graceful Error Recovery State Engine",
+    "description": "Catches runtime execution exceptions and automatically resets hooks to keep the speed controller running smoothly."
+  }
+]

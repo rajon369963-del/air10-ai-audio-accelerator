@@ -1,0 +1,99 @@
+{
+  "manifest_version": 3,
+  "name": "AIR10 AI Audio Accelerator & Gemini Study Bridge (NotebookLM 3x)",
+  "version": "2.5.0",
+  "description": "Universal AI Audio Accelerator for NotebookLM podcasts & audio overviews, Gemini & ChatGPT Read Aloud up to 3x speed, with native study bridge.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoNUKIkDHdDrXENxGRgNO/VS9vmDy13uGl+Mlel21fWShnaMUOYoS9DrWvVHudiyPw0DUFDAkEaoXS2HOj9wy/l+tIhAVAykdrwvUQF2lIEQLRXGVn+nXjP6zoH8rFDPPyuFSdkzBVQP8RLSDD+IZ4JEhSVHTU6vZ/TVAHWk4c+owQpB6tcYYLbaNuGOizo2WLtdMrL8Mok8X7uhAQeoeeZI0I2psPsRs4NTcMkUoEndQHktDAYTtJI6n9wY7AsEqJikF/py4wBP94x9hhydI6lmVGkAScQmYJEaEb1ELZgiZJxgbV90TRI2R7pU2vcfFyv3iJjXVmQSLTPtWerfrRQIDAQAB",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "permissions": [
+    "storage",
+    "nativeMessaging",
+    "scripting",
+    "tabs",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://notebooklm.google.com/*",
+    "https://notebook.google.com/*",
+    "https://gemini.google.com/*",
+    "https://chatgpt.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*"
+      ],
+      "js": [
+        "modules/audio-accelerator.js",
+        "injector.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "https://gemini.google.com/*"
+      ],
+      "js": [
+        "modules/audio-accelerator.js",
+        "modules/telemetry.js",
+        "modules/gemini-route-observer.js",
+        "modules/gemini-state-parser.js",
+        "modules/chrome-local-ai.js",
+        "modules/gemini-study-tools.js",
+        "injector.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "https://notebooklm.google.com/*",
+        "https://notebook.google.com/*"
+      ],
+      "js": [
+        "modules/audio-accelerator.js",
+        "modules/telemetry.js",
+        "injector.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "https://gemini.google.com/*"
+      ],
+      "js": [
+        "modules/gemini_students_adapter.js",
+        "modules/gemini_notebook_adapter.js"
+      ],
+      "run_at": "document_start",
+      "world": "ISOLATED"
+    },
+    {
+      "matches": [
+        "https://notebooklm.google.com/*",
+        "https://notebook.google.com/*"
+      ],
+      "js": [
+        "modules/gemini_notebook_adapter.js"
+      ],
+      "run_at": "document_start",
+      "world": "ISOLATED"
+    }
+  ]
+}
