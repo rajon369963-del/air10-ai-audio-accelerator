@@ -58,7 +58,7 @@ $$\text{AIR10 Moat} = \text{VSC Reliability Discipline} + \text{Global Speed DSP
 - **🎚️ Scoped Web Audio API Param Override**: Monkey-patch on `AudioParam.prototype.setValueAtTime` is gated strictly to `this.__isPlaybackRateParam === true`. Unrelated GainNode and Filter params remain untouched.
 - **🧹 Disconnected Media Garbage Collection**: `pruneDisconnectedMedia()` purges detached audio elements and orphaned shadow roots from internal tracking sets upon speed application.
 - **🎶 Pitch Preservation & Speed Control**: Enforces native `preservesPitch` on HTMLMediaElements (`<audio>` / `<video>`), and manages playback rates on Web Audio API nodes with research DSP test suites exploring phase vocoder time-stretching.
-- **📦 Zero Declared npm Production Dependencies**: 100% vanilla JavaScript running directly in Chrome MV3 (`dependencies: {}`). Wildcard dependencies were replaced with bounded semver ranges in `devDependencies`, while the exact resolved dependency graph is frozen by `package-lock.json` and enforced through `npm ci` (guaranteeing zero client runtime dependency exposure).
+- **📦 Zero Declared npm Production Dependencies**: 100% vanilla JavaScript running directly in Chrome MV3 (`dependencies: {}`). Wildcard dependencies were replaced with bounded semver ranges in `devDependencies`, while the exact resolved dependency graph is frozen by `package-lock.json` and enforced through `npm ci` (zero declared npm production dependencies; release packaging excludes node_modules).
 - **⌨️ Global Ergonomic Hotkeys**:
   - `Option+S` (or `Alt+S`): Cycle speed ladder `[1.5x → 1.75x → 2.0x → 2.5x → 3.0x]`.
   - `[` and `]`: Fine-tune speed down or up by `0.25x` increments with automatic active typing input protection.

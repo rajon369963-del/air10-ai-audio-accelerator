@@ -65,9 +65,11 @@ jobs:
         run: |
           VERSION=${{ steps.get_version.outputs.VERSION }}
           ZIP_NAME="AIR10_AI_Audio_Accelerator_v${VERSION}.zip"
-          zip -r "${ZIP_NAME}" manifest.json injector.js background.js modules/ icons/
+          rm -f "${ZIP_NAME}" "${ZIP_NAME}.sha256"
+          git archive --format=zip -o "${ZIP_NAME}" "${GITHUB_SHA}" manifest.json injector.js background.js modules icons
           sha256sum "${ZIP_NAME}" > "${ZIP_NAME}.sha256"
           echo "ZIP_NAME=${ZIP_NAME}" >> $GITHUB_ENV
+
 
       - name: Generate SPDX SBOM Manifest
         run: |
