@@ -1,77 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 480" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 515" width="800" height="515">
   <defs>
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#070b14"/>
-      <stop offset="50%" stop-color="#0b1329"/>
-      <stop offset="100%" stop-color="#030712"/>
-    </linearGradient>
-    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#f59e0b"/>
-      <stop offset="100%" stop-color="#fbbf24"/>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070a13" />
+      <stop offset="100%" stop-color="#0f172a" />
     </linearGradient>
   </defs>
-
-  <!-- Background -->
-  <rect width="850" height="480" rx="16" fill="url(#bgGrad)" stroke="#f59e0b" stroke-width="1.5" stroke-opacity="0.35"/>
-  <rect x="15" y="15" width="820" height="450" rx="12" fill="none" stroke="#ffffff" stroke-width="1" stroke-opacity="0.08"/>
-
-  <!-- Header -->
-  <g transform="translate(40, 50)">
-    <circle cx="16" cy="16" r="16" fill="#f59e0b" fill-opacity="0.2"/>
-    <text x="16" y="22" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="900" fill="#f59e0b" text-anchor="middle">⚡</text>
-    <text x="45" y="16" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="800" fill="#ffffff" letter-spacing="0.5">AIR10 AI AUDIO ACCELERATOR</text>
-    <text x="45" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600" fill="#94a3b8" letter-spacing="1.5">CRYPTOGRAPHICALLY ATTESTED AUDIO BENCHMARKS (APPLE SILICON M1)</text>
-    
-    <rect x="620" y="2" width="150" height="26" rx="6" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-opacity="0.4"/>
-    <text x="695" y="19" font-family="ui-monospace, monospace" font-size="11" font-weight="700" fill="#34d399" text-anchor="middle">ED25519 VERIFIED</text>
-  </g>
-
-  <!-- Primary Domain Metric Card: Real SoundTouch DSP -->
-  <g transform="translate(40, 105)">
-    <rect width="770" height="110" rx="10" fill="#0f172a" fill-opacity="0.8" stroke="#f59e0b" stroke-width="1.2" stroke-opacity="0.5"/>
-    <text x="25" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700" fill="#fbbf24" letter-spacing="1">PRIMARY DOMAIN WORKLOAD</text>
-    <text x="25" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="34" font-weight="900" fill="#ffffff">1.59M DSP Samples/s</text>
-    <text x="25" y="94" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="500" fill="#94a3b8">Real SoundTouch SimpleFilter DSP • 2570.28 µs Block Latency • Pitch: 440.2 Hz (Target 440Hz)</text>
-
-    <circle cx="715" cy="55" r="32" fill="#f59e0b" fill-opacity="0.1" stroke="#f59e0b" stroke-width="1.5"/>
-    <text x="715" y="62" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="900" fill="#fbbf24" text-anchor="middle">3.0x</text>
-  </g>
-
-  <!-- Secondary Audio Wheel Benchmarks Grid -->
-  <g transform="translate(40, 230)">
-    <!-- Box 1: WebAudio Parameter Calculations -->
-    <rect x="0" y="0" width="245" height="95" rx="8" fill="#0f172a" fill-opacity="0.7" stroke="#ffffff" stroke-opacity="0.1"/>
-    <text x="18" y="26" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" fill="#38bdf8">WEBAUDIO PARAM CALCULATIONS</text>
-    <text x="18" y="56" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="800" fill="#ffffff">5.24M Calculations/s</text>
-    <text x="18" y="78" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500" fill="#64748b">0.191 µs calculation latency</text>
-
-    <!-- Box 2: Watchdog Defense -->
-    <rect x="262" y="0" width="245" height="95" rx="8" fill="#0f172a" fill-opacity="0.7" stroke="#ffffff" stroke-opacity="0.1"/>
-    <text x="280" y="26" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" fill="#34d399">WATCHDOG RATE ENFORCEMENT</text>
-    <text x="280" y="56" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="800" fill="#ffffff">19.69M Checks/s</text>
-    <text x="280" y="78" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500" fill="#64748b">0.05 µs rate-lock check</text>
-
-    <!-- Box 3: Deep Shadow DOM -->
-    <rect x="525" y="0" width="245" height="95" rx="8" fill="#0f172a" fill-opacity="0.7" stroke="#ffffff" stroke-opacity="0.1"/>
-    <text x="543" y="26" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" fill="#a855f7">SHADOW DOM PIERCING</text>
-    <text x="543" y="56" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="800" fill="#ffffff">47,466 Pierces/s</text>
-    <text x="543" y="78" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500" fill="#64748b">21.07 µs nested traversal</text>
-  </g>
-
-  <!-- Cryptographic Provenance Ledger -->
-  <g transform="translate(40, 345)">
-    <rect width="770" height="95" rx="8" fill="#050811" stroke="#ffffff" stroke-opacity="0.08"/>
-    
-    <text x="20" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#64748b" letter-spacing="1">CANONICAL PAYLOAD SHA-256 (DATA INTEGRITY)</text>
-    <text x="20" y="42" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#38bdf8">63ecd567e9573c8cb43faffb6f340ef089b6cb1e852e7b22b5533747cc76c452</text>
-
-    <text x="20" y="64" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#64748b" letter-spacing="1">RAW RECEIPT FILE SHA-256 (ON-DISK REPRODUCIBILITY)</text>
-    <text x="20" y="82" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#a855f7">8ce8e07ec3e0ff1adcecb15353f7a005d3a5931baed0abd7ea732f6fb68b7374</text>
-
-    <!-- Signer -->
-    <text x="520" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#64748b" letter-spacing="1">ED25519 DIGITAL SIGNATURE (AUTHENTICITY)</text>
-    <text x="520" y="42" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#34d399">640e003ec9d4dcc3ccccbae2ba8d088c9cbb...</text>
-    <text x="520" y="64" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#64748b" letter-spacing="1">CONTROL BENCHMARK: 4.80M Property Ops/s</text>
-    <text x="520" y="82" font-family="ui-monospace, monospace" font-size="11" font-weight="700" fill="#fbbf24">100% ZERO-DRIFT DYNAMICALLY SEALED</text>
-  </g>
+  <rect width="800" height="515" fill="url(#bg)" rx="16" />
+  <rect x="20" y="20" width="760" height="475" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" rx="12" />
+  
+  <text x="40" y="60" fill="#38bdf8" font-family="-apple-system, system-ui, sans-serif" font-size="20" font-weight="700">AIR10 FORENSIC SCORECARD: air10-ai-audio-accelerator</text>
+  <text x="40" y="85" fill="#94a3b8" font-family="-apple-system, system-ui, sans-serif" font-size="12">Cryptographic Attestation &amp; Zero-Drift Provenance</text>
+  
+  <rect x="40" y="110" width="720" height="175" fill="rgba(255,255,255,0.03)" rx="8" stroke="rgba(255,255,255,0.06)" />
+  <text x="60" y="145" fill="#f8fafc" font-family="-apple-system, system-ui, sans-serif" font-size="16" font-weight="700">• 1.61M DSP Samples/s</text>
+  <text x="60" y="171" fill="#f8fafc" font-family="-apple-system, system-ui, sans-serif" font-size="16" font-weight="700">• 6.76M Calculations/s</text>
+  <text x="60" y="197" fill="#f8fafc" font-family="-apple-system, system-ui, sans-serif" font-size="16" font-weight="700">• 6.03M Property Ops/s</text>
+  <text x="60" y="223" fill="#f8fafc" font-family="-apple-system, system-ui, sans-serif" font-size="16" font-weight="700">• 19.60M Checks/s</text>
+  <text x="60" y="249" fill="#f8fafc" font-family="-apple-system, system-ui, sans-serif" font-size="16" font-weight="700">• 45,756 Pierces/s</text>
+  
+  <rect x="40" y="305" width="720" height="190" fill="rgba(255,255,255,0.02)" rx="8" stroke="rgba(255,255,255,0.04)" />
+  <text x="60" y="335" fill="#94a3b8" font-family="monospace" font-size="12">SIGNER IDENTITY     : AIR10 Sovereign Open-Source Federation &lt;rajon369963-del&gt;</text>
+  <text x="60" y="360" fill="#94a3b8" font-family="monospace" font-size="12">ATTESTED COMMIT SHA : 60396f92e69ec96e4159a32197b8e7e0805f48ac</text>
+  <text x="60" y="385" fill="#94a3b8" font-family="monospace" font-size="12">ATTESTED TREE SHA   : b901abaa6cf15e1bc10a347b84fb09abf96bab26</text>
+  <text x="60" y="410" fill="#94a3b8" font-family="monospace" font-size="12">CANONICAL HASH      : 5949039cccdfd4e7c606a3f0d8a926bf2c4b500b3e1f0e783e70887ef8c1fe9c</text>
+  <text x="60" y="435" fill="#94a3b8" font-family="monospace" font-size="12">ED25519 SIGNATURE   : 0546e05620be429a9ca2666d602ad10f...</text>
+  <text x="60" y="460" fill="#10b981" font-family="-apple-system, system-ui, sans-serif" font-size="13" font-weight="700">VERIFIED STATUS     : ZERO-DRIFT FORENSIC PASS</text>
 </svg>
