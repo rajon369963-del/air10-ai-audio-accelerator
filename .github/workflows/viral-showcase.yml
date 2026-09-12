@@ -33,6 +33,9 @@ jobs:
       - name: Run Real-Browser Court (Headless Chromium)
         run: |
           npm run test:browser
+      - name: Run Standalone Audio Benchmark Reproducer
+        run: |
+          node scripts/benchmark_audio_engine.js
       - name: Set up Python for Cryptographic Attestation
         uses: actions/setup-python@v5
         with:

@@ -1,24 +1,26 @@
 #!/usr/bin/env python3
 """
-AIR10 Sovereign Truth Guard & Cryptographic Provenance Verifier
-Verifies:
-1. Raw Receipt File SHA-256
-2. Canonical Payload SHA-256
-3. Ed25519 Digital Signature against Public Key
-4. Scorecard SVG Metric Invariance (Zero-Drift Enforcement)
+AIR10 Sovereign Truth Guard & Cryptographic Provenance Verifier (v2.1)
+Zero-Trust Invariants:
+1. Hard-pinned Authoritative Ed25519 Root of Trust.
+2. Canonical payload reconstitution and Ed25519 signature check.
+3. Raw receipt file SHA-256 check.
+4. Scorecard SVG Metric Zero-Drift Guard: Reads exact metrics and labels dynamically from receipt
+   and asserts their literal presence in scorecard.svg.
 """
 
 import hashlib
 import json
 import sys
 from pathlib import Path
-
 from cryptography.hazmat.primitives.asymmetric import ed25519
 
+AUTHORITATIVE_SIGNER_PUBKEY_HEX = "4530967ab3ff8991cb065895270a0f467efd35c0322ee0cd8b6a2ddfe8b27f02"
+EXPECTED_SIGNER_IDENTITY = "AIR10 Sovereign Open-Source Federation <rajon369963-del>"
 
 def verify(repo_root: Path) -> bool:
     print("======================================================================")
-    print("🛡️  AIR10 TRUTH GUARD: VERIFYING PROVENANCE & BENCHMARK CONTRACT")
+    print("🛡️  AIR10 TRUTH GUARD v2.1: CRYPTOGRAPHIC PROVENANCE & ZERO-DRIFT CONTRACT")
     print(f"Target Repository : {repo_root.name}")
     print("======================================================================")
 
@@ -27,12 +29,10 @@ def verify(repo_root: Path) -> bool:
         print(f"❌ FAIL: Benchmark receipt not found at {receipt_path}")
         return False
 
-    # 1. Raw File SHA-256
     raw_bytes = receipt_path.read_bytes()
     computed_raw_sha = hashlib.sha256(raw_bytes).hexdigest()
     print(f"• Raw File SHA-256         : {computed_raw_sha}")
 
-    # 2. Parse JSON
     try:
         data = json.loads(raw_bytes.decode("utf-8"))
     except Exception as e:
@@ -42,15 +42,33 @@ def verify(repo_root: Path) -> bool:
     provenance = data.get("provenance", {})
     expected_payload_sha = provenance.get("canonical_payload_sha256")
     sig_hex = provenance.get("signature_ed25519_hex")
-    pub_hex = provenance.get("signer_public_key_hex")
+    receipt_pub_hex = provenance.get("signer_public_key_hex")
     signer_id = provenance.get("signer_identity", "Unknown")
 
-    if not expected_payload_sha or not sig_hex or not pub_hex:
-        print("❌ FAIL: Missing required cryptographic provenance fields in receipt.")
+    # 1. Authoritative Root-of-Trust Check
+    if receipt_pub_hex != AUTHORITATIVE_SIGNER_PUBKEY_HEX:
+        print(f"❌ FAIL: Untrusted signer public key in receipt!")
+        print(f"  Receipt Key: {receipt_pub_hex}")
+        print(f"  Authoritative Pinned Root: {AUTHORITATIVE_SIGNER_PUBKEY_HEX}")
         return False
+    print("• Authoritative Trust Root : PINNED KEY MATCH [PASS]")
 
-    # 3. Canonical Payload Reconstitution
-    # Strip the self-referential hash and signature
+    # Check local PEM file if present
+    pubkey_pem_path = repo_root / "db" / "AIR10_PROVENANCE_ED25519_PUBKEY.pem"
+    if pubkey_pem_path.exists():
+        from cryptography.hazmat.primitives import serialization
+        pem_bytes = pubkey_pem_path.read_bytes()
+        loaded_pubkey = serialization.load_pem_public_key(pem_bytes)
+        pem_raw_hex = loaded_pubkey.public_bytes(
+            encoding=serialization.Encoding.Raw,
+            format=serialization.PublicFormat.Raw
+        ).hex()
+        if pem_raw_hex != AUTHORITATIVE_SIGNER_PUBKEY_HEX:
+            print("❌ FAIL: Local PEM public key does not match pinned trust root!")
+            return False
+        print("• Local Public Key PEM     : ANCHORED TO ROOT [PASS]")
+
+    # 2. Canonical Payload Reconstitution & Hash Verification
     payload_copy = json.loads(raw_bytes.decode("utf-8"))
     del payload_copy["provenance"]["canonical_payload_sha256"]
     del payload_copy["provenance"]["signature_ed25519_hex"]
@@ -67,32 +85,45 @@ def verify(repo_root: Path) -> bool:
         return False
     print("  ➔ Canonical Payload Hash Verification: [PASS]")
 
-    # 4. Ed25519 Digital Signature Verification
+    # 3. Cryptographic Signature Verification against PINNED Trust Root
     try:
-        pub_key = ed25519.Ed25519PublicKey.from_public_bytes(bytes.fromhex(pub_hex))
+        pub_key = ed25519.Ed25519PublicKey.from_public_bytes(bytes.fromhex(AUTHORITATIVE_SIGNER_PUBKEY_HEX))
         pub_key.verify(bytes.fromhex(sig_hex), canonical_bytes)
-        print("• Ed25519 Digital Signature: VALID [PASS]")
+        print("• Ed25519 Digital Signature: VALID AGAINST PINNED ROOT [PASS]")
         print(f"  Signer Identity          : {signer_id}")
     except Exception as e:
         print(f"❌ FAIL: Ed25519 signature verification failed: {e}")
         return False
 
-    # 5. Scorecard SVG Drift Check (if scorecard exists)
+    # 4. Scorecard SVG Zero-Drift & Metric Tampering Check
     scorecard_path = repo_root / "assets" / "scorecard.svg"
     if scorecard_path.exists():
         svg_content = scorecard_path.read_text(encoding="utf-8")
-        # Assert canonical payload SHA is present
+
+        # Hash references
         if computed_payload_sha not in svg_content:
-            print(f"❌ FAIL: Scorecard SVG does not contain canonical payload SHA {computed_payload_sha}")
+            print(f"❌ FAIL: Scorecard SVG missing canonical payload SHA {computed_payload_sha}")
             return False
-        # Assert raw file SHA is present
         if computed_raw_sha not in svg_content:
-            print(f"❌ FAIL: Scorecard SVG does not contain raw file SHA {computed_raw_sha}")
+            print(f"❌ FAIL: Scorecard SVG missing raw file SHA {computed_raw_sha}")
             return False
-        print("• Scorecard SVG Drift Check: 100% IN-SYNC [PASS]")
+
+        # Dynamically extract all metric labels from receipt to assert zero-drift
+        domain_benchmarks = data.get("domain_workload_benchmarks", {})
+        required_strings = []
+        for name, spec in domain_benchmarks.items():
+            lbl = spec.get("metric_label")
+            if lbl:
+                required_strings.append(lbl)
+
+        for req in required_strings:
+            if req not in svg_content:
+                print(f"❌ FAIL: Scorecard metric tampering detected! Expected string '{req}' missing from SVG.")
+                return False
+        print(f"• Scorecard Metric Audit   : 100% IN-SYNC ({len(required_strings)} receipt metrics dynamically verified) [PASS]")
 
     print("----------------------------------------------------------------------")
-    print("✅ VERDICT: 100% CRYPTOGRAPHICALLY ATTESTED & ZERO-DRIFT SEALED.")
+    print("✅ VERDICT: 100% AUTHENTICALLY SIGNED & METRIC-SEALED ZERO-DRIFT PASS.")
     print("======================================================================\n")
     return True
 

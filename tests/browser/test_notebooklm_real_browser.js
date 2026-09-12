@@ -27,7 +27,7 @@ let CHROME_PATH = candidatePaths.find(p => fs.existsSync(p));
 
 async function runRealBrowserCourt() {
   console.log('======================================================================');
-  console.log('⚡ AIR10 REAL-BROWSER COURT: CHROMIUM INTEGRATION BENCHMARK (v2.5.3)');
+  console.log('⚡ AIR10 REAL-BROWSER COURT: CHROMIUM SYNTHETIC NOTEBOOKLM INTEGRATION BENCHMARK (v2.5.3)');
   console.log('======================================================================');
   console.log(`Target Chromium Binary: ${CHROME_PATH || 'NOT FOUND'}`);
 
@@ -209,16 +209,16 @@ async function runRealBrowserCourt() {
   assert.strictEqual(enduranceResult.finalRate, 3.0);
 
   let heapDeltaMB = '0.00';
-  if (heapMeasured && cdpSession) {
-    const finalStats = await cdpSession.send('Runtime.getHeapUsage');
-    finalHeap = finalStats.usedSize;
-    const deltaBytes = finalHeap - initialHeap;
-    heapDeltaMB = (deltaBytes / (1024 * 1024)).toFixed(2);
-    console.log(`✔ [6/6] 500-Tick Long-Session Endurance: Ticks=500, Heap Delta=${heapDeltaMB} MB (via CDP Runtime.getHeapUsage, SLO < 5.0 MB)`);
-    assert.ok(parseFloat(heapDeltaMB) < 5.0, 'Heap growth must remain under 5.0 MB');
-  } else {
-    console.log(`✔ [6/6] 500-Tick Long-Session Endurance: Ticks=500, Heap Delta=UNKNOWN (CDP Runtime.getHeapUsage unavailable, execution successful)`);
+  if (!heapMeasured || !cdpSession) {
+    console.error('❌ [FATAL] CDP Runtime.getHeapUsage is mandatory for heap endurance assertion but unavailable.');
+    assert.fail('CDP Runtime.getHeapUsage session failed to initialize; cannot verify heap endurance SLO');
   }
+  const finalStats = await cdpSession.send('Runtime.getHeapUsage');
+  finalHeap = finalStats.usedSize;
+  const deltaBytes = finalHeap - initialHeap;
+  heapDeltaMB = (deltaBytes / (1024 * 1024)).toFixed(2);
+  console.log(`✔ [6/6] 500-Tick Long-Session Endurance: Ticks=500, Heap Delta=${heapDeltaMB} MB (via CDP Runtime.getHeapUsage, SLO < 5.0 MB)`);
+  assert.ok(parseFloat(heapDeltaMB) < 5.0, `Heap growth must remain under 5.0 MB, measured ${heapDeltaMB} MB`);
 
   // 8. Output Architectural Comparison Table
   console.log('\n======================================================================');
