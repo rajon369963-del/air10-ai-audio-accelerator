@@ -46,3 +46,9 @@ jobs:
         run: |
           pip install cryptography
           python3 scripts/verify_receipt.py --assert-live-benchmark scripts/audio_benchmark_results.json
+
+      - name: Upload Live Benchmark Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-audio-benchmark-results
+          path: scripts/audio_benchmark_results.json
