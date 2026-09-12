@@ -1,7 +1,7 @@
 name: AIR10 Audio Accelerator Viral Showcase & Test Circuit
 on:
   push:
-    branches: [ main ]
+    branches: [ main, "feat/**" ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:
@@ -21,6 +21,7 @@ jobs:
         with:
           node-version: 22
       - name: Validate Showcase Assets
+        shell: bash
         run: |
           test -f index.html || exit 1
           test -f showcase.html || exit 1
@@ -29,38 +30,65 @@ jobs:
           test -f db/STRESS_BENCHMARK_REAL_WHEELS.json || exit 1
           echo "All showcase primitives verified."
       - name: Install dependencies & run unit tests
+        shell: bash
         run: |
           npm ci
           npm test
       - name: Run Real-Browser Court (Headless Chromium)
+        shell: bash
         run: |
           npm run test:browser
-      - name: Run Standalone Audio Benchmark Reproducer
+      - name: Set up Python for Cryptographic Attestation
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Python Cryptography
+        shell: bash
         run: |
-          node scripts/benchmark_audio_engine.js
+          pip install cryptography
+      - name: Run Standalone Audio Benchmark Reproducer
+        shell: bash
+        run: |
+          python3 scripts/run_benchmark_with_tombstone.py \
+            --repo "rajon369963-del/air10-ai-audio-accelerator" \
+            --benchmark-cmd "node scripts/benchmark_audio_engine.js" \
+            --expected-output "scripts/audio_benchmark_results.json" \
+            --status-output "scripts/benchmark_status.json" \
+            --stdout-log "scripts/benchmark_stdout.log" \
+            --stderr-log "scripts/benchmark_stderr.log"
 
       - name: Upload Live Benchmark Artifact (Preserve Evidence Even on Failure)
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: live-audio-benchmark-results
-          path: scripts/audio_benchmark_results.json
+          path: |
+            scripts/audio_benchmark_results.json
+            scripts/benchmark_status.json
+            scripts/benchmark_stdout.log
+            scripts/benchmark_stderr.log
           if-no-files-found: warn
           retention-days: 90
 
-      - name: Set up Python for Cryptographic Attestation
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
       - name: Run Permanent Adversarial Canary Regression Suite
+        shell: bash
         run: |
-          pip install cryptography
           python3 tests/test_adversarial_receipt_canaries.py
+
       - name: Verify Cryptographic Receipt & Scorecard Zero-Drift
+        shell: bash
         run: |
-          pip install cryptography
+          set -o pipefail
+          set +e
           python3 scripts/verify_receipt.py --assert-live-benchmark scripts/audio_benchmark_results.json 2>&1 | tee /tmp/audio_forensic_verification_report.txt
+          verifier_rc=${PIPESTATUS[0]}
+          printf '\nVERIFIER_EXIT_CODE=%s\n' "$verifier_rc" | tee -a /tmp/audio_forensic_verification_report.txt
+          exit "$verifier_rc"
+
+      - name: Verify Federation Evidence Manifest
+        shell: bash
+        run: |
+          python3 scripts/verify_federation_manifest.py --verify federation-evidence-manifest.json --repo air10-ai-audio-accelerator
 
       - name: Upload Forensic Verification Report
         if: always()
