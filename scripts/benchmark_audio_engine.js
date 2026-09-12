@@ -113,7 +113,7 @@ const transformAvgUs = (transformLatencies.reduce((a, b) => a + b, 0) / transfor
 const sortedTransforms = transformLatencies.slice().sort((a, b) => a - b);
 const transformP95Us = sortedTransforms[Math.floor(sortedTransforms.length * 0.95)].toFixed(3);
 const transformOpsSec = (1000000.0 / parseFloat(transformAvgUs)).toFixed(1);
-console.log(`WebAudio Buffer Pitch Transforms: ${transformOpsSec} transforms/sec (avg ${transformAvgUs} µs, p95 ${transformP95Us} µs)`);
+console.log(`WebAudio Speed/Pitch Parameter Transform Calculations: ${transformOpsSec} calculations/sec (avg ${transformAvgUs} µs, p95 ${transformP95Us} µs)`);
 
 // 4. Pitchfinder YIN Frequency Detection Benchmark
 const float32Data = new Float32Array(1024);
@@ -191,6 +191,11 @@ console.log(`Watchdog Rate Enforcement: ${watchdogOpsPerSec} enforcements/sec ($
 
 // Output benchmark result object
 const results = {
+  timestamp_utc: new Date().toISOString(),
+  platform: `${os.type()}-${os.release()}-${os.arch()}`,
+  machine: os.arch(),
+  processor: os.cpus()[0]?.model || 'Generic CPU',
+  node_version: process.version,
   real_soundtouch_dsp_samples_sec: parseFloat(dspThroughputSamplesSec),
   real_soundtouch_dsp_latency_us: parseFloat(dspLatencyUs),
   pitch_target_hz: 440.0,

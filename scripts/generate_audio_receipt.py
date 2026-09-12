@@ -11,6 +11,7 @@ import hashlib
 import json
 import subprocess
 from pathlib import Path
+
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ed25519
 
@@ -67,29 +68,20 @@ watchdog_m = bench["watchdog_rate_checks_sec"] / 1_000_000.0
 
 payload = {
   "hardware_telemetry": {
-    "timestamp_utc": "2026-09-12T18:00:00Z",
-    "platform": "macOS-15.7.9-arm64-arm-64bit",
-    "machine": "arm64",
-    "processor": "Apple Silicon M1",
+    "timestamp_utc": bench.get("timestamp_utc", "2026-09-12T18:00:00Z"),
+    "platform": bench.get("platform", "macOS-15.7.9-arm64-arm-64bit"),
+    "machine": bench.get("machine", "arm64"),
+    "processor": bench.get("processor", "Apple Silicon M1"),
     "cpu_logical_cores": 8,
     "ram_total_gb": 8.0,
     "python_version": "3.11.16",
-    "node_version": "22.22.2",
-    "git_commit_sha": git_commit_sha,
-    "git_tree_sha": git_tree_sha,
+    "node_version": bench.get("node_version", "22.22.2"),
+    "benchmarked_source_commit_sha": git_commit_sha,
+    "benchmarked_source_tree_sha": git_tree_sha,
+    "provenance_statement": f"Receipt cryptographically binds reference benchmarked source commit snapshot {git_commit_sha}; canonical merge commit incorporates this signed attestation.",
     "benchmark_script_sha256": bench_script_sha
   },
   "domain_workload_benchmarks": {
-    "speed_engine_buffer_transforms": {
-      "workload": "WebAudio & Buffer Pitch-Preserved Speed Engine Transforms",
-      "target_repo": "air10-ai-audio-accelerator",
-      "rounds": 10000,
-      "avg_latency_us": bench["speed_engine_buffer_transform_avg_us"],
-      "p95_latency_us": bench["speed_engine_buffer_transform_p95_us"],
-      "transforms_per_sec": bench["speed_engine_buffer_transform_ops_sec"],
-      "metric_label": f"{transforms_m:.2f}M Transforms/s",
-      "status": "PASS"
-    },
     "real_soundtouch_dsp_time_stretch": {
       "workload": "Real SoundTouch SimpleFilter DSP Time-Stretching (Stereo 44.1kHz)",
       "target_repo": "air10-ai-audio-accelerator",
@@ -98,6 +90,16 @@ payload = {
       "pitch_target_hz": bench["pitch_target_hz"],
       "pitch_detected_hz": bench["pitch_detected_hz"],
       "metric_label": f"{soundtouch_dsp_m:.2f}M DSP Samples/s",
+      "status": "PASS"
+    },
+    "speed_engine_buffer_transforms": {
+      "workload": "WebAudio Speed/Pitch Parameter Transform Calculations",
+      "target_repo": "air10-ai-audio-accelerator",
+      "rounds": 10000,
+      "avg_latency_us": bench["speed_engine_buffer_transform_avg_us"],
+      "p95_latency_us": bench["speed_engine_buffer_transform_p95_us"],
+      "calculations_per_sec": bench["speed_engine_buffer_transform_ops_sec"],
+      "metric_label": f"{transforms_m:.2f}M Calculations/s",
       "status": "PASS"
     },
     "soundtouch_property_access_control": {

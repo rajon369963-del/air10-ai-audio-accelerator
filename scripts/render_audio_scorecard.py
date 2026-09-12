@@ -21,13 +21,14 @@ sig_hex = receipt["provenance"]["signature_ed25519_hex"]
 benchmarks = receipt["domain_workload_benchmarks"]
 
 # Dynamic domain metrics
-speed_bench = benchmarks["speed_engine_buffer_transforms"]
-speed_label = speed_bench["metric_label"]
-speed_avg_us = speed_bench["avg_latency_us"]
-
 dsp_bench = benchmarks["real_soundtouch_dsp_time_stretch"]
 dsp_label = dsp_bench["metric_label"]
 dsp_freq = dsp_bench["pitch_detected_hz"]
+dsp_avg_us = dsp_bench.get("avg_block_latency_us", 2570.0)
+
+speed_bench = benchmarks["speed_engine_buffer_transforms"]
+speed_label = speed_bench["metric_label"]
+speed_avg_us = speed_bench["avg_latency_us"]
 
 watchdog_bench = benchmarks["watchdog_ratechange_defense"]
 watchdog_label = watchdog_bench["metric_label"]
@@ -68,12 +69,12 @@ svg_content = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 480" 
     <text x="695" y="19" font-family="ui-monospace, monospace" font-size="11" font-weight="700" fill="#34d399" text-anchor="middle">ED25519 VERIFIED</text>
   </g>
 
-  <!-- Primary Domain Metric Card -->
+  <!-- Primary Domain Metric Card: Real SoundTouch DSP -->
   <g transform="translate(40, 105)">
     <rect width="770" height="110" rx="10" fill="#0f172a" fill-opacity="0.8" stroke="#f59e0b" stroke-width="1.2" stroke-opacity="0.5"/>
     <text x="25" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700" fill="#fbbf24" letter-spacing="1">PRIMARY DOMAIN WORKLOAD</text>
-    <text x="25" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="34" font-weight="900" fill="#ffffff">{speed_label}</text>
-    <text x="25" y="94" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="500" fill="#94a3b8">Pitch-Preserved WebAudio Speed Engine • {speed_avg_us} µs Avg Latency (Apple Silicon M1)</text>
+    <text x="25" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="34" font-weight="900" fill="#ffffff">{dsp_label}</text>
+    <text x="25" y="94" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="500" fill="#94a3b8">Real SoundTouch SimpleFilter DSP • {dsp_avg_us} µs Block Latency • Pitch: {dsp_freq} Hz (Target 440Hz)</text>
 
     <circle cx="715" cy="55" r="32" fill="#f59e0b" fill-opacity="0.1" stroke="#f59e0b" stroke-width="1.5"/>
     <text x="715" y="62" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="900" fill="#fbbf24" text-anchor="middle">3.0x</text>
@@ -81,11 +82,11 @@ svg_content = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 480" 
 
   <!-- Secondary Audio Wheel Benchmarks Grid -->
   <g transform="translate(40, 230)">
-    <!-- Box 1: Real SoundTouch DSP -->
+    <!-- Box 1: WebAudio Parameter Calculations -->
     <rect x="0" y="0" width="245" height="95" rx="8" fill="#0f172a" fill-opacity="0.7" stroke="#ffffff" stroke-opacity="0.1"/>
-    <text x="18" y="26" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" fill="#38bdf8">REAL SOUNDTOUCH DSP STRETCH</text>
-    <text x="18" y="56" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="800" fill="#ffffff">{dsp_label}</text>
-    <text x="18" y="78" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500" fill="#64748b">YIN Pitch: {dsp_freq} Hz (Target 440Hz)</text>
+    <text x="18" y="26" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" fill="#38bdf8">WEBAUDIO PARAM CALCULATIONS</text>
+    <text x="18" y="56" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="800" fill="#ffffff">{speed_label}</text>
+    <text x="18" y="78" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500" fill="#64748b">{speed_avg_us} µs calculation latency</text>
 
     <!-- Box 2: Watchdog Defense -->
     <rect x="262" y="0" width="245" height="95" rx="8" fill="#0f172a" fill-opacity="0.7" stroke="#ffffff" stroke-opacity="0.1"/>
