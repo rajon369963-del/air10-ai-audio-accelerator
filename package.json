@@ -1,6 +1,6 @@
 {
   "name": "air10-ai-audio-accelerator",
-  "version": "2.4.0",
+  "version": "2.5.1",
   "description": "AIR10 AI Audio Accelerator & Gemini Study Bridge with 100 Battle-Tested Wheels",
   "main": "injector.js",
   "scripts": {

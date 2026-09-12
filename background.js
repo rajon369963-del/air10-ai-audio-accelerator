@@ -67,7 +67,7 @@ function connectNativeHost() {
     nativePort.onDisconnect.addListener(handleNativeDisconnect);
 
     // Initial handshake / heartbeat
-    sendToNative({ type: 'HEARTBEAT', version: '2.1.0', generation: Date.now() });
+    sendToNative({ type: 'HEARTBEAT', version: '2.5.1', generation: Date.now() });
 
     isConnecting = false;
     reconnectAttempts = 0;

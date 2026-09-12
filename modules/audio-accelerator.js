@@ -306,17 +306,17 @@
       } catch (err) {}
       return origBufferStart.apply(this, args);
     };
+  }
 
-    if (typeof AudioParam !== 'undefined' && AudioParam.prototype && AudioParam.prototype.setValueAtTime) {
-      const origSetValueAtTime = AudioParam.prototype.setValueAtTime;
-      AudioParam.prototype.setValueAtTime = function(value, startTime) {
-        let finalValue = value;
-        if (this.__isPlaybackRateParam || (value === 1.0 && targetSpeed !== 1.0)) {
-          finalValue = targetSpeed;
-        }
-        return origSetValueAtTime.call(this, finalValue, startTime);
-      };
-    }
+  if (typeof AudioParam !== 'undefined' && AudioParam.prototype && AudioParam.prototype.setValueAtTime) {
+    const origSetValueAtTime = AudioParam.prototype.setValueAtTime;
+    AudioParam.prototype.setValueAtTime = function(value, startTime) {
+      let finalValue = value;
+      if (this.__isPlaybackRateParam === true) {
+        finalValue = targetSpeed;
+      }
+      return origSetValueAtTime.call(this, finalValue, startTime);
+    };
   }
 
   if (typeof BaseAudioContext !== 'undefined' && BaseAudioContext.prototype && BaseAudioContext.prototype.createBufferSource) {
@@ -401,10 +401,26 @@
   // =========================================================================
   // 6. Central Speed Transmission Engine & Storage
   // =========================================================================
+  function pruneDisconnectedMedia() {
+    for (const el of activeMediaElements) {
+      if (el && typeof el.isConnected === 'boolean' && !el.isConnected) {
+        activeMediaElements.delete(el);
+      }
+    }
+    for (const shadow of interceptedShadowRoots) {
+      if (shadow && shadow.host && typeof shadow.host.isConnected === 'boolean' && !shadow.host.isConnected) {
+        interceptedShadowRoots.delete(shadow);
+      }
+    }
+  }
+
   function applySpeed(newSpeed, source = 'manual') {
+    const parsed = typeof newSpeed === 'number' ? newSpeed : parseFloat(newSpeed);
+    if (isNaN(parsed) || !isFinite(parsed)) return;
     const prevSpeed = targetSpeed;
-    const num = Math.min(Math.max(parseFloat(newSpeed.toFixed(2)), 0.5), 4.0);
+    const num = Math.min(Math.max(Math.round(parsed * 100) / 100, 0.5), 4.0);
     targetSpeed = num;
+    pruneDisconnectedMedia();
     logSpeedTelemetry(prevSpeed, targetSpeed, source);
 
     if (SPEEDS.includes(num)) {
@@ -469,7 +485,7 @@
     return isNaN(val) ? null : val;
   }
 
-  // Synchronize NotebookLM bottom player bar speed label
+  // Synchronize NotebookLM bottom player bar speed label (preserves surrounding punctuation like 'Speed: 2.0x' or '(2.0x)')
   function updateNotebookLMTriggerButton(speed) {
     if (typeof document === 'undefined') return;
     try {
@@ -479,144 +495,150 @@
         const walker = document.createTreeWalker(btn, NodeFilter.SHOW_TEXT, null, false);
         let textNode;
         while ((textNode = walker.nextNode())) {
-          if (/(?:^|[^\d.])\d+(?:\.\d+)?x\b/i.test(textNode.nodeValue)) {
-            textNode.nodeValue = textNode.nodeValue.replace(/(?:^|[^\d.])\d+(?:\.\d+)?x\b/i, (m) => {
-              const prefix = m.startsWith(' ') ? ' ' : '';
-              return prefix + speedStr;
-            });
+          if (/\b\d+(\.\d+)?x\b/i.test(textNode.nodeValue)) {
+            textNode.nodeValue = textNode.nodeValue.replace(/\b\d+(\.\d+)?x\b/i, speedStr);
           }
         }
       });
     } catch (e) {}
   }
 
-  // Inject 2.5x and 3.0x into NotebookLM's native popup speed menu and hook all options
+  // Inject 2.5x and 3.0x into NotebookLM's native popup speed menu and hook all options (Strict Singleton)
+  let isNotebookLMMenuHooked = false;
+  let notebookLMMenuObserver = null;
+
+  function checkNotebookLMMenu(container) {
+    if (!container || !container.querySelectorAll) return;
+    try {
+      // 1. Purge any stale malformed items (e.g. 1.2.5x, 1.3.0x from earlier buggy injections)
+      const allLeafs = container.querySelectorAll ? container.querySelectorAll('*') : [];
+      allLeafs.forEach(el => {
+        if (el.children && el.children.length > 0) return;
+        if (/1\.[23]\.[05]x/i.test(el.textContent || '')) {
+          const itemEl = el.closest('[role="menuitem"], [role="menuitemradio"], button.mat-mdc-menu-item, md-menu-item, li') || el;
+          try { itemEl.remove(); } catch (err) {}
+        }
+      });
+
+      const menuItems = container.querySelectorAll ? container.querySelectorAll('[role="menuitem"], [role="menuitemradio"], button.mat-mdc-menu-item, md-menu-item, li[role="menuitem"]') : [];
+      if (!menuItems || menuItems.length === 0) return;
+
+      let item2x = null;
+
+      menuItems.forEach(item => {
+        const spd = extractItemSpeed(item);
+        if (spd === null) return;
+
+        // Strictly locate genuine 2.0x native item (NOT 1.2x, NOT 1.2.5x, NOT already injected)
+        if (Math.abs(spd - 2.0) < 0.05 && !item.hasAttribute('data-air10-injected')) {
+          item2x = item;
+        }
+
+        // Hook click on every native speed option
+        if (!item.hasAttribute('data-air10-hooked')) {
+          item.setAttribute('data-air10-hooked', 'true');
+          item.addEventListener('click', () => {
+            applySpeed(spd, 'NotebookLM menu select (' + spd + 'x)');
+          }, true);
+        }
+
+        // Update active state visual styling
+        if (Math.abs(targetSpeed - spd) < 0.05) {
+          item.classList.add('active', 'selected');
+          item.setAttribute('aria-checked', 'true');
+        } else if (!item.hasAttribute('data-air10-injected')) {
+          item.classList.remove('active', 'selected');
+          item.setAttribute('aria-checked', 'false');
+        }
+      });
+
+      // If 2.0x is present and 2.5x/3.0x have not been cleanly injected yet, inject them!
+      if (item2x && item2x.parentElement) {
+        const parent = item2x.parentElement;
+        const hasInjected = parent.querySelector('[data-air10-speed="2.5"]') || parent.querySelector('[data-air10-speed="3"]');
+        if (!hasInjected) {
+          [2.5, 3.0].forEach(spd => {
+            const clone = item2x.cloneNode(true);
+            clone.setAttribute('data-air10-injected', 'true');
+            clone.setAttribute('data-air10-hooked', 'true');
+            clone.setAttribute('data-air10-speed', spd.toString());
+
+            // Replace text inside cloned element cleanly (never produce 1.2.5x or 1.3.0x)
+            const walker = document.createTreeWalker(clone, NodeFilter.SHOW_TEXT, null, false);
+            let tNode;
+            while ((tNode = walker.nextNode())) {
+              const val = tNode.nodeValue;
+              if (val && /(?:\d+\.)*\d+(\.\d+)?x\b/i.test(val)) {
+                tNode.nodeValue = val.replace(/(?:\d+\.)*\d+(\.\d+)?x\b/i, `${spd.toFixed(1)}x`);
+              }
+            }
+
+            // Visual active state
+            clone.classList.remove('active', 'selected', 'mat-mdc-menu-item-highlighted');
+            clone.removeAttribute('aria-checked');
+            if (Math.abs(targetSpeed - spd) < 0.05) {
+              clone.classList.add('active', 'selected');
+              clone.setAttribute('aria-checked', 'true');
+            }
+
+            clone.onclick = (evt) => {
+              evt.preventDefault();
+              evt.stopPropagation();
+              applySpeed(spd, 'NotebookLM native menu click (' + spd + 'x)');
+              updateNotebookLMTriggerButton(spd);
+              // Dismiss overlay
+              try {
+                const backdrop = document.querySelector('.cdk-overlay-backdrop');
+                if (backdrop) {
+                  backdrop.click();
+                } else {
+                  document.body.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+                }
+              } catch (err) {}
+            };
+
+            parent.appendChild(clone);
+          });
+        }
+      }
+    } catch (err) {}
+  }
+
   function hookNotebookLMSpeedMenu() {
     if (typeof document === 'undefined') return;
 
-    function checkMenu(container) {
-      if (!container || !container.querySelectorAll) return;
-      try {
-        // 1. Purge any stale malformed items (e.g. 1.2.5x, 1.3.0x from earlier buggy injections)
-        const allLeafs = container.querySelectorAll ? container.querySelectorAll('*') : [];
-        allLeafs.forEach(el => {
-          if (el.children && el.children.length > 0) return;
-          if (/1\.[23]\.[05]x/i.test(el.textContent || '')) {
-            const itemEl = el.closest('[role="menuitem"], [role="menuitemradio"], button.mat-mdc-menu-item, md-menu-item, li') || el;
-            try { itemEl.remove(); } catch (err) {}
-          }
-        });
+    if (!isNotebookLMMenuHooked) {
+      isNotebookLMMenuHooked = true;
 
-        const menuItems = container.querySelectorAll ? container.querySelectorAll('[role="menuitem"], [role="menuitemradio"], button.mat-mdc-menu-item, md-menu-item, li[role="menuitem"]') : [];
-        if (!menuItems || menuItems.length === 0) return;
-
-        let item2x = null;
-
-        menuItems.forEach(item => {
-          const spd = extractItemSpeed(item);
-          if (spd === null) return;
-
-          // Strictly locate genuine 2.0x native item (NOT 1.2x, NOT 1.2.5x, NOT already injected)
-          if (Math.abs(spd - 2.0) < 0.05 && !item.hasAttribute('data-air10-injected')) {
-            item2x = item;
-          }
-
-          // Hook click on every native speed option
-          if (!item.hasAttribute('data-air10-hooked')) {
-            item.setAttribute('data-air10-hooked', 'true');
-            item.addEventListener('click', () => {
-              applySpeed(spd, 'NotebookLM menu select (' + spd + 'x)');
-            }, true);
-          }
-
-          // Update active state visual styling
-          if (Math.abs(targetSpeed - spd) < 0.05) {
-            item.classList.add('active', 'selected');
-            item.setAttribute('aria-checked', 'true');
-          } else if (!item.hasAttribute('data-air10-injected')) {
-            item.classList.remove('active', 'selected');
-            item.setAttribute('aria-checked', 'false');
-          }
-        });
-
-        // If 2.0x is present and 2.5x/3.0x have not been cleanly injected yet, inject them!
-        if (item2x && item2x.parentElement) {
-          const parent = item2x.parentElement;
-          const hasInjected = parent.querySelector('[data-air10-speed="2.5"]') || parent.querySelector('[data-air10-speed="3"]');
-          if (!hasInjected) {
-            [2.5, 3.0].forEach(spd => {
-              const clone = item2x.cloneNode(true);
-              clone.setAttribute('data-air10-injected', 'true');
-              clone.setAttribute('data-air10-hooked', 'true');
-              clone.setAttribute('data-air10-speed', spd.toString());
-
-              // Replace text inside cloned element cleanly (never produce 1.2.5x or 1.3.0x)
-              const walker = document.createTreeWalker(clone, NodeFilter.SHOW_TEXT, null, false);
-              let tNode;
-              while ((tNode = walker.nextNode())) {
-                const val = tNode.nodeValue;
-                if (val && /(?:\d+\.)*\d+(\.\d+)?x\b/i.test(val)) {
-                  tNode.nodeValue = val.replace(/(?:\d+\.)*\d+(\.\d+)?x\b/i, `${spd.toFixed(1)}x`);
-                }
-              }
-
-              // Visual active state
-              clone.classList.remove('active', 'selected', 'mat-mdc-menu-item-highlighted');
-              clone.removeAttribute('aria-checked');
-              if (Math.abs(targetSpeed - spd) < 0.05) {
-                clone.classList.add('active', 'selected');
-                clone.setAttribute('aria-checked', 'true');
-              }
-
-              clone.onclick = (evt) => {
-                evt.preventDefault();
-                evt.stopPropagation();
-                applySpeed(spd, 'NotebookLM native menu click (' + spd + 'x)');
-                updateNotebookLMTriggerButton(spd);
-                // Dismiss overlay
-                try {
-                  const backdrop = document.querySelector('.cdk-overlay-backdrop');
-                  if (backdrop) {
-                    backdrop.click();
-                  } else {
-                    document.body.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-                  }
-                } catch (err) {}
-              };
-
-              parent.appendChild(clone);
-            });
-          }
+      // Global capture-phase listener: registered EXACTLY ONCE
+      document.addEventListener('click', (e) => {
+        const target = e.target;
+        if (!target) return;
+        const clickable = target.closest('[role="menuitem"], [role="menuitemradio"], button.mat-mdc-menu-item, md-menu-item, li[role="menuitem"]');
+        if (!clickable) return;
+        const spd = extractItemSpeed(clickable);
+        if (spd !== null && spd >= 0.5 && spd <= 4.0) {
+          applySpeed(spd, 'Global native menu click (' + spd + 'x)');
+          updateNotebookLMTriggerButton(spd);
         }
-      } catch (err) {}
-    }
+      }, true);
 
-    // Global capture-phase listener: Whenever user clicks ANY speed menu option, synchronize targetSpeed immediately!
-    document.addEventListener('click', (e) => {
-      const target = e.target;
-      if (!target) return;
-      const clickable = target.closest('[role="menuitem"], [role="menuitemradio"], button.mat-mdc-menu-item, md-menu-item, li[role="menuitem"]');
-      if (!clickable) return;
-      const spd = extractItemSpeed(clickable);
-      if (spd !== null && spd >= 0.5 && spd <= 4.0) {
-        applySpeed(spd, 'Global native menu click (' + spd + 'x)');
-        updateNotebookLMTriggerButton(spd);
-      }
-    }, true);
-
-    try {
-      const menuObserver = new MutationObserver((mutations) => {
-        for (const m of mutations) {
-          for (const node of m.addedNodes) {
-            if (node.nodeType === 1) {
-              checkMenu(node);
+      try {
+        notebookLMMenuObserver = new MutationObserver((mutations) => {
+          for (const m of mutations) {
+            for (const node of m.addedNodes) {
+              if (node.nodeType === 1) {
+                checkNotebookLMMenu(node);
+              }
             }
           }
-        }
-      });
-      menuObserver.observe(document.body || document.documentElement, { childList: true, subtree: true });
-      checkMenu(document.body);
-    } catch (e) {}
+        });
+        notebookLMMenuObserver.observe(document.body || document.documentElement, { childList: true, subtree: true });
+      } catch (e) {}
+    }
+
+    // Direct check of existing DOM elements without re-registering observers or listeners
+    checkNotebookLMMenu(document.body);
   }
 
   function cycleSpeed(source = 'click') {
@@ -1026,6 +1048,7 @@
     cycleSpeed: () => cycleSpeed('api'),
     stepSpeed: (d) => stepSpeed(d, 'api'),
     getTrackedCount: () => activeMediaElements.size,
+    getTrackedMediaCount: () => activeMediaElements.size,
     isAudioPlaying: () => isAudioPlaying(),
     querySelectorAllDeep: (sel, root) => querySelectorAllDeep(sel, root),
     querySelectorDeep: (sel, root) => {
@@ -1036,6 +1059,23 @@
     verifyPitchPreservation: (media) => {
       if (!media) return false;
       return Boolean(media.preservesPitch || media.mozPreservesPitch || media.webkitPreservesPitch);
+    },
+    // Production Test Seams & Diagnostics
+    extractItemSpeed: (el) => extractItemSpeed(el),
+    checkMenu: (container) => checkNotebookLMMenu(container),
+    checkNotebookLMMenu: (container) => checkNotebookLMMenu(container),
+    pruneDisconnectedMedia: () => pruneDisconnectedMedia(),
+    isMenuHooked: () => isNotebookLMMenuHooked,
+    hookNotebookLMSpeedMenu: () => hookNotebookLMSpeedMenu(),
+    updateNotebookLMTriggerButton: (spd) => updateNotebookLMTriggerButton(spd),
+    getActiveMediaElements: () => activeMediaElements,
+    getInterceptedShadowRoots: () => interceptedShadowRoots,
+    resetMenuHookState: () => {
+      isNotebookLMMenuHooked = false;
+      if (notebookLMMenuObserver) {
+        try { notebookLMMenuObserver.disconnect(); } catch (e) {}
+        notebookLMMenuObserver = null;
+      }
     }
   };
 

@@ -13,26 +13,24 @@ test('NotebookLM Menu Speed Extraction, Purge Malformed Items, and Clean 2.5x/3.
   const controller = win.__AIR10_AUDIO__;
   assert.ok(controller, 'Audio controller must be initialized');
 
-  // 1. Verify speed extraction regex logic directly
-  const extractItemSpeed = (text) => {
-    const match = text.match(/(?:^|[^\d.])(\d+(?:\.\d+)?)x\b/i);
-    if (!match) return null;
-    const val = parseFloat(match[1]);
-    return isNaN(val) ? null : val;
-  };
+  // 1. Verify production speed extraction directly from window.__AIR10_AUDIO__.extractItemSpeed
+  assert.strictEqual(typeof controller.extractItemSpeed, 'function', 'extractItemSpeed must be exported on controller');
 
-  assert.strictEqual(extractItemSpeed('0.5x'), 0.5);
-  assert.strictEqual(extractItemSpeed('0.8x'), 0.8);
-  assert.strictEqual(extractItemSpeed('1.0x'), 1.0);
-  assert.strictEqual(extractItemSpeed('1.2x'), 1.2, '1.2x must NEVER be identified as 2.0x or 2x');
-  assert.notStrictEqual(extractItemSpeed('1.2x'), 2.0);
-  assert.strictEqual(extractItemSpeed('1.5x'), 1.5);
-  assert.strictEqual(extractItemSpeed('1.8x'), 1.8);
-  assert.strictEqual(extractItemSpeed('2.0x'), 2.0);
-  assert.strictEqual(extractItemSpeed('2x'), 2.0);
-  assert.strictEqual(extractItemSpeed('2.5x'), 2.5);
-  assert.strictEqual(extractItemSpeed('3.0x'), 3.0);
-  assert.strictEqual(extractItemSpeed('1.2.5x'), null, 'Malformed 1.2.5x must return null');
+  const checkSpeed = (text) => controller.extractItemSpeed({ textContent: text });
+
+  assert.strictEqual(checkSpeed('0.5x'), 0.5);
+  assert.strictEqual(checkSpeed('0.8x'), 0.8);
+  assert.strictEqual(checkSpeed('1.0x'), 1.0);
+  assert.strictEqual(checkSpeed('1.2x'), 1.2, '1.2x must NEVER be identified as 2.0x or 2x');
+  assert.notStrictEqual(checkSpeed('1.2x'), 2.0);
+  assert.strictEqual(checkSpeed('1.5x'), 1.5);
+  assert.strictEqual(checkSpeed('1.8x'), 1.8);
+  assert.strictEqual(checkSpeed('2.0x'), 2.0);
+  assert.strictEqual(checkSpeed('2x'), 2.0);
+  assert.strictEqual(checkSpeed('2.5x'), 2.5);
+  assert.strictEqual(checkSpeed('3.0x'), 3.0);
+  assert.strictEqual(checkSpeed('1.2.5x'), null, 'Malformed 1.2.5x must return null');
+  assert.strictEqual(checkSpeed('Speed: 2.0x'), 2.0, 'Embedded speed label parsed accurately');
 
   // 2. Verify text replacement logic on cloned nodes
   const formatSpeed = (originalText, newSpeed) => {
