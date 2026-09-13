@@ -70,6 +70,11 @@ jobs:
           if-no-files-found: error
           retention-days: 90
 
+      - name: Run Directional Lineage & Hostile Court Tests
+        shell: bash
+        run: |
+          python3 tests/test_federation_manifest_hostile_court.py
+
       - name: Run Permanent Adversarial Canary Regression Suite
         shell: bash
         run: |
@@ -88,7 +93,7 @@ jobs:
       - name: Verify Federation Evidence Manifest
         shell: bash
         run: |
-          python3 scripts/verify_federation_manifest.py --verify federation-evidence-manifest.json --repo air10-ai-audio-accelerator
+          python3 scripts/verify_federation_manifest.py --verify federation-evidence-manifest.json --repo air10-ai-audio-accelerator --authority-context auto --live-provider
 
       - name: Upload Forensic Verification Report
         if: always()
