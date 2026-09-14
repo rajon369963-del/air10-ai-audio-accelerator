@@ -14,12 +14,14 @@ Third-Party Audio DSP Lineage & License Notice: SoundTouch & SoundTouchJS
    Copyright (c) Olli Parviainen
 
 2. SoundTouchJS (JavaScript Port)
-   Porter: Jakub Fiala (jdf)
-   License: GNU Lesser General Public License (LGPL) version 2.1
-   SPDX Identifier: LGPL-2.1-only
-   Upstream URL: https://github.com/jdf/soundtouchjs
+   Porter / Maintainer: Jakub Fiala (jdf) / cutterbl
+   License: GNU Lesser General Public License (LGPL) version 2.1 / Mozilla Public License Version 2.0 (MPL-2.0)
+   SPDX Identifier: LGPL-2.1-only OR MPL-2.0
+   Upstream URLs:
+     - https://github.com/jdf/soundtouchjs (LGPL-2.1)
+     - https://github.com/cutterbl/SoundTouchJS (MPL-2.0)
    NPM: soundtouchjs@0.3.0
-   Copyright (c) Jakub Fiala
+   Copyright (c) Jakub Fiala, Olli Parviainen
 
 3. License Boundary and Compliance
    - The outer wrapper code of air10-ai-audio-accelerator is licensed under the MIT License.
