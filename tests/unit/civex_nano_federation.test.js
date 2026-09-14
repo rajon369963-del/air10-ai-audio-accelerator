@@ -62,6 +62,9 @@ test('CIVEX-NANO Federation: In-Browser Sub-Millisecond BM25 Router', async (t) 
 
   const router = new InBrowserBM25Router(tools);
 
+  // Warm-up query to prime V8 JIT compiler
+  router.routeQuery('warmup query', 1);
+
   // Test 1: Study query
   const startStudy = performance.now();
   const studyMatches = router.routeQuery('resume the current active study question and continue', 2);

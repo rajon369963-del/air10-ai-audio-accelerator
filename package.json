@@ -4,7 +4,7 @@
   "description": "AIR10 AI Audio Accelerator & Gemini Study Bridge with Verified Real-Browser Court",
   "main": "injector.js",
   "scripts": {
-    "test": "node --test tests/unit/*.test.js tests/live-canary/*.test.js",
+    "test": "node --test --test-concurrency=4 tests/unit/*.test.js tests/live-canary/*.test.js",
     "test:browser": "node tests/browser/test_notebooklm_real_browser.js"
   },
   "engines": {
