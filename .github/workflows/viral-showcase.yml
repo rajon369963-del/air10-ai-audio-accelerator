@@ -74,6 +74,7 @@ jobs:
         shell: bash
         run: |
           python3 tests/test_federation_manifest_hostile_court.py
+          python3 tests/test_dsp_provenance_court.py
 
       - name: Run Permanent Adversarial Canary Regression Suite
         shell: bash
