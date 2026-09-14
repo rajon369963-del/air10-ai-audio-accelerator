@@ -1,0 +1,15 @@
+AIR10 AI Audio Accelerator
+Copyright 2026 The MIGL / AIR10 Authors
+
+This product includes third-party software and algorithmic adaptations subject to the following notices:
+
+1. SoundTouchJS
+   Upstream: https://github.com/cutterbl/SoundTouchJS
+   Copyright (c) 2013-2024 cutterbl and contributors
+   Licensed under the Mozilla Public License 2.0 (MPL-2.0)
+   Covered components adapted in modules/air10-catchup-processor.js for pure WebAudio / AudioWorklet execution.
+
+2. SoundTouch Library (Algorithmic reference)
+   Upstream: https://gitlab.com/soundtouch/soundtouch
+   Copyright (c) Olli Parviainen
+   Original C++ TDStretch speech parameter conventions (40ms sequence, 15ms seek, 8ms overlap) and energy-normalized cross-correlation principles.
