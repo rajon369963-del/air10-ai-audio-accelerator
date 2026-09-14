@@ -1,0 +1,45 @@
+{
+  "project": "air10-ai-audio-accelerator",
+  "version": "2.5.3",
+  "license_boundary": "MIT",
+  "upstream_lineage": {
+    "soundtouch_cpp": {
+      "author": "Olli Parviainen",
+      "project_name": "SoundTouch Audio Processing Library",
+      "upstream_url": "https://codeberg.org/soundtouch/soundtouch",
+      "mirror_url": "https://gitlab.com/soundtouch/soundtouch",
+      "license": "GNU Lesser General Public License v2.1",
+      "spdx_id": "LGPL-2.1-only",
+      "algorithm": "WSOLA (Waveform Similarity Overlap-Add)",
+      "wsola_parameters": {
+        "sequence_ms": 82,
+        "seekwindow_ms": 28,
+        "overlap_ms": 12,
+        "pitch_preservation": true
+      }
+    },
+    "soundtouchjs": {
+      "porter": "Jakub Fiala",
+      "github_repo": "https://github.com/jdf/soundtouchjs",
+      "npm_package": "soundtouchjs",
+      "version": "0.3.0",
+      "license": "GNU Lesser General Public License v2.1",
+      "spdx_id": "LGPL-2.1-only",
+      "module_type": "CommonJS/AMD/Global",
+      "upstream_commit_anchor": "9cbb87a6c9ebf40fbc35cbcf2e106a7be7c39050"
+    }
+  },
+  "dsp_redistribution_contract": {
+    "lgpl_source_offer": "Upstream source available at https://codeberg.org/soundtouch/soundtouch and https://github.com/jdf/soundtouchjs",
+    "dynamic_linking_compliance": true,
+    "reverse_engineering_permitted_for_dsp_boundary": true,
+    "modifications_to_core_soundtouch": false,
+    "notice_file_present": true,
+    "spdx_conformant": true
+  },
+  "verification_court": {
+    "verifier": "AIR10_DSP_LICENSE_COURT",
+    "sha256_lineage_contract": "b1b7026744883492582845c48b17540455db74149e2dc1f67f6773a4d62f44c4",
+    "court_status": "AUTHENTIC_VERIFIED"
+  }
+}
