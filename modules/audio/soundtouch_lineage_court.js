@@ -104,7 +104,7 @@ class SoundTouchLineageCourt {
     if (!content.includes('Jakub Fiala')) {
       errors.push("NOTICE missing SoundTouchJS porter 'Jakub Fiala'");
     }
-    if (!content.includes('LGPL') || !content.includes('2.1')) {
+    if (!content.includes('LGPL-2.1') && (!content.includes('LGPL') || !content.includes('2.1'))) {
       errors.push('NOTICE missing LGPL-2.1 license statement');
     }
     if (!content.includes('reverse engineering')) {
@@ -118,30 +118,59 @@ class SoundTouchLineageCourt {
   }
 
   /**
+   * Validate that the physical package.json declares soundtouchjs dependency.
+   * @param {string} packageJsonPath
+   * @returns {{ valid: boolean, errors: string[] }}
+   */
+  static evaluatePackageDependency(packageJsonPath) {
+    const errors = [];
+    if (!fs.existsSync(packageJsonPath)) {
+      return { valid: false, errors: [`package.json not found at ${packageJsonPath}`] };
+    }
+    try {
+      const pkg = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+      const deps = Object.assign({}, pkg.dependencies, pkg.devDependencies);
+      if (!deps.soundtouchjs) {
+        errors.push("package.json missing 'soundtouchjs' dependency");
+      }
+    } catch (err) {
+      errors.push(`Failed to parse package.json: ${err.message}`);
+    }
+    return {
+      valid: errors.length === 0,
+      errors
+    };
+  }
+
+  /**
    * Run full verification on repository files.
    * @param {string} repoRoot
-   * @returns {{ pass: boolean, lineage: Object, notice: Object }}
+   * @returns {{ pass: boolean, lineage: Object, notice: Object, package: Object }}
    */
   static runFullCourt(repoRoot) {
     const lineagePath = path.join(repoRoot, 'LEGAL_LINEAGE.json');
     const noticePath = path.join(repoRoot, 'NOTICE');
+    const packagePath = path.join(repoRoot, 'package.json');
 
     if (!fs.existsSync(lineagePath)) {
       return {
         pass: false,
         lineage: { valid: false, errors: [`LEGAL_LINEAGE.json not found at ${lineagePath}`] },
-        notice: { valid: false, errors: [] }
+        notice: { valid: false, errors: [] },
+        package: { valid: false, errors: [] }
       };
     }
 
     const lineageData = JSON.parse(fs.readFileSync(lineagePath, 'utf-8'));
     const lineageResult = this.evaluateLineage(lineageData);
     const noticeResult = this.evaluateNoticeFile(noticePath);
+    const packageResult = this.evaluatePackageDependency(packagePath);
 
     return {
-      pass: lineageResult.valid && noticeResult.valid,
+      pass: lineageResult.valid && noticeResult.valid && packageResult.valid,
       lineage: lineageResult,
-      notice: noticeResult
+      notice: noticeResult,
+      package: packageResult
     };
   }
 }
