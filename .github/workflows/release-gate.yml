@@ -36,6 +36,9 @@ jobs:
       - name: Run Full Test Suite (Unit, Canaries, 10x Hostile Stress)
         run: npm test
 
+      - name: Run Release ZIP Provenance Court
+        run: python3 tests/test_release_zip_provenance_court.py
+
       - name: Validate Version Consistency Across All 5 Surfaces
         run: node --test tests/unit/test_version_consistency.test.js
 
@@ -66,10 +69,12 @@ jobs:
           VERSION=${{ steps.get_version.outputs.VERSION }}
           ZIP_NAME="AIR10_AI_Audio_Accelerator_v${VERSION}.zip"
           rm -f "${ZIP_NAME}" "${ZIP_NAME}.sha256"
-          git archive --format=zip -o "${ZIP_NAME}" "${GITHUB_SHA}" manifest.json injector.js background.js modules icons
+          git archive --format=zip -o "${ZIP_NAME}" "${GITHUB_SHA}" manifest.json injector.js background.js modules icons NOTICE PROVENANCE_THIRD_PARTY.md
           sha256sum "${ZIP_NAME}" > "${ZIP_NAME}.sha256"
           echo "ZIP_NAME=${ZIP_NAME}" >> $GITHUB_ENV
 
+      - name: Verify Exact Release ZIP Attribution Payload
+        run: python3 tests/test_release_zip_provenance_court.py --archive "${ZIP_NAME}"
 
       - name: Generate SPDX SBOM Manifest
         run: |

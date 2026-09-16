@@ -31,6 +31,9 @@ jobs:
       - name: Run Test Suite (Unit, Canaries, 10x Hostile Stress)
         run: npm test
 
+      - name: Run Release ZIP Provenance Court
+        run: python3 tests/test_release_zip_provenance_court.py
+
       - name: Run Real-Browser Court (Headless Chromium)
         run: npm run test:browser
 
