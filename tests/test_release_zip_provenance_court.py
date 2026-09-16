@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Release ZIP third-party provenance court for Issue #19.
+"""Release ZIP exact-version third-party provenance court for Issue #19.
 
-This court separates repository-level attribution from distribution-artifact
-attribution. It verifies both the canonical archive recipe and the bytes inside
-an exact generated ZIP, and includes known-bad mutants that must fail closed.
+This court verifies both archive membership and the exact SoundTouchJS lineage
+shipped inside NOTICE/PROVENANCE. In particular, SoundTouchJS v0.3.0 is bound
+to its historical LGPL-2.1 package metadata and must not inherit the later
+MPL-2.0 license used by the v0.4 rewrite/current upstream.
 """
 
 from __future__ import annotations
@@ -27,6 +28,16 @@ CANONICAL_MEMBERS = [
     "NOTICE",
     "PROVENANCE_THIRD_PARTY.md",
 ]
+SOUNDTOUCHJS_VERSION = "v0.3.0"
+SOUNDTOUCHJS_LICENSE = "LGPL-2.1"
+STALE_WRONG_LICENSE = "MPL-2.0"
+
+
+def _soundtouchjs_row(provenance: str) -> str:
+    for line in provenance.splitlines():
+        if line.startswith("|") and "| SoundTouchJS |" in line:
+            return line
+    raise ValueError("SoundTouchJS provenance row missing")
 
 
 def verify_release_zip(zip_path: Path) -> dict:
@@ -42,17 +53,23 @@ def verify_release_zip(zip_path: Path) -> dict:
         notice = archive.read("NOTICE").decode("utf-8")
         provenance = archive.read("PROVENANCE_THIRD_PARTY.md").decode("utf-8")
 
-    for token in ("SoundTouchJS", "MPL-2.0"):
+    row = _soundtouchjs_row(provenance)
+    for token in ("SoundTouchJS", SOUNDTOUCHJS_VERSION, SOUNDTOUCHJS_LICENSE):
         if token not in notice:
-            raise ValueError(f"NOTICE missing required lineage token: {token}")
-        if token not in provenance:
-            raise ValueError(f"provenance missing required lineage token: {token}")
+            raise ValueError(f"NOTICE missing required exact-lineage token: {token}")
+        if token not in row:
+            raise ValueError(f"provenance missing required exact-lineage token: {token}")
+
+    if STALE_WRONG_LICENSE in row:
+        raise ValueError("release provenance back-projects later MPL-2.0 license onto SoundTouchJS v0.3.0")
 
     return {
-        "status": "PASS_BOUNDED_RELEASE_ZIP_PROVENANCE",
+        "status": "PASS_BOUNDED_RELEASE_ZIP_EXACT_VERSION_PROVENANCE",
         "member_count": len(members),
         "notice_present": True,
         "provenance_present": True,
+        "soundtouchjs_version": SOUNDTOUCHJS_VERSION,
+        "soundtouchjs_license": SOUNDTOUCHJS_LICENSE,
     }
 
 
@@ -80,7 +97,9 @@ class TestReleaseZipProvenanceCourt(unittest.TestCase):
             artifact = Path(td) / "release.zip"
             build_git_archive(artifact, CANONICAL_MEMBERS)
             result = verify_release_zip(artifact)
-            self.assertEqual(result["status"], "PASS_BOUNDED_RELEASE_ZIP_PROVENANCE")
+            self.assertEqual(result["status"], "PASS_BOUNDED_RELEASE_ZIP_EXACT_VERSION_PROVENANCE")
+            self.assertEqual(result["soundtouchjs_version"], SOUNDTOUCHJS_VERSION)
+            self.assertEqual(result["soundtouchjs_license"], SOUNDTOUCHJS_LICENSE)
 
     def test_remove_notice_mutant_fails_closed(self):
         with tempfile.TemporaryDirectory() as td:
@@ -89,21 +108,38 @@ class TestReleaseZipProvenanceCourt(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "missing required attribution"):
                 verify_release_zip(artifact)
 
-    def test_wrong_lineage_mutant_fails_closed(self):
+    def test_wrong_upstream_mutant_fails_closed(self):
         with tempfile.TemporaryDirectory() as td:
             good = Path(td) / "good.zip"
-            mutant = Path(td) / "wrong-lineage.zip"
+            mutant = Path(td) / "wrong-upstream.zip"
             build_git_archive(good, CANONICAL_MEMBERS)
 
             with zipfile.ZipFile(good, "r") as source, zipfile.ZipFile(mutant, "w") as target:
                 for info in source.infolist():
                     data = source.read(info.filename)
                     if info.filename == "PROVENANCE_THIRD_PARTY.md":
-                        text = data.decode("utf-8").replace("SoundTouchJS", "UNRELATED_UPSTREAM")
+                        text = data.decode("utf-8").replace("| SoundTouchJS |", "| UNRELATED_UPSTREAM |", 1)
                         data = text.encode("utf-8")
                     target.writestr(info, data)
 
-            with self.assertRaisesRegex(ValueError, "provenance missing required lineage"):
+            with self.assertRaisesRegex(ValueError, "SoundTouchJS provenance row missing"):
+                verify_release_zip(mutant)
+
+    def test_stale_mpl_license_mutant_fails_closed(self):
+        with tempfile.TemporaryDirectory() as td:
+            good = Path(td) / "good.zip"
+            mutant = Path(td) / "stale-license.zip"
+            build_git_archive(good, CANONICAL_MEMBERS)
+
+            with zipfile.ZipFile(good, "r") as source, zipfile.ZipFile(mutant, "w") as target:
+                for info in source.infolist():
+                    data = source.read(info.filename)
+                    if info.filename in {"PROVENANCE_THIRD_PARTY.md", "NOTICE"}:
+                        text = data.decode("utf-8").replace(SOUNDTOUCHJS_LICENSE, STALE_WRONG_LICENSE)
+                        data = text.encode("utf-8")
+                    target.writestr(info, data)
+
+            with self.assertRaisesRegex(ValueError, "exact-lineage token|back-projects"):
                 verify_release_zip(mutant)
 
 
