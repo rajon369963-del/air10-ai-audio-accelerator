@@ -9,7 +9,6 @@ an exact generated ZIP, and includes known-bad mutants that must fail closed.
 from __future__ import annotations
 
 import argparse
-import shutil
 import subprocess
 import tempfile
 import unittest
@@ -74,7 +73,7 @@ class TestReleaseZipProvenanceCourt(unittest.TestCase):
         self.assertIn("git archive --format=zip", workflow)
         self.assertIn("NOTICE", workflow)
         self.assertIn("PROVENANCE_THIRD_PARTY.md", workflow)
-        self.assertIn("verify_release_zip", workflow)
+        self.assertIn("tests/test_release_zip_provenance_court.py --archive", workflow)
 
     def test_exact_head_archive_contains_bound_attribution(self):
         with tempfile.TemporaryDirectory() as td:
