@@ -39,6 +39,9 @@ jobs:
       - name: Validate Version Consistency Across All 5 Surfaces
         run: node --test tests/unit/test_version_consistency.test.js
 
+      - name: Validate Release Artifact Provenance Court Fixtures
+        run: python tests/test_release_artifact_provenance.py
+
       - name: Strict Dependency Audit (0 Vulnerabilities)
         run: npm audit
 
@@ -66,10 +69,12 @@ jobs:
           VERSION=${{ steps.get_version.outputs.VERSION }}
           ZIP_NAME="AIR10_AI_Audio_Accelerator_v${VERSION}.zip"
           rm -f "${ZIP_NAME}" "${ZIP_NAME}.sha256"
-          git archive --format=zip -o "${ZIP_NAME}" "${GITHUB_SHA}" manifest.json injector.js background.js modules icons
+          git archive --format=zip -o "${ZIP_NAME}" "${GITHUB_SHA}" manifest.json injector.js background.js modules icons NOTICE PROVENANCE_THIRD_PARTY.md
           sha256sum "${ZIP_NAME}" > "${ZIP_NAME}.sha256"
           echo "ZIP_NAME=${ZIP_NAME}" >> $GITHUB_ENV
 
+      - name: Verify Generated ZIP Contains Bound Third-Party Provenance
+        run: python tests/test_release_artifact_provenance.py "${ZIP_NAME}"
 
       - name: Generate SPDX SBOM Manifest
         run: |
