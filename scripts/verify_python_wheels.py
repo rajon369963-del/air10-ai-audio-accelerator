@@ -247,11 +247,12 @@ def t31():
     assert hasattr(httpx, "Client")
 check("httpx", t31)
 
-# 32. requests
+# 32. pybase64
 def t32():
-    import requests
-    assert hasattr(requests, "get")
-check("requests", t32)
+    import pybase64
+    encoded = pybase64.b64encode(b"sovereign_wheels")
+    assert pybase64.b64decode(encoded) == b"sovereign_wheels"
+check("pybase64", t32)
 
 # 33. fastapi
 def t33():

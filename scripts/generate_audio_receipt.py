@@ -8,10 +8,10 @@ Zero hardcoding:
 """
 
 import hashlib
-import json
 import subprocess
 from pathlib import Path
 
+import orjson
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ed25519
 
@@ -19,8 +19,8 @@ repo_dir = Path(__file__).resolve().parent.parent
 bench_file = repo_dir / "scripts" / "audio_benchmark_results.json"
 bench_script = repo_dir / "scripts" / "benchmark_audio_engine.js"
 
-with open(bench_file, "r") as f:
-    bench = json.load(f)
+with open(bench_file, "rb") as f:
+    bench = orjson.loads(f.read())
 
 bench_script_sha = hashlib.sha256(bench_script.read_bytes()).hexdigest()
 
@@ -157,7 +157,7 @@ payload = {
   }
 }
 
-canonical_bytes = json.dumps(payload, indent=2).encode("utf-8")
+canonical_bytes = orjson.dumps(payload, option=orjson.OPT_INDENT_2)
 canonical_sha = hashlib.sha256(canonical_bytes).hexdigest()
 sig_bytes = priv_key.sign(canonical_bytes)
 sig_hex = sig_bytes.hex()
@@ -167,8 +167,8 @@ payload["provenance"]["signature_ed25519_hex"] = sig_hex
 
 out_json_path = repo_dir / "db" / "STRESS_BENCHMARK_REAL_WHEELS.json"
 out_json_path.parent.mkdir(parents=True, exist_ok=True)
-with open(out_json_path, "w", encoding="utf-8") as f:
-    json.dump(payload, f, indent=2)
+with open(out_json_path, "wb") as f:
+    f.write(orjson.dumps(payload, option=orjson.OPT_INDENT_2))
 
 pubkey_path = repo_dir / "db" / "AIR10_PROVENANCE_ED25519_PUBKEY.pem"
 with open(pubkey_path, "w", encoding="utf-8") as f:

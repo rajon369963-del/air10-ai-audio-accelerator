@@ -1,6 +1,5 @@
 # scratch/build_phase4_masterclass.py
 import asyncio
-import base64
 import os
 
 import edge_tts
@@ -35,7 +34,7 @@ async def build():
     await communicate.save(temp_mp3)
     
     with open(temp_mp3, "rb") as f:
-        audio_b64 = base64.b64encode(f.read()).decode("utf-8")
+        audio_b64 = pybase64.b64encode(f.read()).decode("utf-8")
         
     # Purge temp mp3 immediately (Zero Audio Disk Bloat)
     if os.path.exists(temp_mp3):
