@@ -1,0 +1,23 @@
+{
+  "project": "air10-ai-audio-accelerator",
+  "upstream_lineage": {
+    "soundtouch_cpp": {
+      "author": "UNKNOWN",
+      "upstream_url": "INVALID_URL",
+      "license": "PROPRIETARY",
+      "spdx_id": "UNKNOWN",
+      "algorithm": "UNSPECIFIED"
+    },
+    "soundtouchjs": {
+      "porter": null,
+      "npm_package": "fake-soundtouch",
+      "version": "0.0.0",
+      "license": "INVALID"
+    }
+  },
+  "dsp_notice_completeness": {
+    "has_lgpl_source_offer": false,
+    "has_copyright_notice": false,
+    "has_modification_disclaimer": false
+  }
+}

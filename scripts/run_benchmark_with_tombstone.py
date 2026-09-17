@@ -7,10 +7,12 @@ Enforces P0: Failure evidence must survive benchmark crash.
 import argparse
 import datetime
 import hashlib
-import json
 import os
+import shlex
 import subprocess
 import sys
+
+import orjson
 
 
 def get_git_output(cmd):
@@ -72,8 +74,8 @@ def main():
     }
 
     os.makedirs(os.path.dirname(os.path.abspath(args.status_output)), exist_ok=True)
-    with open(args.status_output, "w") as f:
-        json.dump(tombstone, f, indent=2)
+    with open(args.status_output, "wb") as f:
+        f.write(orjson.dumps(tombstone, option=orjson.OPT_INDENT_2))
 
     # 2. Execute benchmark and capture stdout/stderr
     os.makedirs(os.path.dirname(os.path.abspath(args.stdout_log)), exist_ok=True)
@@ -82,10 +84,15 @@ def main():
     print(f"⚡ [tombstone-wrapper] Starting benchmark: {args.benchmark_cmd}")
     print(f"⚡ [tombstone-wrapper] Initial tombstone persisted: {args.status_output}")
 
+    if any(tok in args.benchmark_cmd for tok in [";", "&&", "||", "|", ">", "<"]):
+        cmd_args = ["/bin/sh", "-c", args.benchmark_cmd]
+    else:
+        cmd_args = shlex.split(args.benchmark_cmd)
+
     with open(args.stdout_log, "w") as out_f, open(args.stderr_log, "w") as err_f:
         proc = subprocess.Popen(
-            args.benchmark_cmd,
-            shell=True,
+            cmd_args,
+            shell=False,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
@@ -141,8 +148,8 @@ def main():
     tombstone["result_sha256"] = result_sha256
     tombstone["finished_at_utc"] = finished_utc
 
-    with open(args.status_output, "w") as f:
-        json.dump(tombstone, f, indent=2)
+    with open(args.status_output, "wb") as f:
+        f.write(orjson.dumps(tombstone, option=orjson.OPT_INDENT_2))
 
     print(f"\n⚡ [tombstone-wrapper] Benchmark finished with code: {exit_code}")
     print(f"⚡ [tombstone-wrapper] Status: {status} | Result SHA-256: {result_sha256}")

@@ -1,3 +1,9 @@
+
+try {
+  if (typeof importScripts === 'function') {
+    importScripts('modules/civex-nano-bridge.js');
+  }
+} catch (e) {}
 /**
  * AIR10 Chrome Extension Background Service Worker
  * MV3 Service Worker with Native Messaging Host Port (com.air10.study)
@@ -162,10 +168,99 @@ function handleNativeMessage(msg) {
 }
 
 // Execute command on active Gemini tab
+
+// Offscreen Document Management for Gemini Nano and Audio DSP
+let offscreenCreating = null;
+async function setupOffscreen() {
+  if (typeof chrome === 'undefined' || !chrome.offscreen) return;
+  try {
+    const offscreenUrl = 'offscreen.html';
+    if (chrome.runtime.getContexts) {
+      const existingContexts = await chrome.runtime.getContexts({
+        contextTypes: ['OFFSCREEN_DOCUMENT'],
+        documentUrls: [chrome.runtime.getURL(offscreenUrl)]
+      }).catch(() => []);
+      if (existingContexts && existingContexts.length > 0) return;
+    } else if (chrome.offscreen.hasDocument) {
+      const hasDoc = await chrome.offscreen.hasDocument();
+      if (hasDoc) return;
+    }
+
+    if (offscreenCreating) {
+      await offscreenCreating;
+    } else {
+      offscreenCreating = chrome.offscreen.createDocument({
+        url: offscreenUrl,
+        reasons: ['AUDIO_PLAYBACK', 'WORKERS'],
+        justification: 'Persistent sidecar for Gemini Nano on-device AI and cognitive audio DSP'
+      });
+      await offscreenCreating;
+      offscreenCreating = null;
+      console.log('[AIR10 SW] Offscreen document created successfully');
+    }
+  } catch (err) {
+    if (!String(err).includes('Only a single offscreen document may be created')) {
+      console.warn('[AIR10 SW] Offscreen document setup warning:', err);
+    }
+  }
+}
+
 async function executeNativeCommand(cmd) {
   const action = cmd.action;
   const args = cmd.args || {};
   const cmdId = cmd.command_id;
+
+  if (action === 'civex_route_query') {
+    const query = args.query || '';
+    const limit = args.limit || 2;
+    const Bridge = typeof CIVEXNanoBridge !== 'undefined' ? CIVEXNanoBridge : (typeof require !== 'undefined' ? require('./modules/civex-nano-bridge.js') : null);
+    if (Bridge) {
+      const router = new Bridge.InBrowserBM25Router(args.tools || [
+        { id: 'study_resume', name: 'study_resume', cat: 'study', desc: 'Resume active study session' },
+        { id: 'study_inspect_page', name: 'study_inspect_page', cat: 'dom', desc: 'Inspect current page' }
+      ]);
+      const top = router.routeQuery(query, limit);
+      const shadows = top.map(t => Bridge.SchemaShrinker.shrinkTool(t));
+      sendToNative({
+        type: 'COMMAND_RESULT',
+        command_id: cmdId,
+        status: 'SUCCESS',
+        result: { query, candidates: top, shadows }
+      });
+      return;
+    }
+  }
+
+  if (action === 'civex_cognitive_audio_pacing') {
+    const text = args.text || '';
+    const Bridge = typeof CIVEXNanoBridge !== 'undefined' ? CIVEXNanoBridge : (typeof require !== 'undefined' ? require('./modules/civex-nano-bridge.js') : null);
+    if (Bridge) {
+      const pacing = Bridge.CognitiveAudioPacer.analyzeDensity(text);
+      sendToNative({
+        type: 'COMMAND_RESULT',
+        command_id: cmdId,
+        status: 'SUCCESS',
+        result: pacing
+      });
+      return;
+    }
+  }
+
+  if (action === 'civex_local_dom_risk_audit') {
+    const order = args.order || {};
+    const Bridge = typeof CIVEXNanoBridge !== 'undefined' ? CIVEXNanoBridge : (typeof require !== 'undefined' ? require('./modules/civex-nano-bridge.js') : null);
+    if (Bridge) {
+      const audit = Bridge.LocalDomRiskAuditor.auditOrder(order);
+      sendToNative({
+        type: 'COMMAND_RESULT',
+        command_id: cmdId,
+        status: 'SUCCESS',
+        result: audit
+      });
+      return;
+    }
+  }
+
 
   if (action === 'extension_reload') {
     sendToNative({
@@ -353,6 +448,12 @@ async function executeNativeCommand(cmd) {
 
 // Listen for messages from content scripts
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+
+  if (request && request.type === 'OFFSCREEN_HEARTBEAT') {
+    sendResponse({ received: true, sw_alive: true, monotonicSeq, timestamp: Date.now() });
+    return true;
+  }
+
   if (request && request.type === 'AIR10_EVENT') {
     const eventData = request.data;
     if (sender.tab) {
@@ -392,4 +493,5 @@ if (typeof chrome !== 'undefined' && chrome.alarms) {
 // Initialize state and connect
 loadDurableState().then(() => {
   connectNativeHost();
+  setupOffscreen().catch(() => {});
 });

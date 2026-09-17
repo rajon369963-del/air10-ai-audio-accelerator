@@ -10,12 +10,13 @@ Guarantees fail-hard behavior on:
 """
 
 import copy
-import json
 import os
 import subprocess
 import sys
 import tempfile
 from pathlib import Path
+
+import orjson
 
 
 def test_adversarial_canaries():
@@ -24,27 +25,27 @@ def test_adversarial_canaries():
     assert receipt_path.exists(), f"Receipt file must exist at {receipt_path}"
     
     orig_bytes = receipt_path.read_bytes()
-    orig_data = json.loads(orig_bytes.decode("utf-8"))
+    orig_data = orjson.loads(orig_bytes)
 
     try:
         # Attack 1: Fake / unreachable commit SHA
         d1 = copy.deepcopy(orig_data)
         d1["hardware_telemetry"]["benchmarked_source_commit_sha"] = "0000000000000000000000000000000000000000"
-        receipt_path.write_text(json.dumps(d1, indent=2))
+        receipt_path.write_bytes(orjson.dumps(d1, option=orjson.OPT_INDENT_2))
         res1 = subprocess.run([sys.executable, "scripts/verify_receipt.py", "--zero-drift-check"], cwd=repo_root, capture_output=True)
         assert res1.returncode != 0, "Security Violation: Fake commit did not cause fail-hard exit!"
 
         # Attack 2: Fake tree SHA
         d2 = copy.deepcopy(orig_data)
         d2["hardware_telemetry"]["benchmarked_source_tree_sha"] = "ffffffffffffffffffffffffffffffffffffffff"
-        receipt_path.write_text(json.dumps(d2, indent=2))
+        receipt_path.write_bytes(orjson.dumps(d2, option=orjson.OPT_INDENT_2))
         res2 = subprocess.run([sys.executable, "scripts/verify_receipt.py", "--zero-drift-check"], cwd=repo_root, capture_output=True)
         assert res2.returncode != 0, "Security Violation: Fake tree SHA did not cause fail-hard exit!"
 
         # Attack 3: Tampered benchmark script SHA
         d3 = copy.deepcopy(orig_data)
         d3["hardware_telemetry"]["benchmark_script_sha256"] = "1111111111111111111111111111111111111111111111111111111111111111"
-        receipt_path.write_text(json.dumps(d3, indent=2))
+        receipt_path.write_bytes(orjson.dumps(d3, option=orjson.OPT_INDENT_2))
         res3 = subprocess.run([sys.executable, "scripts/verify_receipt.py", "--zero-drift-check"], cwd=repo_root, capture_output=True)
         assert res3.returncode != 0, "Security Violation: Tampered script SHA did not cause fail-hard exit!"
 
@@ -75,8 +76,8 @@ exit "$verifier_rc"
                 ], capture_output=True)
                 assert res5.returncode == 42, f"Security Violation: Wrapper did not exit with crash code 42 (got {res5.returncode})!"
                 assert os.path.exists(status_file), "Security Violation: Crash tombstone was not preserved on disk!"
-                with open(status_file, "r") as sf:
-                    crash_data = json.load(sf)
+                with open(status_file, "rb") as sf:
+                    crash_data = orjson.loads(sf.read())
                 assert crash_data["benchmark_status"] == "CRASH", f"Tombstone status expected CRASH, got {crash_data.get('benchmark_status')}"
                 assert crash_data["benchmark_exit_code"] == 42, f"Tombstone exit code expected 42, got {crash_data.get('benchmark_exit_code')}"
 

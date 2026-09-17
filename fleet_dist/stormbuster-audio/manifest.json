@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "CIVEX StormBuster Audio",
+  "version": "1.0.0",
+  "description": "Strips out low-frequency ceiling fan hum and structural noise from raw classroom recordings.",
+  "permissions": [
+    "storage",
+    "offscreen"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "CIVEX StormBuster Audio"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "kernel.wasm"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+  },
+  "host_permissions": [
+    "https://*.youtube.com/*",
+    "https://*.nptel.ac.in/*"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

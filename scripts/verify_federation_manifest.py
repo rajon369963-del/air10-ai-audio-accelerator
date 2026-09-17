@@ -24,11 +24,9 @@ Independent Forensic Invariants (Zero Trust / Fail Closed):
 import argparse
 import datetime
 import hashlib
-import json
 import os
 import subprocess
 import sys
-import urllib.request
 from pathlib import Path
 
 try:
@@ -156,11 +154,11 @@ def verify_live_provider_head(repo: str, baseline_head: str, actual_head: str, c
 
 
 def compute_canonical_payload(receipt_data: dict) -> tuple[bytes, str]:
-    clean_copy = json.loads(json.dumps(receipt_data))
+    clean_copy = orjson.loads(orjson.dumps(receipt_data))
     if "provenance" in clean_copy:
         clean_copy["provenance"].pop("canonical_payload_sha256", None)
         clean_copy["provenance"].pop("signature_ed25519_hex", None)
-    canonical_bytes = json.dumps(clean_copy, indent=2).encode("utf-8")
+    canonical_bytes = orjson.dumps(clean_copy, option=orjson.OPT_INDENT_2)
     payload_sha = hashlib.sha256(canonical_bytes).hexdigest()
     return canonical_bytes, payload_sha
 
@@ -188,7 +186,7 @@ def generate_manifest(manifest_path: Path):
                 ["gh", "api", f"repos/rajon369963-del/{repo}/branches/main/protection"],
                 cwd=cwd, stderr=subprocess.DEVNULL
             ).decode()
-            prot = json.loads(prot_raw)
+            prot = orjson.loads(prot_raw)
             enforce_admins = prot.get("enforce_admins", {}).get("enabled", False)
             required_checks = prot.get("required_status_checks", {}).get("contexts", [])
         except Exception:
@@ -196,7 +194,7 @@ def generate_manifest(manifest_path: Path):
             required_checks = []
 
         receipt_path = cwd / "db" / "STRESS_BENCHMARK_REAL_WHEELS.json"
-        receipt_data = json.loads(receipt_path.read_text(encoding="utf-8")) if receipt_path.exists() else {}
+        receipt_data = orjson.loads(receipt_path.read_bytes()) if receipt_path.exists() else {}
         telemetry = receipt_data.get("hardware_telemetry", {})
         provenance = receipt_data.get("provenance", {})
         receipt_sig = provenance.get("signature_ed25519_hex", "")
@@ -206,9 +204,9 @@ def generate_manifest(manifest_path: Path):
         pages_url = PAGES_URLS[repo]
         pages_code = 0
         try:
-            req = urllib.request.Request(pages_url, headers={"User-Agent": "AIR10-MetaVerifier"})
-            with urllib.request.urlopen(req, timeout=5) as resp:
-                pages_code = resp.getcode()
+            with httpx.Client(timeout=5) as client:
+                resp = client.get(pages_url, headers={"User-Agent": "AIR10-MetaVerifier"})
+                pages_code = resp.status_code
         except Exception:
             pages_code = 0
 
@@ -234,8 +232,8 @@ def generate_manifest(manifest_path: Path):
             }
         }
 
-    with open(manifest_path, "w", encoding="utf-8") as f:
-        json.dump(manifest, f, indent=2)
+    with open(manifest_path, "wb") as f:
+        f.write(orjson.dumps(manifest, option=orjson.OPT_INDENT_2))
     print(f"Generated federation manifest at {manifest_path}")
 
 def verify_manifest(manifest_path: Path, target_repo: str = None, authority_context: str = "auto", live_provider: bool = False) -> bool:
@@ -244,8 +242,8 @@ def verify_manifest(manifest_path: Path, target_repo: str = None, authority_cont
         print(f"FAIL: Manifest file does not exist: {manifest_path}")
         return False
 
-    with open(manifest_path, "r", encoding="utf-8") as f:
-        manifest = json.load(f)
+    with open(manifest_path, "rb") as f:
+        manifest = orjson.loads(f.read())
 
     root_hex = manifest.get("trust_root", {}).get("pinned_public_key_hex")
     if root_hex != TRUSTED_ROOT_PUBLIC_KEY_HEX:
@@ -317,7 +315,7 @@ def verify_manifest(manifest_path: Path, target_repo: str = None, authority_cont
 
             receipt_path = cwd / rdata["receipt"]["path"]
             if receipt_path.exists():
-                receipt_obj = json.loads(receipt_path.read_text(encoding="utf-8"))
+                receipt_obj = orjson.loads(receipt_path.read_bytes())
                 sig_hex = rdata["receipt"]["ed25519_signature"]
                 canonical_bytes, payload_sha = compute_canonical_payload(receipt_obj)
 

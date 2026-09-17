@@ -21,7 +21,6 @@ AIR10 Sovereign Federation - Forensic Cryptographic Receipt & Truth Guard v2.4 (
 
 import argparse
 import hashlib
-import json
 import os
 import platform
 import subprocess
@@ -101,7 +100,7 @@ def verify_live_benchmark(bench_path: Path, receipt_data: dict, repo_root: Path)
         return False
 
     try:
-        live_data = json.loads(bench_path.read_text(encoding="utf-8"))
+        live_data = orjson.loads(bench_path.read_bytes())
     except Exception as e:
         print(f"❌ FAIL: Corrupt JSON in live benchmark results: {e}")
         return False
@@ -205,7 +204,7 @@ def verify(repo_root: Path, live_bench_file: Path = None) -> bool:
     print(f"• Raw File SHA-256         : {computed_raw_sha}")
 
     try:
-        data = json.loads(raw_bytes.decode("utf-8"))
+        data = orjson.loads(raw_bytes)
     except Exception as e:
         print(f"❌ FAIL: Malformed JSON in receipt: {e}")
         return False
@@ -240,12 +239,12 @@ def verify(repo_root: Path, live_bench_file: Path = None) -> bool:
         print("• Local Public Key PEM     : ANCHORED TO ROOT [PASS]")
 
     # 2. Canonical Payload Reconstitution & Hash Verification
-    clean_copy = json.loads(raw_bytes.decode("utf-8"))
+    clean_copy = orjson.loads(raw_bytes)
     if "provenance" in clean_copy:
         clean_copy["provenance"].pop("canonical_payload_sha256", None)
         clean_copy["provenance"].pop("signature_ed25519_hex", None)
 
-    canonical_bytes = json.dumps(clean_copy, indent=2).encode("utf-8")
+    canonical_bytes = orjson.dumps(clean_copy, option=orjson.OPT_INDENT_2)
     recomputed_payload_sha = hashlib.sha256(canonical_bytes).hexdigest()
 
     print(f"• Canonical Payload SHA-256: {recomputed_payload_sha}")

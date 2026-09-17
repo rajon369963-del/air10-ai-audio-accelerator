@@ -1,0 +1,421 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-09-13T06:12:22.625Z",
+  "totalPackages": 30,
+  "packages": [
+    {
+      "toolId": "accent-sharpener",
+      "name": "CIVEX AccentSharpener EQ",
+      "version": "1.0.0",
+      "archetype": "productivity",
+      "zipFile": "accent-sharpener.zip",
+      "sizeBytes": 13840,
+      "sha256": "5c848473301e66b6549f21481140f2590a6889b395f9c4198a0be3447df19b40",
+      "permissions": [
+        "storage",
+        "offscreen"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "bignum-kernel-calc",
+      "name": "CIVEX BigNum Unlimited Calc",
+      "version": "1.0.0",
+      "archetype": "productivity",
+      "zipFile": "bignum-kernel-calc.zip",
+      "sizeBytes": 13793,
+      "sha256": "86474711613b24faec37e69852ddddf15da79eebd06f57ece1e3b62cb85e6fb9",
+      "permissions": [
+        "storage"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "binaural-focus",
+      "name": "CIVEX Binaural FocusEngine",
+      "version": "1.0.0",
+      "archetype": "audio",
+      "zipFile": "binaural-focus.zip",
+      "sizeBytes": 13803,
+      "sha256": "00d9d38a44c7dc581e82fc81f5fc1cff76ce9d06ccb0584ab034f0e47fd87c03",
+      "permissions": [
+        "storage",
+        "offscreen"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "citerunner-local",
+      "name": "CIVEX CiteRunner Local",
+      "version": "1.0.0",
+      "archetype": "recall",
+      "zipFile": "citerunner-local.zip",
+      "sizeBytes": 13841,
+      "sha256": "190f0ba86f2d798d451f3140673e7430faf55c0cb9510f69019cdd819594b073",
+      "permissions": [
+        "activeTab",
+        "clipboardWrite"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "code-vulnerability-audit",
+      "name": "CIVEX Local Code Auditor",
+      "version": "1.0.0",
+      "archetype": "productivity",
+      "zipFile": "code-vulnerability-audit.zip",
+      "sizeBytes": 13861,
+      "sha256": "c872fa08f52f2ce17ba3be7ff8aed8499965f3c1e8d3d5cee4e8ded1c4f574c9",
+      "permissions": [
+        "activeTab",
+        "clipboardRead"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "contextsnip-250",
+      "name": "CIVEX ContextSnip 250B",
+      "version": "1.0.0",
+      "archetype": "cognitive",
+      "zipFile": "contextsnip-250.zip",
+      "sizeBytes": 13790,
+      "sha256": "bf6c8e29e4fd0875cb8e87f1eede2f62ddaf368e477b8fdb9d2f77e0cec4b311",
+      "permissions": [
+        "activeTab",
+        "storage"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "dataleak-sentinel",
+      "name": "CIVEX DataLeak Sentinel",
+      "version": "1.0.0",
+      "archetype": "privacy",
+      "zipFile": "dataleak-sentinel.zip",
+      "sizeBytes": 13807,
+      "sha256": "60e7f728c7fc6617820a2d1c46ab7101d7a2aec4e9a68e52267bfc590d87e243",
+      "permissions": [
+        "webRequest",
+        "storage"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "deepread-targeter",
+      "name": "CIVEX DeepRead Targeter",
+      "version": "1.0.0",
+      "archetype": "cognitive",
+      "zipFile": "deepread-targeter.zip",
+      "sizeBytes": 13793,
+      "sha256": "14ef60c2a8b1d79b7d85bcbd8c0304c46e21df2f223cb51c516c09a6b1fd1e88",
+      "permissions": [
+        "activeTab"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "fallacy-spotter",
+      "name": "CIVEX Inline Fallacy Spotter",
+      "version": "1.0.0",
+      "archetype": "cognitive",
+      "zipFile": "fallacy-spotter.zip",
+      "sizeBytes": 13811,
+      "sha256": "7a6dcb6de51b79933cecc8be6262427076cb6ab1c049e2e878643138ec7253d4",
+      "permissions": [
+        "activeTab",
+        "offscreen"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "fillershield-ai",
+      "name": "CIVEX FillerShield AI",
+      "version": "1.0.0",
+      "archetype": "recall",
+      "zipFile": "fillershield-ai.zip",
+      "sizeBytes": 13834,
+      "sha256": "afe3c07824d6e69e6be9536e1108019de1598a96934dac36254dade031463a95",
+      "permissions": [
+        "storage",
+        "offscreen"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "fluffbuster-skimmer",
+      "name": "CIVEX FluffBuster Skimmer",
+      "version": "1.0.0",
+      "archetype": "cognitive",
+      "zipFile": "fluffbuster-skimmer.zip",
+      "sizeBytes": 13830,
+      "sha256": "9b1d1efce17a701891f98cac20b91efa5fe47ef429433f5a4f24d7bb1f0363aa",
+      "permissions": [
+        "storage",
+        "activeTab"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "formfiller-zero-prompt",
+      "name": "CIVEX Zero-Prompt Form Filler",
+      "version": "1.0.0",
+      "archetype": "recall",
+      "zipFile": "formfiller-zero-prompt.zip",
+      "sizeBytes": 13819,
+      "sha256": "cd14d089e44b960c736c7ebb21b518539c40aa7a7e73a1ae0fb3ba558d5b5fac",
+      "permissions": [
+        "activeTab",
+        "storage"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "fsrs-quickrecall",
+      "name": "CIVEX FSRS QuickRecall",
+      "version": "1.0.0",
+      "archetype": "recall",
+      "zipFile": "fsrs-quickrecall.zip",
+      "sizeBytes": 13799,
+      "sha256": "40f5a968474e12ad6f19b7724a6bc6c2af3cf7f81a4f462da2234c518721c88d",
+      "permissions": [
+        "storage",
+        "alarms"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "gain-maximizer",
+      "name": "CIVEX GainMaximizer 600%",
+      "version": "1.0.0",
+      "archetype": "audio",
+      "zipFile": "gain-maximizer.zip",
+      "sizeBytes": 13813,
+      "sha256": "5a92aee43263a9ebfd391e8851f9f19c68d3da80a4f21c5985841c225b437a28",
+      "permissions": [
+        "storage",
+        "offscreen"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "inactive-tab-freezer",
+      "name": "CIVEX Inactive Tab Freezer",
+      "version": "1.0.0",
+      "archetype": "productivity",
+      "zipFile": "inactive-tab-freezer.zip",
+      "sizeBytes": 13806,
+      "sha256": "d19a8f274a989a72069335b35d9fba1af29cd7cb854ecad448c3b257ed8185a0",
+      "permissions": [
+        "tabs",
+        "storage"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "infinitescroll-anchor",
+      "name": "CIVEX InfiniteScroll Anchor",
+      "version": "1.0.0",
+      "archetype": "productivity",
+      "zipFile": "infinitescroll-anchor.zip",
+      "sizeBytes": 13820,
+      "sha256": "1d8690413b5f82c95a71cd187bd3a143d35ce579340b71d1eee9b38c18a03427",
+      "permissions": [
+        "storage"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "lectrospeed-3x",
+      "name": "CIVEX LectroSpeed 3.0x AI",
+      "version": "1.0.0",
+      "archetype": "audio",
+      "zipFile": "lectrospeed-3x.zip",
+      "sizeBytes": 13850,
+      "sha256": "11dc37533da59eac238d2587ad4266ec6f9ce5443e8426ceed04015fba40583d",
+      "permissions": [
+        "storage",
+        "offscreen"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "math-ocr-solver",
+      "name": "CIVEX Math OCR Solver",
+      "version": "1.0.0",
+      "archetype": "recall",
+      "zipFile": "math-ocr-solver.zip",
+      "sizeBytes": 13804,
+      "sha256": "e4c0ca000a58bedf068f1faf9bc9d978ce285a8f5b96b04ced9b616b805bc67d",
+      "permissions": [
+        "activeTab",
+        "offscreen"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "offline-pdf-whisperer",
+      "name": "CIVEX Offline PDF Whisperer",
+      "version": "1.0.0",
+      "archetype": "audio",
+      "zipFile": "offline-pdf-whisperer.zip",
+      "sizeBytes": 13807,
+      "sha256": "5ab90ea83e71484c69d96123246e966abf79ad170ee04609d1ea2d9f6df2d696",
+      "permissions": [
+        "storage",
+        "offscreen"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "one-sentence-summary",
+      "name": "CIVEX One-Sentence Summarizer",
+      "version": "1.0.0",
+      "archetype": "cognitive",
+      "zipFile": "one-sentence-summary.zip",
+      "sizeBytes": 13807,
+      "sha256": "fa9ace13f257163acdbb51da0db47e10db050ffa52bbc26a7bb8e652f10b16a3",
+      "permissions": [
+        "activeTab",
+        "offscreen"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "paywallfree-dom",
+      "name": "CIVEX PaywallFree DOM Extractor",
+      "version": "1.0.0",
+      "archetype": "privacy",
+      "zipFile": "paywallfree-dom.zip",
+      "sizeBytes": 13811,
+      "sha256": "93d49c5e306100a7c31b5ec892ef99d642ac544c352c05039c3a5e4c739b4d4d",
+      "permissions": [
+        "activeTab"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "perms-minimalist",
+      "name": "CIVEX PermsMinimalist",
+      "version": "1.0.0",
+      "archetype": "privacy",
+      "zipFile": "perms-minimalist.zip",
+      "sizeBytes": 13756,
+      "sha256": "d28f92593bfc6f2f867bcd31b90e49b63a12b91abae602ca716feee5f69c18c6",
+      "permissions": [
+        "management"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "realtime-subtitles",
+      "name": "CIVEX RealTime Local Subtitles",
+      "version": "1.0.0",
+      "archetype": "recall",
+      "zipFile": "realtime-subtitles.zip",
+      "sizeBytes": 13811,
+      "sha256": "1ef14d9ca0bf43294b36c85f6da4278c2241fa21820ac42251110fee69957120",
+      "permissions": [
+        "tabCapture",
+        "offscreen"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "reply-draftsmith",
+      "name": "CIVEX Reply Draftsmith",
+      "version": "1.0.0",
+      "archetype": "productivity",
+      "zipFile": "reply-draftsmith.zip",
+      "sizeBytes": 13820,
+      "sha256": "e90ed8a6a00a30e13444a6fa0c236a8410da78f51f2eef36d80996a93dd33f8e",
+      "permissions": [
+        "activeTab",
+        "offscreen"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "session-anonymizer",
+      "name": "CIVEX SessionAnonymizer",
+      "version": "1.0.0",
+      "archetype": "privacy",
+      "zipFile": "session-anonymizer.zip",
+      "sizeBytes": 13783,
+      "sha256": "7c32e0358771a86a644577589d8758d8ff64a014dea310b02dd64404c947d784",
+      "permissions": [
+        "storage"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "snippetvault-dense",
+      "name": "CIVEX SnippetVault",
+      "version": "1.0.0",
+      "archetype": "cognitive",
+      "zipFile": "snippetvault-dense.zip",
+      "sizeBytes": 13799,
+      "sha256": "88650e070ab7dff53f94fdc465cf55db0a2811ce880fe17fa521e5b096b7373d",
+      "permissions": [
+        "storage",
+        "clipboardRead"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "stormbuster-audio",
+      "name": "CIVEX StormBuster Audio",
+      "version": "1.0.0",
+      "archetype": "audio",
+      "zipFile": "stormbuster-audio.zip",
+      "sizeBytes": 13834,
+      "sha256": "4ed64d74d6d08192ebb7d07d1c21cd6f71f5e78d0f9ae571173d60bc4d7eac49",
+      "permissions": [
+        "storage",
+        "offscreen"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "tabsync-vector",
+      "name": "CIVEX TabSync Vector",
+      "version": "1.0.0",
+      "archetype": "recall",
+      "zipFile": "tabsync-vector.zip",
+      "sizeBytes": 13791,
+      "sha256": "997e67dbf4f21889c381a1af7a30f2d146129488c10aaa7ec5776ad47b58523c",
+      "permissions": [
+        "tabs",
+        "storage"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "whisperdub-local",
+      "name": "CIVEX WhisperDub Local",
+      "version": "1.0.0",
+      "archetype": "audio",
+      "zipFile": "whisperdub-local.zip",
+      "sizeBytes": 13816,
+      "sha256": "a9b6c220a3d0f643b0d90f03738f2a32db6fd1250f256da2c854d96589100488",
+      "permissions": [
+        "storage",
+        "offscreen"
+      ],
+      "manifestVersion": 3
+    },
+    {
+      "toolId": "zerotracker-guard",
+      "name": "CIVEX ZeroTracker Guard",
+      "version": "1.0.0",
+      "archetype": "privacy",
+      "zipFile": "zerotracker-guard.zip",
+      "sizeBytes": 13802,
+      "sha256": "5efa2e9e5ab21b64285c012f944e5e73bde238afee06417b660a32f77024864d",
+      "permissions": [
+        "declarativeNetRequest",
+        "storage"
+      ],
+      "manifestVersion": 3
+    }
+  ]
+}

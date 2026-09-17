@@ -5,8 +5,9 @@ Zero hardcoding: Reads all numbers, labels, raw SHA, and canonical payload SHA d
 """
 
 import hashlib
-import json
 from pathlib import Path
+
+import orjson
 
 repo_dir = Path(__file__).resolve().parent.parent
 receipt_path = repo_dir / "db" / "STRESS_BENCHMARK_REAL_WHEELS.json"
@@ -14,7 +15,7 @@ scorecard_path = repo_dir / "assets" / "scorecard.svg"
 
 raw_bytes = receipt_path.read_bytes()
 raw_sha = hashlib.sha256(raw_bytes).hexdigest()
-receipt = json.loads(raw_bytes.decode("utf-8"))
+receipt = orjson.loads(raw_bytes)
 
 payload_sha = receipt["provenance"]["canonical_payload_sha256"]
 sig_hex = receipt["provenance"]["signature_ed25519_hex"]

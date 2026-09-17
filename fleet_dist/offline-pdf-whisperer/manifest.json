@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "CIVEX Offline PDF Whisperer",
+  "version": "1.0.0",
+  "description": "Privacy-first on-device document question answering via Chrome Gemini Nano.",
+  "permissions": [
+    "storage",
+    "offscreen"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "CIVEX Offline PDF Whisperer"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "kernel.wasm"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+  },
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

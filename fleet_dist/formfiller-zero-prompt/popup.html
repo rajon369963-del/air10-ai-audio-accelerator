@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CIVEX Zero-Prompt Form Filler</title>
+<style>
+  :root {
+    --accent: #a18cd1;
+    --bg-dark: #07090e;
+    --card-bg: rgba(18, 24, 38, 0.85);
+  }
+  body {
+    margin: 0;
+    padding: 16px;
+    width: 320px;
+    background: radial-gradient(circle at 50% 0%, #111827, var(--bg-dark));
+    color: #f0f4f8;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--accent);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  h2 {
+    margin: 8px 0 4px 0;
+    font-size: 1.1rem;
+    color: #fff;
+  }
+  p.desc {
+    margin: 0 0 12px 0;
+    font-size: 0.8rem;
+    color: #94a3b8;
+    line-height: 1.4;
+  }
+  .btn-action {
+    width: 100%;
+    padding: 10px;
+    background: var(--accent);
+    color: #07090e;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .study-toggle {
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: #94a3b8;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <span class="tag">local-ai</span>
+  <h2>CIVEX Zero-Prompt Form Filler</h2>
+  <p class="desc">Local AI token matcher populating form inputs without cloud leaks.</p>
+  <button class="btn-action" id="triggerBtn">⚡ Run Zero-Prompt Form Filler</button>
+  <div class="study-toggle">
+    <span>Opt-in Study Mode</span>
+    <input type="checkbox" id="studyCheck">
+  </div>
+</div>
+<script src="popup.js"></script>
+</body>
+</html>

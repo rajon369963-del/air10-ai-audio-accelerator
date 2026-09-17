@@ -21,7 +21,8 @@
     "nativeMessaging",
     "scripting",
     "tabs",
-    "alarms"
+    "alarms",
+    "offscreen"
   ],
   "host_permissions": [
     "https://notebooklm.google.com/*",

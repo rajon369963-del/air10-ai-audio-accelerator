@@ -2,8 +2,6 @@
 AIR10 Interactive Audio Player Widget Generator.
 Generates glassmorphic, hardware-accelerated, zero-in-chat glitch HTML artifact players.
 """
-import base64
-from pathlib import Path
 
 class AudioWidgetGenerator:
     @staticmethod
